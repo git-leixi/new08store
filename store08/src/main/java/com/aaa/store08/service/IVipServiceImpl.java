@@ -69,6 +69,12 @@ public class IVipServiceImpl  implements  IVipService{
     public int countBills() {
         return vipMapper.countBills();
     }
+
+    @Override
+    public VipVO vipTwo(Integer id) {
+        return vipMapper.vipTwo(id);
+    }
+
     //查询金额
     @Override
     public Vip selectVip(Integer id) {
@@ -99,5 +105,10 @@ public class IVipServiceImpl  implements  IVipService{
     @Override
     public int UpdVipThree(VipVO vipVO) {
         return vipMapper.UpdVipThree(vipVO);
+    }
+
+    @Override
+    public int UpdVipFour(VipVO vipVO) {
+        return vipMapper.UpdVipFour(vipVO);
     }
 }

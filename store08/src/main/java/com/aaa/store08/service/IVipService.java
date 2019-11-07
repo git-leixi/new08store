@@ -23,6 +23,7 @@ public interface IVipService {
     List<Map> billsFindall(PageVo pageVo, VipVO vipVO);
     int countBills();
     //查询金额
+    public VipVO vipTwo(Integer id);
     Vip selectVip(Integer id);
     //修改金额
     int editVip(Vip vip);
@@ -31,4 +32,5 @@ public interface IVipService {
     public int UpdVipOne(VipVO vipVO);
     public int UpdVipTwo(VipVO vipVO);
     public int UpdVipThree(VipVO vipVO);
+    public int UpdVipFour(VipVO vipVO);
 }
