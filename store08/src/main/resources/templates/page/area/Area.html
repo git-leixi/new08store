@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+
+
+</head>
+<body>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/javascript" th:inline="none">
+
+    layui.use('table', function(){
+        var table = layui.table
+             ,form = layui.form;
+
+        table.render({
+            elem: "#test",//表格table的id属性
+            url: "../Area/AreaSelect", //请求数据接口
+            limits: [10,20,30],
+            limit:10,//要传向后台的每页显示条数
+            //,page:true(自带的这个要注掉)
+            page:true,
+            title: '查询所有信息',
+            /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            toolbar: '#toolbarDemo',
+            cols: [ [
+                {field : 'aName', title : '所属区域',align:'center', sort: true},
+                {field : 'dId', title : "编号",align:'center', sort: true},
+                {field : 'dName', title : "桌号",align:'center', sort: true,edit: 'text'},
+                {field : 'dsort', title : '使用状态',templet: '#dsort',align:'center', sort: true},
+                {fixed: 'right', width:178,align:'center', sort: true, toolbar: '#btn'}
+            ] ],
+            id:'testReload'
+        });
+
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'add':
+                    layer.open({
+                        type: 2,
+                        skin: 'layui-layer-demo', //样式类名
+                        title: '添加页面',
+                        closeBtn: 1, //显示关闭按钮
+                        anim: 2,
+                        area: ['600px', '300px'],
+                        shadeClose: true, //开启遮罩关闭
+                        content: '../Area/toAreaAdd'
+                    });
+                    break;
+            };
+        });
+        //操作按钮
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        type:"GET",
+                        url:"../Area/AreaDel?dId="+data.dId,
+                        success:function(result){
+                             alert("删除成功");
+                            layer.close(index);
+                            setTimeout('window.location.reload()',0);
+                            }
+                    });
+                });
+            }
+        });
+        //监听单元格编辑
+        table.on('edit(test)', function(obj){
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+            layer.confirm('确定要修改此内容？',{btn: ['确定', '取消']},
+                function(index){
+                    $.ajax({
+                        type:"GET",
+                        url:"../Area/AreaUpd",
+                        data:{dId:data.dId,dName:data.dName},
+                        success:function(result){
+                            layer.close(index);
+                            setTimeout('window.location.reload()',0);
+                        },
+                        error:function(){
+                            setTimeout('window.location.reload()',0);
+                        }
+                    });
+
+                },
+                function(){
+                    setTimeout('window.location.reload()',0);
+                }
+            );
+        });
+        //监听使用状态
+        form.on('switch(dsort)', function(obj){
+            if(obj.elem.checked == true){
+                var dsort="禁用";
+                $.ajax({
+                    type:"GET",
+                    url:"../Area/AreaUpdDsort",
+                    data:{dId:this.value,dsort:dsort},
+                    success:function(result){
+                        layer.tips( '修改状态为：禁用', obj.othis);
+                        //setTimeout('window.location.reload()',0);
+                    }
+                });
+
+            }else {
+                var dsort="可以使用";
+                $.ajax({
+                    type:"GET",
+                    url:"../Area/AreaUpdDsort",
+                    data:{dId:this.value,dsort:dsort},
+                    success:function(result){
+                        layer.tips('修改状态为：可以使用', obj.othis);
+                        //setTimeout('window.location.reload()',0);
+                    }
+                });
+
+            }
+
+        });
+        //select选中
+         var $ = layui.$;
+          var category = 0;
+          var categoryName = '';
+          layui.form.on('select(area)', function (data) {
+              aName = $(this).text();
+             // alert(aName);
+              table.reload('testReload', {
+                  page: {
+                      curr: 1 //重新从第 1 页开始
+                  }
+                  , where: {
+                      aName: aName
+                  }
+              });
+             $("#area").find("option:selected").text(aName);
+
+          });
+    });
+
+</script>
+<script>
+</script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-inline">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+    </div>
+    </div>
+    <div class="layui-inline">
+
+                <label class="layui-form-label">区域:</label>
+                <div class="layui-input-inline" style="width: 150px;">
+                    <select  lay-filter="area" id="area">
+                        <option th:text="-----请选择----" th:value="0"></option>
+                        <option th:text="全部" th:value="0"></option>
+                        <option th:each="area:${area}" th:text="${area.aName }"  th:value="${area.aId}" ></option>
+                    </select>
+                </div>
+    </div>
+</script>
+<script id="btn" type="text/html">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script id="dsort" type="text/html">
+    <input type="checkbox" name="dsort" value="{{d.dId}}" lay-skin="switch" lay-text="禁用|可以使用" lay-filter="dsort" {{ d.dsort == '禁用' ? 'checked' : '' }}>
+</script>
+
+</body>
+</html>

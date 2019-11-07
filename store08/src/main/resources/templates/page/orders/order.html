@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>点餐信息</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+
+</head>
+<body>
+<input  class="aa" type="hidden">
+<input class="aaa" type="hidden" th:value="${session.count}" >
+
+
+<div class="layui-inline">
+    <label class="layui-form-label">日期范围</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="test6" placeholder=" 选择日期 "  style="width: 230px">
+    </div>
+</div>
+<table class="layui-hide" id="test" lay-filter="test" ></table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+
+
+
+<script type="text/javascript" th:inline="none">
+
+    layui.use(['table','layer','util','laydate','jquery'], function(){
+        var laydate = layui.laydate;
+        var table = layui.table;
+        var util = layui.util;
+        var $ = layui.jquery;
+
+
+
+        //日期范围
+        laydate.render({
+            elem: '#test6'
+            ,range: "~"
+            ,change: function(value, date){
+                layer.msg('你选择的日期是：' + value + '<br><br>获得的对象是' + JSON.stringify(date));
+                tableIns.reload({
+                    where: { //设定异步数据接口的额外参数，任意设
+                        value:value
+                    }
+                    ,page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                });
+            }
+        });
+
+            var tableIns = table.render({
+            elem: '#test'
+            ,url:'../order/findOrder'
+            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,initSort: {
+                field: 'oId' //排序字段，对应 cols 设定的各字段名
+                ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            }
+            ,page: true
+            ,limits: [10,20,30]
+            ,limit:10//要传向后台的每页显示条数
+            ,cols: [[
+                 {field:'oId',  title: '编号',align:'center', sort: true}
+                ,{field:'oDate',title: '日期', width:'20%',align:'center',sort: true,templet:function(d){return util.toDateString(d.oDate, "yyyy-MM-dd HH:mm:ss")}}
+                ,{field:'aName',  title: '区域', align:'center', sort: true}
+                ,{field:'oDesk',  title: '桌号',align:'center', sort: true}
+                ,{field:'oPrice', title: '价格',align:'center', sort: true}
+                ,{field:'payment', title: '付款状态',align:'center', sort: true}
+                ,{fixed: 'right', width:178, align:'center', sort: true,event:'setSign', toolbar: '#barDemo'}
+
+            ]]
+        });
+        //监听工具条
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            layer.msg(data.oId);
+            if(layEvent === 'detail'){
+                layer.msg('ID：'+ data.oId + ' 的查看操作');
+                layer.open({
+                    type: 2,
+                    title: '查询详细信息',
+                    maxmin: true,
+                    area: ['950px', '600px'],
+                    shadeClose: false, //点击遮罩关闭
+                    content: '../order/findDetails?id='+data.oId
+
+                })
+            } else if(layEvent === 'edit'){
+                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            }
+        });
+
+        window.reloadView = function () {
+            $.post("../order/findOrder2",function (data) {
+                $(".aa").val(data);
+            });
+            if($(".aaa").val()!=$(".aa").val()){
+
+                window.location.reload();
+            }
+        }
+
+
+        setInterval('reloadView()',1000);
+        sessionStorage.clear();
+
+    });
+</script>
+</body>
+</html>

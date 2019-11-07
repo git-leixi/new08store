@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付成功</title>
+    <script src="../common/lib/jquery-1.9.0.min.js"></script>
+</head>
+<body>
+支付成功
+</body>
+<script type="text/javascript">
+    $(function(){
+        var test = window.location.search;
+        if(test.indexOf("?")!=-1){
+            var str = test.substr(1);
+            strs = str.split("=");
+            stra = strs[4].split("&");
+            window.location.href="../member/updatevip?money="+stra[0];
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.LoginMapper">
+
+    <select id="findUP" resultType="com.aaa.store08.entity.Users">
+       select * from users where uusername = #{username} and upassword=#{password}
+    </select>
+    <select id="findJob" resultType="com.aaa.store08.entity.UJob">
+       select jName from job where jid =(select ujob from users where uUsername = #{username})
+    </select>
+
+    <select id="findall" resultType="Users">
+       select uid,uusername from users
+    </select>
+</mapper>

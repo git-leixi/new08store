@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <label class="layui-form-label">会员姓名：</label>
+    <div class="layui-inline">
+        <input class="layui-input" name="name" id="name" autocomplete="off" placeholder="请输入姓名">
+    </div>
+
+    会员编号：
+    <div class="layui-inline">
+        <input class="layui-input" name="phone" id="phone" autocomplete="off" placeholder="请输入会员编号">
+    </div>
+
+    <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+    <button type="reset" class="layui-btn">重置</button>
+
+</form>
+
+<table  class="layui-hide"  id="demo" lay-filter="demo"></table>
+<script type="text/javascript">
+    layui.use(['table','layer','util'], function(){
+        var layer = layui.layer;
+        var util = layui.util;
+        $ = layui.jquery;
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,cellMinWidth: 100
+            ,url: "../vips/billsFindall" //数据接口
+            ,limits:[15,30,50]
+            ,limit:15
+            ,page: true //开启分页
+            ,cols: [ //表头
+                [
+                    {field: 'vName', title: '会员姓名',  align:'center'}
+                    ,{field: 'vCount', title: '会员编号',  align:'center', sort: true}
+                    ,{field: 'vGrade', title: '会员等级', align:'center',sort: true}
+                    ,{field: 'oPrice', title: '本次消费',  align:'center', sort: true}
+                    ,{field: 'vAcount', title: '会员余额', align:'center', sort: true}
+                    ,{field: 'oDate', title: '消费日期', align:'center', sort: true,templet:function(d){return util.toDateString(d.oDate, "yyyy-MM-dd HH:mm:ss")}}
+                ]
+            ]
+            ,id:'typeReload'
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                var name = $('#name');
+                var phone = $('#phone');
+                //执行重载
+                table.reload('typeReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        vName: name.val(),//逗号隔开
+                        vCount: phone.val()
+                    }
+                }, 'data');
+            }
+        };
+        $('#search').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        });
+</script>
+</body>
+</html>

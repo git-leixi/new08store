@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.EmployeeMapper">
+    <!--查询员工信息-->
+    <select id="findall" resultType="Map" parameterType="Map">
+        select e.eid,e.eName,e.eSex,e.eAge,e.eBirthday,s.sName,a.aName,j.jName from employee e,state s,area a,job j where e.eState = s.sId and e.eArea = a.aId and e.eJob = j.jId
+        limit #{begin},#{end}
+</select>
+    <select id="selEmployee" resultType="Integer">
+        select count(*) from employee
+    </select>
+    <!--查询区域-->
+    <select id="areaSelect" resultType="Area">
+        select  * from area
+    </select>
+    <!--查询员工状态-->
+    <select id="stateAll" resultType="State">
+        select sId,sName from  state
+    </select>
+    <!--查询员工职位-->
+    <select id="jobAll" resultType="Job">
+        select jId,jName from  job
+    </select>
+    <!--查询要修改的员工信息-->
+    <select id="findone" parameterType="Integer" resultType="EmployeeVO">
+        select eId,eName,eSex,eAge,eBirthday,eState,eArea,ejob  from employee where eId = #{id}
+    </select>
+    <!--查询所有数据-->
+    <select id="findCont" resultType="Integer">
+        select * from employee
+    </select>
+    <!--删除一条数据-->
+    <delete id="staffDelect" parameterType="Integer">
+        delete  from  employee where eid = #{id}
+    </delete>
+    <!--添加员工信息-->
+    <insert id="addStaff" parameterType="Employee">
+        INSERT into employee (eName,eSex,eAge,eBirthday,eState,eArea,eJob) VALUES (#{eName},#{eSex},#{eAge},#{eBirthday},2,#{eArea},1)
+    </insert>
+    <!--修改员工信息-->
+    <update id="editStaff" parameterType="Employee">
+        update employee set eName=#{eName},eSex=#{eSex},eAge=#{eAge},eBirthday=#{eBirthday},eArea=#{eArea} where eId = #{eId}
+    </update>
+    <!--调动员工-->
+    <update id="editEmployee" parameterType="Employee">
+        update employee set eState=#{eState},eArea=#{eArea},eJob=#{eJob} where eId = #{eId}
+    </update>
+</mapper>

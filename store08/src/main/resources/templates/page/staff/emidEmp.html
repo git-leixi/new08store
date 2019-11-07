@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工调动</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form layui-from-pane"  style="margin-top:20px" method="post" th:each="f:${findone}">
+    <input type="hidden" th:value="${f.eId}" th:name="eId" id="eid" style="display: none">
+    <div class="layui-form-item">
+        <label class="layui-form-label">员工姓名</label>
+        <div class="layui-input-block">
+            <input type="text" disabled="disabled"  id="eName" th:value="${f.eName}" style="width: 230px"  required  lay-verify="required" autocomplete="off" placeholder="请输入员工的姓名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="IsPurchased">
+        <label class="layui-form-label">职位状态</label>
+        <div class="layui-input-block"  th:if="${f.eState} == 1 ">
+            <input type="radio" name="eSex" value="1"  title="值班" checked="">
+            <input type="radio" name="eSex" value="2"   title="休班">
+        </div>
+        <div class="layui-input-block" th:if="${f.eState} == 2 ">
+            <input type="radio" name="eSex" value="1"  title="值班">
+            <input type="radio" name="eSex" value="2"   title="休班" checked="">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">员工区域</label>
+        <div class="layui-input-block" style="width: 180px">
+            <select id="eArea"  lay-filter="aihao">
+                <option th:each="a:${areas}" th:value="${a.aId}" th:text="${a.aName}" th:selected="${a.aId==f.eArea}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">员工职位</label>
+        <div class="layui-input-block" style="width: 180px">
+            <select id="job"  lay-filter="aihao">
+                <option th:each="j:${jobs}" th:value="${j.jId}" th:text="${j.jName}" th:selected="${j.jId==f.eJob}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top:40px">
+        <div class="layui-input-block">
+            <button class="layui-btn  layui-btn-submit " lay-submit="stffadd" lay-filter="demo1">保存</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button type="button" class="layui-btn layui-btn-primary" id="qx">取消</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    var aa;
+    layui.use(['form','layer'],function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        $ = layui.jquery;
+        form.render();
+        form.on('submit(demo1)',function(){
+            var eId = $("#eid").val();
+            var eArea = $("#eArea").val();
+            var eState =  $('#IsPurchased input[name="eSex"]:checked ').val();
+            var eJob = $("#job").val();
+            var datademo;
+            $.ajax({
+                url:"../staff/employeeEdit_do",
+                type:"post",
+                async:false,
+                data:{
+                    eId:eId,
+                    eState:eState,
+                    eJob:eJob,
+                    eArea:eArea,
+                },
+                dataType:"json",
+                success:function(data){
+                    datademo = data;
+                }
+            });
+            if(datademo>0){
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                window.parent.location.reload();
+                window.parent.layer.close(index);
+            }else{
+                alert("您未修改内容！");
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                window.parent.location.reload();
+                window.parent.layer.close(index);
+            }
+        });
+        $("#qx").on("click",function(){
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            window.parent.layer.close(index);
+        })
+    });
+</script>
+</body>
+</html>

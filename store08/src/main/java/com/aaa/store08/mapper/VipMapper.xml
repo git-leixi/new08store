@@ -1,0 +1,66 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.VipMapper">
+    <!--查看会员-->
+    <select id="findall"  parameterType="Map" resultType="Map">
+      select v.vid,v.vname,v.vCount,v.vAcount,v.vBeginDate,v.vPhone,v.vstate,v.vidc,v.vState,v.vSum,t.vDiscount,t.vGrade,t.vDisplay from vip v left join vtype t on v.vidc=t.vIdc limit #{begin},#{end}
+    </select>
+    <select id="vipFindall" resultType="Integer">
+        select count(*) from vip
+    </select>
+    <!--查看会员状态-->
+    <select id="typeFindall" resultType="VipVO">
+        select * from vType
+    </select>
+    <!--注册会员-->
+    <insert id="addVip" parameterType="VipVO">
+        insert into vip (vName,vCount,vBeginDate,vPhone,vIdc,vAcount,vState,vSum)values(#{vName},#{vCount},NOW(),#{vPhone},#{vIdc},#{vAcount},#{vState},#{vSum})
+    </insert>
+    <!--查询要修改的会员信息-->
+    <select id="vipOne" parameterType="Integer" resultType="VipVO">
+        select * from vip where vid = #{id}
+    </select>
+    <!--修改会员-->
+    <update id="updateVip" parameterType="VipVO">
+        update vip set vName=#{vName},vPhone=#{vPhone},vidc=#{vIdc},vAcount=#{vAcount},vState=#{vState} where vid=#{vid}
+    </update>
+    <!--查看会员消费记录-->
+    <select id="billsFindall" parameterType="Map" resultType="Map">
+        select v.vName,v.vCount,vAcount,t.vGrade,vDisplay,b.vBalance,o.oDate,o.oPrice from vbills b left join vip v on b.vid=v.vid left join vType t on b.vidc = t.vidc
+        left join orders o on v.vPhone=o.vPhone
+        <where> 1=1
+        <if test="vName!=null and vName!='' ">
+            and v.vName like concat('%',concat(#{vName},'%'))
+        </if>
+        <if test="vCount!=null and vCount!=''">
+            and v.vCount like concat('%',concat(#{vCount},'%'))
+        </if>
+    </where>
+        order by  o.oDate  desc
+         limit #{begin},#{end}
+    </select>
+    <select id="countBills" resultType="Integer">
+        select count(*) from vbills
+    </select>
+    <!--查询金额-->
+    <select id="selectVip" resultType="Vip" parameterType="Integer">
+        select vAcount from vip where vid = #{id}
+    </select>
+    <!--修改金额-->
+    <update id="editVip" parameterType="Vip">
+        update vip set  vAcount=#{vAcount} where vid = #{vid}
+    </update>
+    <update id="UpdVip" parameterType="VipVO">
+        update vip set vIdc=1 where vAcount &lt;500
+    </update>
+    <update id="UpdVipOne" parameterType="VipVO">
+        update vip set vIdc=2 where vAcount &gt;=500 and vAcount &lt;2000
+    </update>
+    <update id="UpdVipTwo" parameterType="VipVO">
+        update vip set vIdc=3 where vAcount &gt;=2000 and vAcount &lt;5000
+    </update>
+    <update id="UpdVipThree" parameterType="VipVO">
+        update vip set vIdc=4 where vAcount &gt;=5000
+    </update>
+</mapper>

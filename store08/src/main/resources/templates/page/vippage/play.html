@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+</head>
+<body>
+<div>
+<form action="../alipay/pay" >
+        <label class="layui-form-label">会员充值</label>
+        <div class="layui-input-block">
+            <input type="text" name="money"  id="money"  style="width: 180px" placeholder="请输入金额" class="layui-input">
+        </div>
+        <button class="layui-btn  layui-btn-submit " type="submit" id="refer">立即提交</button>
+</form>
+</div>
+<script type="text/javascript">
+    layui.use(['form','layer'],function() {
+            var form = layui.form;
+            var layer = layui.layer;
+            $ = layui.jquery;
+            form.render();
+
+        });
+</script>
+</body>
+</html>

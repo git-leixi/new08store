@@ -1,0 +1,42 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.OrderMapper">
+
+    <!--  查询所有点餐信息-->
+    <select id="findOrder" resultType="Map" parameterType="Map">
+        select  o.oId,o.oDate,o.oPrice,a.aName,o.oDesk,o.payment  from orders o , area a  where o.oArea=a.aId
+        <if test="date1!=null || date2!=null">
+            and  SUBSTR(o.oDate,1,10) BETWEEN rtrim(#{date1})  and LTRIM(#{date2})
+        </if>
+        order by  o.oDate  desc
+       limit #{begin} ,#{end}
+    </select>
+    <!--  查询所有点餐信息的条数-->
+    <select id="findCount" parameterType="com.aaa.store08.entity.Order" resultType="int">
+        select count(*) from orders
+    </select>
+
+    <!--  查询所有点餐信息的条数-->
+    <select id="selPhone"   resultType="String">
+        select vPhone from orders where oid=#{oid}
+    </select>
+
+    <!--  根据id查询vphone-->
+    <select id="findDetails" resultType="sDetails" parameterType="Map" >
+       select distinct o.odname,o.odaName,o.odprice ,od.vphone,od.oyprice,od.ocprice,od.oprice,od.payment,od.odesk,o.odoid
+       <if test="vphone!=null">
+           ,s.vBalance,s.vname,s.vCount,s.vGrade,s.vDiscount,s.vDisplay
+       </if>
+       from  orderdetails o inner join area a on o.odaid=a.aId inner join  orders od on od.oid=o.odoid
+        <if test="vphone!=null">
+            inner join
+            (select v.vidc,v.vphone,vb.vBalance,v.vname,v.vCount,vt.vGrade,vt.vDiscount,vt.vDisplay from
+            vip v inner join vbills vb on v.vidc = vb.vidc inner join  vtype vt on v.vidc=vt.vidc ) s on s.vPhone = od.vPhone
+        </if>
+
+             where  o.odoId=#{oid}
+
+
+    </select>
+</mapper>

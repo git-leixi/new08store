@@ -1,0 +1,7 @@
+#content{
+    width:600px;
+    height:400px;
+    border:4px double gray;
+    border-radius: 50px;
+    margin:50px auto;
+}

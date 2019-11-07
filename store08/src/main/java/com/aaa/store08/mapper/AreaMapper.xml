@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.AreaMapper">
+    <select id="findArea" resultType="com.aaa.store08.entity.AreaVo">
+       select distinct aName from area
+    </select>
+    <select id="SelArea" resultType="Area">
+        select aId,aName from area
+    </select>
+    <select id="findCount" resultType="int" parameterType="com.aaa.store08.entity.AreaVo">
+        select count(dId) from desk where 1=1
+        <if test="aName!=null and aName!='全部'">
+        and dArea=(select aId from area where aName=#{aName})
+        </if>
+
+    </select>
+    <select id="SelDeskAll"  parameterType="map"   resultType="map">
+      select d.dId,d.dName,a.aName,d.dsort from desk d,area a where d.dArea = a.aId
+      <if test="aName!=null">
+      and a.aName=#{aName}
+      </if>
+        limit #{begin},#{count}
+    </select>
+    <insert id="AddDesk" parameterType="com.aaa.store08.entity.AreaVo">
+            insert into desk(dName,dArea,dsort) VALUES(#{dName},(select aId from area where aName=#{aName}),'未使用')
+    </insert>
+    <delete id="DelDesk" parameterType="int">
+             delete from desk where dId=#{dId}
+    </delete>
+    <update id="UpdDsort" parameterType="com.aaa.store08.entity.AreaVo">
+             update  desk set dsort=#{dsort} where dId=#{dId}
+    </update>
+    <update id="UpdDesk" parameterType="com.aaa.store08.entity.AreaVo">
+             update  desk set dName=#{dName} where dId=#{dId}
+    </update>
+</mapper>

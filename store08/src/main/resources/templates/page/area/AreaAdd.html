@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<label class="layui-form-label">选择框</label>
+<select  name="dArea" th:id="aName" style="width: 200px;height: 35px;border:1px solid #E6E6E6;">
+    <option style="text-align: center;"   th:each="area:${area}" th:value="${area.aId}" th:text="${area.aName}"></option>
+</select>
+<div class="layui-form-item" style="width: 350px;">
+    <label class="layui-form-label">桌号</label>
+    <div class="layui-input-block">
+        <input th:id="dName" type="text" name="dName" required  lay-verify="required" placeholder="请输入桌号" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button class="layui-btn" lay-button lay-filter="formDemo" onclick="closeCurrForm()">立即提交</button>
+
+    </div>
+</div>
+<script type="text/javascript" th:inline="none">
+    layui.use(['form', 'upload', 'layer'], function () {
+        var form = layui.form;
+        var $ = layui.$;
+//检查项目添加到下拉框中
+    });
+    function closeCurrForm(){
+        var aName=$("#aName").find("option:selected").text();
+        var dName=$("#dName").val();
+        if(dName==""){
+            layer.msg('有必填框未填入对应值！', {
+                time: 5000, //5s后自动关闭
+                btn: ['明白了']
+            });
+        }else {
+            $.ajax({
+                type:"GET",
+                url:"../Area/AreaAdd",
+                data:{aName:aName,dName:dName},
+                success:function(result){
+                    window.parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+
+                }
+            });
+        }
+    }
+
+
+
+</script>
+
+</body>
+</html>

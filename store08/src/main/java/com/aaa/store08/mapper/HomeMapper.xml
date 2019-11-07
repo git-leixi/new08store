@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.HomeMapper">
+    <select id="findArea" resultType="Map">
+        select aId,aName from area
+    </select>
+    <select id="findTest" resultType="Map" parameterType="com.aaa.store08.entity.Home">
+        select a.aName, sum(oPrice) as oprice from orders o,area a
+        where o.oArea=a.aId and payment='已付款' and a.aName=#{aName} and date(o.oDate)=#{oDate}
+    </select>
+    <select id="findOrders" resultType="Map" parameterType="String">
+    select count(o.oId) AS oIdc,sum(o.oPrice) as oPrice
+    from orders o
+    where  o.payment=#{payment} and  date(o.oDate) =CURDATE()
+    </select>
+    <select id="findMonth" resultType="Map" >
+        select count(o.oId),sum(o.oPrice) as mOprice from orders o  where payment='已付款'
+        and  date(o.oDate) &lt;=last_day(curdate())
+        and date(o.oDate) &gt;=(select date_add(curdate(), interval - day(curdate()) + 1 day));
+    </select>
+    <select id="MonthTest" resultType="Map" >
+        SELECT x.d as days
+        FROM
+        (SELECT 1 AS d UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL
+        SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL
+        SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL SELECT 20 UNION ALL SELECT 21 UNION ALL
+        SELECT 22 UNION ALL SELECT 23 UNION ALL SELECT 24 UNION ALL SELECT 25 UNION ALL SELECT 26 UNION ALL SELECT 27 UNION ALL SELECT 28 UNION ALL
+        SELECT 29 UNION ALL SELECT 30 UNION ALL SELECT 31) x,
+        (SELECT date_add(curdate(), interval - day(curdate()) + 1 day) as FIRST, DAY(LAST_DAY(str_to_date(curdate(),'%Y-%m-%d'))) AS last) y
+        WHERE x.d &lt;= y.last
+    </select>
+    <select id="OpriceTest" resultType="com.aaa.store08.entity.Home" parameterType="String" >
+       select  sum(oPrice) as oprice from orders
+        where payment='已付款' and date(oDate)=#{oDate}
+    </select>
+</mapper>

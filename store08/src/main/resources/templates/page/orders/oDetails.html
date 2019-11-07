@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>点餐信息</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+
+</head>
+
+<form class="layui-form" action="">
+    <div class="layui-input-inline">
+        <label class="layui-form-label" style="width: 200px;"> 客户详细用餐信息</label>
+    </div>
+    <div class="layui-form-item" style="top: 200px;">
+        <label class="layui-form-label">所在餐桌</label>
+        <div class="layui-input-inline">
+            <input type="text" th:value="${slist[0].odesk}" readonly    autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">会员名字</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].vname}" th:if="${slist[0].vname!=null}"  readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="顾客不是会员" th:if="${slist[0].vname==null}"  readonly autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">会员标号</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].vphone}" th:if="${slist[0].vphone!=null}"  readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="顾客不是会员" th:if="${slist[0].vphone==null}"  readonly autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员等级</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].vGrade}" th:if="${slist[0].vGrade!=null}"  readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="顾客不是会员" th:if="${slist[0].vGrade==null}"  readonly autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">折扣力度</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].vDisplay}" th:if="${slist[0].vDisplay!=null}"  readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="无优惠" th:if="${slist[0].vDisplay==null}"  readonly autocomplete="off" class="layui-input">
+   </div>
+        <label class="layui-form-label">下单备注</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].vCount}" readonly autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">应付金额</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].ocprice}" readonly autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">优惠金额</label>
+        <div class="layui-input-inline">
+            <input type="text" th:value="${slist[0].oyprice}" readonly autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">实付金额</label>
+        <div class="layui-input-inline">
+            <input type="text"  th:value="${slist[0].oprice}" readonly autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" th:each="s:${slist}" readonly th:value="${s.odname}"  autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">菜品单价</label>
+        <div class="layui-input-inline">
+            <input type="text" th:each="s:${slist}" readonly th:value="${s.odprice}" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="left: 150px">付款状态</label>
+        <div class="layui-input-inline" style="left: 150px">
+            <input type="text" th:value="${slist[0].payment}"  readonly autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label" style="left: 160px">会员余额</label>
+        <div class="layui-input-inline" style="left: 160px">
+            <input type="text" th:value="${slist[0].vBalance}"  readonly autocomplete="off" class="layui-input">
+        </div>
+        <hr>
+        <div class="layui-input-inline" style="left: 780px" >
+             <input type="button"  class="layui-btn" value="结账》》》">
+        </div>
+
+    </div>
+</form>
+
+
+<script type="text/javascript" th:inline="none">
+
+</script>
+<body>
+
+</body>
+</html>

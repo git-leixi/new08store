@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/lay/lib/jquery.js"></script>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+</head>
+<body>
+<!--<form class="layui-form" action="" lay-filter="prg" style="margin-top: 2%">
+
+    <label class="layui-form-label">所有部门</label>
+    <select id="bg_id" name="bg_id" lay-verify="required"  lay-filter="business" class="select">
+        <option value="" ></option>
+    </select>
+
+</form>-->
+<script>
+/*
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('select(business)',function(data){
+            $.ajax({
+                type:"POST",
+                url:'../08Store1/hello',  //从数据库查询返回的是个list
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $.each(data,function(index,item){
+                        $('#bg_id').append(new Option(item.uId));//往下拉菜单里添加元素
+                    })
+
+                    form.render();//菜单渲染 把内容加载进去
+                }
+
+            })
+        });
+    });*/
+
+
+
+var resultData;
+
+var htmls = '<option value="">请选择</option>'; //全局变量
+$.ajax({
+    url: '../08Store1/hello',
+    type: "post",
+    dataType : "json",
+    contentType : "application/json",
+    async: false,//这得注意是同步
+    success: function (result) {
+        resultData = result.data;
+        for(var x in resultData){
+            htmls += '<option value = "' + resultData[x].id + '">' + resultData[x].proNo + '</option>'
+        }
+        $("#proNos").html(htmls);
+    }
+});
+</script>
+</body>
+</html>
