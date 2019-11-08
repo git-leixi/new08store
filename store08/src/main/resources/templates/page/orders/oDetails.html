@@ -81,6 +81,7 @@
         <label class="layui-form-label" style="left: 160px">会员余额</label>
         <div class="layui-input-inline" style="left: 160px">
             <input type="text" th:value="${slist[0].vBalance}"  readonly autocomplete="off" class="layui-input">
+            <a  type="button"  class="layui-btn"  id="cz">充值</a>
         </div>
         <hr>
         <div class="layui-input-inline" style="left: 780px" >
@@ -92,7 +93,9 @@
 
 
 <script type="text/javascript" th:inline="none">
-
+    $("#cz").on('click',function(){
+       alert(111)
+    });
 </script>
 <body>
 

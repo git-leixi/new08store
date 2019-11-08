@@ -83,7 +83,7 @@
         table.on('tool(test)', function(obj){
             var data = obj.data;
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            layer.msg(data.oId);
+            //layer.msg(data.oId);
             if(layEvent === 'detail'){
                 layer.msg('ID：'+ data.oId + ' 的查看操作');
                 layer.open({
