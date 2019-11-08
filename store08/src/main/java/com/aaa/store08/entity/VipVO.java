@@ -18,6 +18,36 @@ public class VipVO implements Serializable {
     private Double vDiscount;
     private String vGrade;
     private String vDisplay;
+    private Double vLimit;
+
+    @Override
+    public String toString() {
+        return "VipVO{" +
+                "vid=" + vid +
+                ", vName='" + vName + '\'' +
+                ", vCount='" + vCount + '\'' +
+                ", oPrice=" + oPrice +
+                ", oDate=" + oDate +
+                ", vBegindate=" + vBegindate +
+                ", vPhone='" + vPhone + '\'' +
+                ", vAcount=" + vAcount +
+                ", vSum=" + vSum +
+                ", vState=" + vState +
+                ", vIdc=" + vIdc +
+                ", vDiscount=" + vDiscount +
+                ", vGrade='" + vGrade + '\'' +
+                ", vDisplay='" + vDisplay + '\'' +
+                ", vLimit=" + vLimit +
+                '}';
+    }
+
+    public Double getvLimit() {
+        return vLimit;
+    }
+
+    public void setvLimit(Double vLimit) {
+        this.vLimit = vLimit;
+    }
 
     public Date getoDate() {
         return oDate;

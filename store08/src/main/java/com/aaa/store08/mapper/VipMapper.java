@@ -25,6 +25,8 @@ public interface VipMapper {
     int countBills();
     //查询金额
     Vip selectVip(Integer id);
+
+    public VipVO vipTwo(Integer id);
     //修改金额
     int editVip(Vip vip);
     //修改会员等级
@@ -32,4 +34,5 @@ public interface VipMapper {
     public int UpdVipOne(VipVO vipVO);
     public int UpdVipTwo(VipVO vipVO);
     public int UpdVipThree(VipVO vipVO);
+    public int UpdVipFour(VipVO vipVO);
 }

@@ -21,6 +21,10 @@
     <select id="vipOne" parameterType="Integer" resultType="VipVO">
         select * from vip where vid = #{id}
     </select>
+
+    <select id="vipTwo" parameterType="Integer" resultType="VipVO">
+        select v.vSum,t.vLimit from vip v,vtype t where v.vIdc = t.vIdc and vid = #{id}
+    </select>
     <!--修改会员-->
     <update id="updateVip" parameterType="VipVO">
         update vip set vName=#{vName},vPhone=#{vPhone},vidc=#{vIdc},vAcount=#{vAcount},vState=#{vState} where vid=#{vid}
@@ -30,15 +34,15 @@
         select v.vName,v.vCount,vAcount,t.vGrade,vDisplay,b.vBalance,o.oDate,o.oPrice from vbills b left join vip v on b.vid=v.vid left join vType t on b.vidc = t.vidc
         left join orders o on v.vPhone=o.vPhone
         <where> 1=1
-        <if test="vName!=null and vName!='' ">
-            and v.vName like concat('%',concat(#{vName},'%'))
-        </if>
-        <if test="vCount!=null and vCount!=''">
-            and v.vCount like concat('%',concat(#{vCount},'%'))
-        </if>
-    </where>
+            <if test="vName!=null and vName!='' ">
+                and v.vName like concat('%',concat(#{vName},'%'))
+            </if>
+            <if test="vCount!=null and vCount!=''">
+                and v.vCount like concat('%',concat(#{vCount},'%'))
+            </if>
+        </where>
         order by  o.oDate  desc
-         limit #{begin},#{end}
+        limit #{begin},#{end}
     </select>
     <select id="countBills" resultType="Integer">
         select count(*) from vbills
@@ -49,18 +53,21 @@
     </select>
     <!--修改金额-->
     <update id="editVip" parameterType="Vip">
-        update vip set  vAcount=#{vAcount} where vid = #{vid}
+        update vip set  vAcount=#{vAcount},vSum=#{vSum} where vid = #{vid}
     </update>
     <update id="UpdVip" parameterType="VipVO">
-        update vip set vIdc=1 where vAcount &lt;500
+        update vip v,vtype t set v.vIdc=1 where v.vSum &lt; (select vLimit from vtype where vIdc = 2)
     </update>
     <update id="UpdVipOne" parameterType="VipVO">
-        update vip set vIdc=2 where vAcount &gt;=500 and vAcount &lt;2000
+        update vip v,vtype t set v.vIdc=2 where v.vSum &gt;= (select vLimit from vtype where vIdc = 2) and v.vSum &lt; (select vLimit from vtype where vIdc = 3)
     </update>
     <update id="UpdVipTwo" parameterType="VipVO">
-        update vip set vIdc=3 where vAcount &gt;=2000 and vAcount &lt;5000
+        update vip v,vtype t set v.vIdc=3 where v.vSum &gt;= (select vLimit from vtype where vIdc = 3) and v.vSum &lt; (select vLimit from vtype where vIdc = 4)
     </update>
     <update id="UpdVipThree" parameterType="VipVO">
-        update vip set vIdc=4 where vAcount &gt;=5000
+        update vip v,vtype t set v.vIdc=4 where v.vSum &gt;= (select vLimit from vtype where vIdc = 4) and v.vSum &lt; (select vLimit from vtype where vIdc = 5)
+    </update>
+    <update id="UpdVipFour" parameterType="VipVO">
+        update vip v,vtype t set v.vIdc=5 where v.vSum &gt;= (select vLimit from vtype where vIdc = 5)
     </update>
 </mapper>
