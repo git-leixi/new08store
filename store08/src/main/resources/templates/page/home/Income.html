@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../common/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../../common/layui/css/layui.css">
+    <script src="../../common/layui/layui.js"></script>
+    <script src="../../common/layui/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<button id="return" class="layui-btn" type="button">返回</button>
+<div class="layui-inline">
+    <label class="layui-form-label">选择日期</label>
+    <div class="layui-input-inline">
+        <input class="layui-input" id="time" type="text" placeholder="yyyy-MM-dd">
+    </div>
+</div>
+<table class="layui-hide" id="orders" lay-filter="orders"></table>
+</body>
+<script>
+    layui.use('table', function() {
+        var table = layui.table
+            , form = layui.form;
+
+        table.render({
+            elem: "#orders",//表格table的id属性
+            url: "../../Orders/findOrdersMonth", //请求数据接口
+            limits: [2, 4, 8],
+            limit: 4,//要传向后台的每页显示条数
+            //,page:true(自带的这个要注掉)
+            page: true,
+            title: '查询所有信息',
+            /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            toolbar: '',
+            cols: [[
+                {field: 'aName', title: '所属区域', align: 'center'},
+                {field: 'oDesk', title: "桌号", align: 'center'},
+                {field: 'oId', title: "编号", align: 'center'},
+                {field: 'oDate', title: "时间", align: 'center'},
+                {field: 'oPrice', title: "应付款", align: 'center' },
+                {field: 'ocPrice', title: '原价',  align: 'center'},
+                {field: 'vPhone', title: "手机号", align: 'center'},
+                {field: 'payment', title: '订单状态',templet:"#payment", align: 'center'},
+                {fixed: 'right', width:178, align:'center', sort: true,event:'setSign', toolbar: '#barDemo'}
+            ]],
+            id: 'orders'
+        });
+        table.on('tool(orders)', function(obj){
+            var data = obj.data;
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            //layer.msg(data.oId);
+            if(layEvent === 'detail'){
+                layer.msg('ID：'+ data.oId + ' 的查看操作');
+                layer.open({
+                    type: 2,
+                    title: '查询发票',
+                    maxmin: true,
+                    area : ['500px','600px'],
+                    shadeClose: false, //点击遮罩关闭
+                    content: '../../Orders/findOrdersDetails?oId='+data.oId,
+                    success: function(layero, index){
+                        $('#win100').height('auto');
+                    }
+                })
+            } else if(layEvent === 'edit'){
+                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            }
+        });
+    })
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看发票</a>
+</script>
+<script>
+    $(function(){
+        $("#return").click(function () {
+            location.href="../home.html";
+        })
+    })
+</script>
+<script>
+    layui.use(['table','layer','util','laydate','jquery'], function(){
+        var laydate = layui.laydate;
+        var table = layui.table;
+        var util = layui.util;
+        var $ = layui.jquery;
+
+        //常规用法
+        laydate.render({
+            elem: '#time'
+            ,min: '2019-11-01'
+            ,max: '2019-11-30'
+            ,done: function(value, date){
+                table.reload('orders', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        oDate: value
+                    }
+                });
+            }
+        });
+    });
+</script>
+</html>

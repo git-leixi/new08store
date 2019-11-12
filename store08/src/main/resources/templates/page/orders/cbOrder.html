@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -13,7 +12,7 @@
 
 </head>
 
-<form class="layui-form">
+<form class="layui-form" action="">
     <div class="layui-input-inline">
         <label class="layui-form-label" style="width: 200px;"> 客户详细用餐信息</label>
     </div>
@@ -29,8 +28,8 @@
         </div>
         <label class="layui-form-label">会员标号</label>
         <div class="layui-input-inline">
-            <input type="text" name="acount"  th:value="${slist[0].vphone}" th:if="${slist[0].vphone!=null}"  readonly autocomplete="off" class="layui-input">
-            <input type="text" name="acount"   th:value="顾客不是会员" th:if="${slist[0].vphone==null}"  readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="${slist[0].vphone}" th:if="${slist[0].vphone!=null}"  readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="顾客不是会员" th:if="${slist[0].vphone==null}"  readonly autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -43,7 +42,7 @@
         <div class="layui-input-inline">
             <input type="text"  th:value="${slist[0].vDisplay}" th:if="${slist[0].vDisplay!=null}"  readonly autocomplete="off" class="layui-input">
             <input type="text"  th:value="无优惠" th:if="${slist[0].vDisplay==null}"  readonly autocomplete="off" class="layui-input">
-        </div>
+   </div>
         <label class="layui-form-label">下单备注</label>
         <div class="layui-input-inline">
             <input type="text"  th:value="${slist[0].vCount}" readonly autocomplete="off" class="layui-input">
@@ -52,7 +51,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">应付金额</label>
         <div class="layui-input-inline">
-            <input type="text" name="money" id="money"  th:value="${slist[0].ocprice}" readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="${slist[0].ocprice}" readonly autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label">优惠金额</label>
         <div class="layui-input-inline">
@@ -60,7 +59,7 @@
         </div>
         <label class="layui-form-label">实付金额</label>
         <div class="layui-input-inline">
-            <input type="text" id="expences"  th:value="${slist[0].oprice}" readonly autocomplete="off" class="layui-input">
+            <input type="text"  th:value="${slist[0].oprice}" readonly autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -72,26 +71,24 @@
         <div class="layui-input-inline">
             <input type="text" th:each="s:${slist}" readonly th:value="${s.odprice}" autocomplete="off" class="layui-input">
         </div>
-
-    </div>
-    <div class="layui-input-inline" >
-        <select id="vIdc"  lay-filter="aihao">
-            <option th:each="s:${slist}" th:value="${s.vid}"></option>
-        </select>
+        <div class="layui-input-inline" th:each="s:${slist}"  >
+            <input type="button"  th:value="退餐"  th:onclick="|javascript:tuican('${s.odid}')|" readonly  autocomplete="off" class="layui-btn" >
+            <input type="text" style="display:none" th:value="${s.odid}" autocomplete="off" class="layui-input">
+        </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label" style="left: 150px">付款状态</label>
         <div class="layui-input-inline" style="left: 150px">
-            <input type="text" name="payment" th:value="${slist[0].payment}"  readonly autocomplete="off" class="layui-input">
+            <input type="text" th:value="${slist[0].payment}"  readonly autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label" style="left: 160px">会员余额</label>
         <div class="layui-input-inline" style="left: 160px">
-            <input type="text" name="vAcount" th:value="${slist[0].vAcount}"  readonly autocomplete="off" class="layui-input">
+            <input type="text" th:value="${slist[0].vBalance}"  readonly autocomplete="off" class="layui-input">
             <a  type="button"  class="layui-btn"  id="cz">充值</a>
         </div>
         <hr>
         <div class="layui-input-inline" style="left: 780px" >
-            <input type="submit"  class="layui-btn" id="accounts" value="结账》》》">
+             <input type="button"  class="layui-btn" value="结账》》》">
         </div>
 
     </div>
@@ -99,47 +96,22 @@
 
 
 <script type="text/javascript" th:inline="none">
-    $("#cz").on('click',function(){
-        var acount = $("input[name=acount]").val();
-        if(acount=="顾客不是会员"){
-            alert("请注册会员!")
-            window.location.href="../vip/vipAdd";
-        }else{
-            var vIdc = $("#vIdc").val();
-            window.top.location="../member/pay?vcount="+vIdc;
-        }
-    });
-    $("#accounts").on('click',function(){
-        var payment = $("input[name=payment]").val();
-        var vAcount = $("input[name=vAcount]").val();
-        var acount = $("input[name=acount]").val();
-        var expences = $("#expences").val();
-        var vIdc = $("#vIdc").val();
-        if(payment=="已付款"){
-            alert("已付款");
-            var index = parent.layer.getFrameIndex(window.name);
-            window.parent.location.reload();
-            parent.layer.close(index);
-        }else{
-            if(acount=="顾客不是会员"){
-                window.top.location.href="../order/alipay?money="+expences+"&vid="+vIdc;
-            }else{
-                var balance = vAcount-expences;
-                if(balance>0){
-                    var vIdc = $("#vIdc").val();
-                    alert(vIdc);
-                    window.location.href="../order/balance?vidc="+vIdc;
-                }else{
-                    alert("余额不足，请充值！");
 
-                    window.top.location="../member/pay?vcount="+vIdc;
-                }
+     function tuican(data){
+         $.ajax({
+             type : "post",
+             async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+             url:"../order/delOdt?id="+data,
+             dataType : "json",        //返回数据形式为json
+             success : function(data) {
 
-            }
-        }
+                 window.location.reload();
+
+               }
 
 
-    });
+         })
+     }
 </script>
 <body>
 

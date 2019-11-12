@@ -1,6 +1,9 @@
 package com.aaa.store08.controller;
+import com.aaa.store08.entity.DataGrid;
 import com.aaa.store08.entity.Home;
+import com.aaa.store08.entity.PageVo;
 import com.aaa.store08.service.HomeService;
+import com.aaa.store08.service.OrdersDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,42 +21,37 @@ import java.util.*;
 public class HomeController {
     @Autowired
     private HomeService ts;
+    @Autowired
+    private OrdersDetailsService ods;
+
     @RequestMapping("findTest")
     @ResponseBody
     public List<Map> findTest(String oDate) {//传过来的值int型是可以的
-        System.out.println(oDate);
-        SimpleDateFormat 格式=new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
-        Calendar 日历=Calendar.getInstance(Locale.CHINA);
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+        Calendar calendar=Calendar.getInstance(Locale.CHINA);
 //其余的行不变只加入这一行即可，设定每周的起始日。
-        日历.setFirstDayOfWeek(Calendar.MONDAY);
-        日历.setTimeInMillis(System.currentTimeMillis());//当前时间
-        System.out.println("当前时间:"+格式.format(日历.getTime()));
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTimeInMillis(System.currentTimeMillis());//当前时间
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        System.out.println(year + " 年 " + month + " 月");
-        System.out.println(oDate);
         if(oDate==null){
-            oDate=格式.format(日历.getTime());
+            oDate=format.format(calendar.getTime());
         }else {
             oDate=year + "-" + month + "-" +oDate;
         }
 
         List<Map> maps=ts.findArea();
-        System.out.println("测试前"+maps);
-        System.out.println("现在开始测试");
         for (int i=0;i<maps.size();i++){
             Home test=new Home();
             test.setaName((String) maps.get(i).get("aName"));
             test.setoDate(oDate);
             Map map = ts.findTest(test);
-            System.out.println(map);
             if (map==null) {
                 maps.get(i).put("oprice",0);
             }else {
                 maps.get(i).put("oprice",map.get("oprice"));
             }
-            System.out.println("测试"+maps);
         }
         return maps;
     }
@@ -68,29 +66,22 @@ public class HomeController {
     @RequestMapping("findOrders")
     @ResponseBody
     public List<Map> findOrders(String payment) {//传过来的值int型是可以的
-        System.out.println("运行了2");
         List<Map> maps = ts.findOrders(payment);
-        System.out.println(maps);
         return maps;
     }
     @RequestMapping("findMonth")
     @ResponseBody
     public List<Map> findMonth() {//传过来的值int型是可以的
-        System.out.println("运行了3");
         List<Map> maps = ts.findMonth();
-        System.out.println(maps);
-
         return maps;
     }
     @RequestMapping("MonthTest")
     @ResponseBody
     public List<Map> MonthTest() {//传过来的值int型是可以的
-        System.out.println("运行了4" + "测试");
         List<Map> maps = ts.MonthTest();
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        System.out.println(year + " 年 " + month + " 月");
 
         // System.out.println(maps.size());
         for (int i = 0; i < maps.size(); i++) {
@@ -106,4 +97,28 @@ public class HomeController {
         //每天的收入
         return maps;
     }
+    //已完成订单查询
+    @RequestMapping("ToFinally")
+    public String ToFinally(){
+        return "page/Finally";
+    }
+
+    @ResponseBody
+    @RequestMapping("SelOrdersDetails")
+    public Object SelFood(PageVo pageVo) {
+        System.out.println("测试");
+        DataGrid dg = new DataGrid();
+        int count = ods.findCount();
+        System.out.println("测试1"+count);
+        List<Map> maps = ods.SelOrdersAll(pageVo);
+        System.out.println(maps);
+        dg.setCode(0);
+        dg.setCount(count);
+        dg.setData(maps);
+        dg.setMsg("");
+        return dg;
+
+    }
+
+
 }

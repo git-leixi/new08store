@@ -19,7 +19,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("order")
 public class OrderController {
-
+    private Integer oids;
     @Autowired
     private OrderService orderService;
 
@@ -35,18 +35,18 @@ public class OrderController {
         System.out.println(value);
         String date1 = null;
         String date2 = null;
-       if(value != null){
-           date1 = value.substring(0,value.indexOf('~'));
-           date2 = value.substring(value.indexOf('~')+1);
-           System.out.println(date1);
-           System.out.println(date2);
-       }
+        if(value != null){
+            date1 = value.substring(0,value.indexOf('~'));
+            date2 = value.substring(value.indexOf('~')+1);
+            System.out.println(date1);
+            System.out.println(date2);
+        }
         DataGrid dg = new DataGrid();
-       Map<Object,Object> map = new HashMap<Object,Object>();
-       map.put("limit",pageVo.getLimit());
-       map.put("page",pageVo.getPage());
-       map.put("date1",date1);
-       map.put("date2",date2);
+        Map<Object,Object> map = new HashMap<Object,Object>();
+        map.put("limit",pageVo.getLimit());
+        map.put("page",pageVo.getPage());
+        map.put("date1",date1);
+        map.put("date2",date2);
         //查询点餐信息
         List<Map> orderList = orderService.findOrder(map);
         //查询点餐信息总数
@@ -83,19 +83,98 @@ public class OrderController {
 
 
     @RequestMapping("findDetails")
-    public String findDetails(sDetails sDetails, String id, Model model){
-        Integer oid = Integer.parseInt(id) ;
-        System.out.println(oid);
-
-        String vphone = orderService.selPhone(oid);
+    public String findDetails(int id, Model model){
+        oids = id;
+        String vphone = orderService.selPhone(oids);
+        System.out.println(vphone);
+        System.out.println(oids);
         Map<Object,Object> map = new HashMap<Object,Object>();
-        map.put("oid",oid);
+        map.put("oid",oids);
+        map.put("vphone",vphone);
+
+        List<sDetails> slist = orderService.findDetails(map);
+        model.addAttribute("slist",slist);
+        return "page/orders/oDetails";
+    }
+
+    @RequestMapping("/success")
+    public String success(){
+        return "page/orders/success";
+    }
+    @RequestMapping("/alipay")
+    public String alipay(String money,Model model){
+        model.addAttribute("money",money);
+        return "page/orders/alipay";
+    }
+    //结账成功以后修改付款状态
+    @RequestMapping("/updateOrder")
+    public String updateOrder(){
+        orderService.updateOrder(oids);
+        return "page/index";
+    }
+    //会员结账，修改余额
+    @RequestMapping("/balance")
+    public String updateBalance(String balance,Integer vidc,Vip vip){
+        System.out.println("测试"+vidc+"--"+balance);
+        Double after = Double.parseDouble(balance);
+        vip.setvAcount(after);
+        vip.setVid(vidc);
+        orderService.updateBalance(vip);//修改会员余额
+        orderService.updateOrder(oids);//修改订单状态
+        return "page/index";
+    }
+    //李
+    @RequestMapping("cbOrder")
+    public String cbOrder(sDetails sDetails, int id, Model model){
+
+        System.out.println(id);
+        String vphone = orderService.selPhone(id);
+        Map<Object,Object> map = new HashMap<Object,Object>();
+        map.put("oid",id);
         map.put("vphone",vphone);
 
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
         System.out.println(slist.toString());
-        return "page/orders/oDetails";
+        return "page/orders/cbOrder";
+    }
+
+
+    @RequestMapping("delOdt")
+    @ResponseBody
+    public Map delOdt(int id){
+        //根据id查询 odoid
+        int selodoid = orderService.selodoid(id);
+        System.out.println(selodoid);
+        //根据odid去删除  orderdetails表中的信息   查到删除单品菜的单价    更改 总价 显示
+        int j = orderService.delOdt(id);
+        Map maps=new HashMap();
+        if (j == 1){
+            //修改 ocprice 总价    得到 新的总价后 修改
+            List<Map> list = orderService.OdoIdDetails(selodoid);
+            System.out.println(list);
+            double oprice=0.0;
+            for (int i=0;i<list.size();i++){
+                System.out.println("开始循环");
+                Object om=list.get(i).get("odNum");
+                Object op=list.get(i).get("odPrice");
+                int b = Integer.parseInt(String.valueOf(om));
+                double c = Double.parseDouble((String.valueOf(op)));
+                double num=b*c;
+                oprice+=num++;
+
+            }
+            System.out.println(oprice);
+            int sss = orderService.updPrice(oprice, selodoid);
+            System.out.println(sss);
+            //根据id  修改 优惠价格   优惠后的价格
+            orderService.updoDetails(selodoid);
+            System.out.println("12121");
+            maps.put("result",1);
+        }else{
+            maps.put("result",0);
+        }
+        return  maps;
     }
 
 

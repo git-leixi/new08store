@@ -15,6 +15,22 @@ import java.util.Map;
 public class IVipServiceImpl  implements  IVipService{
     @Resource
     private VipMapper vipMapper;
+
+    @Override
+    public List<Map> findVip(Map map) {
+        //开始的数据信息
+        PageVo pageVo = new PageVo();
+        Integer limit = (Integer) map.get("limit");
+        Integer page = (Integer) map.get("page");
+        pageVo.setLimit(limit);
+        pageVo.setPage(page);
+        int begin = pageVo.getLimit()*(pageVo.getPage()-1);
+        int end = pageVo.getLimit();
+        map.put("begin", begin);
+        map.put("end", end);
+        return vipMapper.findVip(map);
+    }
+
     //查看会员
     @Override
     public List<Map> findall(PageVo pageVo) {
@@ -28,8 +44,9 @@ public class IVipServiceImpl  implements  IVipService{
     }
 
     @Override
-    public int vipFindall() {
-        return vipMapper.vipFindall();
+    public int vipFindall(VipVO vipVO) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        return vipMapper.vipFindall(map);
     }
     //查看会员类型
     @Override
@@ -69,12 +86,6 @@ public class IVipServiceImpl  implements  IVipService{
     public int countBills() {
         return vipMapper.countBills();
     }
-
-    @Override
-    public VipVO vipTwo(Integer id) {
-        return vipMapper.vipTwo(id);
-    }
-
     //查询金额
     @Override
     public Vip selectVip(Integer id) {
@@ -90,25 +101,5 @@ public class IVipServiceImpl  implements  IVipService{
     @Override
     public int UpdVip(VipVO vipVO) {
         return vipMapper.UpdVip(vipVO);
-    }
-
-    @Override
-    public int UpdVipOne(VipVO vipVO) {
-        return vipMapper.UpdVipOne(vipVO);
-    }
-
-    @Override
-    public int UpdVipTwo(VipVO vipVO) {
-        return vipMapper.UpdVipTwo(vipVO);
-    }
-
-    @Override
-    public int UpdVipThree(VipVO vipVO) {
-        return vipMapper.UpdVipThree(vipVO);
-    }
-
-    @Override
-    public int UpdVipFour(VipVO vipVO) {
-        return vipMapper.UpdVipFour(vipVO);
     }
 }

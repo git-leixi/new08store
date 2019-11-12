@@ -17,6 +17,15 @@
         select count(*) from orders
     </select>
 
+    <!--修改付款以后的状态-->
+    <update id="updateOrder" parameterType="Integer">
+        update orders set payment="已付款" where oid = #{id}
+    </update>
+    <!--会员支付，修改余额-->
+    <update id="updateBalance" parameterType="Vip">
+        update vip set vAcount = #{vAcount} where oid=#{oid}
+    </update>
+
     <!--  查询所有点餐信息的条数-->
     <select id="selPhone"   resultType="String">
         select vPhone from orders where oid=#{oid}
@@ -24,19 +33,42 @@
 
     <!--  根据id查询vphone-->
     <select id="findDetails" resultType="sDetails" parameterType="Map" >
-       select distinct o.odname,o.odaName,o.odprice ,od.vphone,od.oyprice,od.ocprice,od.oprice,od.payment,od.odesk,o.odoid
+       select distinct o.odname,o.odaName,o.odprice ,od.vphone,od.oyprice,od.ocprice,od.oprice,od.payment,od.odesk,o.odoid,o.odid
        <if test="vphone!=null">
-           ,s.vBalance,s.vname,s.vCount,s.vGrade,s.vDiscount,s.vDisplay
+           ,s.vBalance,s.vname,s.vCount,s.vGrade,s.vDiscount,s.vDisplay,s.vid,s.vAcount
        </if>
        from  orderdetails o inner join area a on o.odaid=a.aId inner join  orders od on od.oid=o.odoid
         <if test="vphone!=null">
             inner join
-            (select v.vidc,v.vphone,vb.vBalance,v.vname,v.vCount,vt.vGrade,vt.vDiscount,vt.vDisplay from
+            (select v.vidc,v.vphone,v.vAcount,v.vid,vb.vBalance,v.vname,v.vCount,vt.vGrade,vt.vDiscount,vt.vDisplay from
             vip v inner join vbills vb on v.vidc = vb.vidc inner join  vtype vt on v.vidc=vt.vidc ) s on s.vPhone = od.vPhone
         </if>
-
              where  o.odoId=#{oid}
-
-
     </select>
+    <!--  顾客退餐服务-->
+    <select id="OdoIdDetails" resultType="Map" parameterType="int">
+        select * from orderdetails WHERE odoId=#{odoId}
+    </select>
+    <!--  查询odoid-->
+    <select id="selodoid"  parameterType="int" resultType="int">
+        select odoid from orderdetails where odid = #{id}
+    </select>
+    <!--  顾客退餐服务-->
+    <delete id="delOdt"    parameterType="int">
+         delete  from orderdetails where odid=#{id}
+    </delete>
+    <update id="updPrice"  parameterType="Map">
+        update orders set ocPrice=#{oprice} where oid=#{id}
+    </update>
+
+    <!--  修改  优惠价格 优惠后的价格-->
+    <update id="updoDetails"  parameterType="int">
+        update orders o inner join
+            (select distinct od.odName,od.odPrice,od.odnum,o.vPhone, o.oPrice,o.oyPrice,o.ocPrice,s.vdiscount,s.vname,o.oid
+            from orderdetails od inner join orders o on od.odoid=o.oid
+             inner join (select v.vid,v.vname,vy.vdiscount,v.vphone from vip v inner join vtype vy on v.vidc = vy.vidc) s
+            on o.vphone=s.vphone where o.oid =#{id}) c  on o.oid = c.oid set
+             o.oyPrice = c.ocPrice-(c.ocPrice*c.vdiscount),o.oPrice=o.ocPrice*c.vdiscount
+    </update>
+
 </mapper>

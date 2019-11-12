@@ -5,6 +5,7 @@ import com.aaa.store08.service.AreaService;
 import com.aaa.store08.service.FoodService;
 import com.aaa.store08.service.KindService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.crypto.Data;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +25,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("Food")
 public class FoodController {
+    @Value("${uploadFile.resourceHandler}")
+    private String resourceHandler;//请求 url 中的资源映射，不推荐写死在代码中，最好提供可配置，如 /uploadFiles/**
+
+    @Value("${uploadFile.location}")
+    private String uploadFileLocation;
     @Autowired
     private FoodService fs;
     @Autowired
@@ -69,39 +79,34 @@ public class FoodController {
     }
 
     @RequestMapping("InsertFood")
-    public String InsertFood(MultipartFile file, Food food, Area area, Kind kind){
+    public String InsertFood(Food food, Area area, Kind kind,HttpServletRequest request){
            System.out.println("进来了");
-           System.out.println(food.getmPrice()+food.getmName()+food.getmImg()+food.getmArea()+food.getmKind());
-           System.out.println("名字"+food.getmImg());
-           String name="../common/image/img/"+food.getmImg();
-           food.setmImg(name);
-           //判断文件夹是否存在    不存在则创建
-           System.out.println(food.getmPrice()+food.getmName()+food.getmImg()+food.getmArea()+food.getmKind());
+           String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+           System.out.println(food.getmPrice()+food.getmName()+food.getmImg());
+           String fileName =basePath+"/uploadFiles/"+food.getmImg();
+           System.out.println(fileName);
+           food.setmImg(fileName);
            fs.InsertFood(food);
 
 
         System.out.println(food.getmName()+food.getmImg());
         return "redirect:aaa";
     }
+
     @RequestMapping("upload")
-    public @ResponseBody Map<String, Object> image(@RequestBody MultipartFile file, HttpServletRequest request){
+    public @ResponseBody Map<String, Object> image(@RequestBody MultipartFile file){
 
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             String name = file.getOriginalFilename();//上传文件的真实名称
-            String suffixName = name.substring(name.lastIndexOf(".")+1);//获取后缀名
-            //图片的存储位置
-            String path = "F:\\demo\\store08\\src\\main\\resources\\templates\\common\\image\\img";
-            String image = UploadUtil.uploadFile(file, path);
-            System.out.println(path);
-            map.put("code", 0);
-            map.put("message", "上传成功");
-            map.put("data", image);
+            File saveFile = new File(uploadFileLocation, name);
+            file.transferTo(saveFile);
+            map.put("path",name);
         } catch (Exception e) {
             map.put("code", 1);
             e.printStackTrace();
         }
-        System.out.println(map);
         return map;
     }
     @RequestMapping("ToUpdateFood")
@@ -118,11 +123,14 @@ public class FoodController {
 
     //修改
     @RequestMapping("Upd")
-    public String Upd(Food food,MultipartFile upload){
-        System.out.println(food.getmName()+food.getmPrice()+food.getmKind()+food.getmArea()+food.getmId()+food.getmImg());
-        String name="../common/image/img/"+food.getmImg();
-        food.setmImg(name);
-        fs.UpdateFood(food);
+    public String Upd(Food food,@RequestBody MultipartFile upload,HttpServletRequest request){
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+        System.out.println(food.getmPrice()+food.getmName()+food.getmImg());
+        String fileName =basePath+"/uploadFiles/"+food.getmImg();
+        System.out.println(fileName);
+        food.setmImg(fileName);
+        fs.InsertFood(food);
         return "redirect:aaa";
     }
 }

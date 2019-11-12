@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.OrdersDetailsMapper">
+    <select id="findCount" resultType="int">
+        select count(oId) from orders
+    </select>
+    <select id="SelOrdersAll"  parameterType="map"   resultType="map">
+        select o.oId,o.oDate,o.oDesk,o.oPrice,a.aName,o.oyPrice,o.ocPrice,o.vPhone,o.payment from
+        orders o,area a
+        where o.oArea = a.aId and o.payment ='已付款' and date(o.oDate) = CURDATE()
+        limit #{begin},#{count}
+    </select>
+</mapper>

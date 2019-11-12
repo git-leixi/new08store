@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,18 +9,16 @@
 <body>
 <div id="zzc">
     <div id="alipy">
-        <form action="../alipay/pay" >
-            <label class="layui-form-label">会员充值</label>
+        <form action="../alipay/pay">
             <div class="layui-input-block">
-                <input type="text" name="money"  id="money"  required  lay-verify="required" autocomplete="off" placeholder="请输入金额" class="layui-input">
+                <input type="text" name="money" readonly th:value="${money}"  id="money"  style="width: 180px" placeholder="请输入金额" class="layui-input">
             </div>
-            <input th:value="1" name="val" id="val" style="display: none">
-            <button class="layui-btn  layui-btn-submit " type="submit" id="accounts">立即提交</button>
+            <input th:value="2" name="val" id="val" style="display: none">
+            <input type="submit"  class="layui-btn" id="accounts" value="结账》》">
             <button type="button" class="layui-btn layui-btn-submit"  onclick="javascript:window.history.back(-1);" id="qx">取消</button>
         </form>
     </div>
 </div>
-
 </body>
 <style type="text/css">
     #zzc{
@@ -38,7 +36,6 @@
         text-align: center;
         top:300px;
         left: 650px;
-
     }
     #accounts{
         position: relative;
@@ -51,13 +48,4 @@
         left: 56px;
     }
 </style>
-<script type="text/javascript">
-    layui.use(['form','layer'],function(){
-        var form = layui.form;
-        var layer = layui.layer;
-        $ = layui.jquery;
-        form.render();
-
-    })
-</script>
 </html>

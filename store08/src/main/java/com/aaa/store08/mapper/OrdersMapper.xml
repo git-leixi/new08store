@@ -1,0 +1,48 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.OrdersMapper">
+    <select id="findOrders" resultType="Map" parameterType="Map">
+       select * from orders o,area a where o.oArea=a.aId and date(oDate)=CURDATE()and payment='未付款'
+       limit #{begin},#{count}
+    </select>
+    <select id="findOrdersCount" resultType="int">
+        select count(oId) from orders where date(oDate)=CURDATE()and payment='未付款'
+    </select>
+    <select id="findOrdersMonth" resultType="Map" parameterType="Map">
+        select *  from orders o,area a  where payment='已付款' and o.oArea=a.aId
+        and  date(o.oDate) &lt;=last_day(curdate())
+        and date(o.oDate) &gt;=(select date_add(curdate(), interval - day(curdate()) + 1 day))
+        <if test="oDate!=null">
+        and date(o.oDate)=#{oDate}
+        </if>
+        ORDER BY oDate desc
+        limit #{begin},#{count}
+    </select>
+    <select id="findMonthCount" resultType="int" parameterType="Map">
+        select count(o.oId) from orders o  where payment='已付款'
+        and  date(o.oDate) &lt;=last_day(curdate())
+        and date(o.oDate) &gt;=(select date_add(curdate(), interval - day(curdate()) + 1 day))
+        <if test="oDate!=null">
+            and date(o.oDate)=#{oDate}
+        </if>
+        ORDER BY oDate desc
+    </select>
+    <select id="findInvoice" resultType="Map" parameterType="int">
+        select o.odPrice,date(od.oDate) as oDates ,od.oDate,o.odName,od.oDesk,od.oyPrice,od.ocPrice,a.aName,od.oPrice,o.odNum
+        from orderdetails o inner join area a on o.odaid=a.aId inner join  orders od on od.oid=o.odoid
+        where  o.odoId=#{oId}
+    </select>
+    <select id="findOdoId" resultType="int" parameterType="int">
+        select odoId from orderdetails where  odId=#{odId}
+    </select>
+    <update id="UpdDetails" parameterType="Map">
+        UPDATE orderdetails set odNum=#{odNum} where odId=#{odId}
+    </update>
+    <select id="OdoIdDetails" resultType="Map" parameterType="int">
+        select * from orderdetails WHERE odoId=#{odoId}
+    </select>
+    <update id="UpdOrders" parameterType="Map">
+        UPDATE orders set oPrice=#{oPrice} where oId=#{oId}
+    </update>
+</mapper>

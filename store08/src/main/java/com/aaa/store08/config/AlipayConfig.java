@@ -10,6 +10,7 @@ public class AlipayConfig {
 	public static String notify_url = "http://localhost:8080/xm/hello/paly"; //用不到的话可以随意写
 	//Controller Mapping:得放到服务器上，且使用域名解析 IP /pay/return_url"是返回的页面
 	public static String return_url = "http://localhost:8080/xm/member/success";//支付成功具体跳转路径，这个非常重要
+	public static String returns_url = "http://localhost:8080/xm/order/success";
 	//开发者中心 / 研发服务 / 沙箱环境 / 沙箱应用/ 信息配置/ 必看部分/ 支付宝网关（注意沙箱alipaydev，正式则为 alipay）
 	public static String url = "https://openapi.alipaydev.com/gateway.do";
 		

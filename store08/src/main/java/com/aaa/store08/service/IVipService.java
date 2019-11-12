@@ -10,7 +10,7 @@ import java.util.Map;
 public interface IVipService {
     //查看会员信息
     List<Map> findall(PageVo pageVo);
-    int vipFindall();
+    int vipFindall(VipVO vipVO);
     //查看会员类型
     List<VipVO> typeFindall();
     //注册会员
@@ -23,14 +23,11 @@ public interface IVipService {
     List<Map> billsFindall(PageVo pageVo, VipVO vipVO);
     int countBills();
     //查询金额
-    public VipVO vipTwo(Integer id);
     Vip selectVip(Integer id);
     //修改金额
     int editVip(Vip vip);
     //修改会员等级
     public int UpdVip(VipVO vipVO);
-    public int UpdVipOne(VipVO vipVO);
-    public int UpdVipTwo(VipVO vipVO);
-    public int UpdVipThree(VipVO vipVO);
-    public int UpdVipFour(VipVO vipVO);
+    //查询会员信息表
+    List<Map> findVip(Map map);
 }

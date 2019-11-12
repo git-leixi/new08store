@@ -11,7 +11,7 @@ import java.util.Map;
 public interface VipMapper {
     //查看会员
     List<Map> findall(Map<String, Object> map);
-    int vipFindall();
+    int vipFindall(Map<String, Object> map);
     //查看会员类型
     List<VipVO> typeFindall();
     //注册会员账户
@@ -25,14 +25,10 @@ public interface VipMapper {
     int countBills();
     //查询金额
     Vip selectVip(Integer id);
-
-    public VipVO vipTwo(Integer id);
     //修改金额
     int editVip(Vip vip);
     //修改会员等级
     public int UpdVip(VipVO vipVO);
-    public int UpdVipOne(VipVO vipVO);
-    public int UpdVipTwo(VipVO vipVO);
-    public int UpdVipThree(VipVO vipVO);
-    public int UpdVipFour(VipVO vipVO);
+    //查询会员信息表
+    List<Map> findVip(Map<String, Object> map);
 }

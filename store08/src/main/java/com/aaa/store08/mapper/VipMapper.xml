@@ -49,25 +49,31 @@
     </select>
     <!--查询金额-->
     <select id="selectVip" resultType="Vip" parameterType="Integer">
-        select vAcount from vip where vid = #{id}
+        select vAcount,vSum from vip where vid = #{id}
     </select>
     <!--修改金额-->
     <update id="editVip" parameterType="Vip">
         update vip set  vAcount=#{vAcount},vSum=#{vSum} where vid = #{vid}
     </update>
     <update id="UpdVip" parameterType="VipVO">
-        update vip v,vtype t set v.vIdc=1 where v.vSum &lt; (select vLimit from vtype where vIdc = 2)
+        UPDATE
+        vip v,vtype t
+        SET
+        v.vIdc =
+        CASE
+        WHEN v.vSum &lt; (select vLimit from vtype where vIdc = 2) THEN '1'
+        WHEN v.vSum &gt;= (select vLimit from vtype where vIdc = 2) and v.vSum &lt; (select vLimit from vtype where vIdc = 3) THEN '2'
+        WHEN v.vSum &gt;= (select vLimit from vtype where vIdc = 3) and v.vSum &lt; (select vLimit from vtype where vIdc = 4) THEN '3'
+        WHEN v.vSum &gt;= (select vLimit from vtype where vIdc = 4) and v.vSum &lt; (select vLimit from vtype where vIdc = 5) THEN '4'
+        WHEN v.vSum &gt;= (select vLimit from vtype where vIdc = 5) THEN '5'
+        END
     </update>
-    <update id="UpdVipOne" parameterType="VipVO">
-        update vip v,vtype t set v.vIdc=2 where v.vSum &gt;= (select vLimit from vtype where vIdc = 2) and v.vSum &lt; (select vLimit from vtype where vIdc = 3)
-    </update>
-    <update id="UpdVipTwo" parameterType="VipVO">
-        update vip v,vtype t set v.vIdc=3 where v.vSum &gt;= (select vLimit from vtype where vIdc = 3) and v.vSum &lt; (select vLimit from vtype where vIdc = 4)
-    </update>
-    <update id="UpdVipThree" parameterType="VipVO">
-        update vip v,vtype t set v.vIdc=4 where v.vSum &gt;= (select vLimit from vtype where vIdc = 4) and v.vSum &lt; (select vLimit from vtype where vIdc = 5)
-    </update>
-    <update id="UpdVipFour" parameterType="VipVO">
-        update vip v,vtype t set v.vIdc=5 where v.vSum &gt;= (select vLimit from vtype where vIdc = 5)
-    </update>
+    <select id="findVip" resultType="Map" parameterType="Map">
+        select v.vid,v.vname,v.vCount,v.vAcount,v.vBeginDate,v.vPhone,v.vstate,v.vidc,v.vState,v.vSum,t.vDiscount,t.vGrade,t.vDisplay from vip v,vtype t where v.vIdc=t.vIdc
+        <if test="date1!=null || date2!=null">
+            and  SUBSTR(v.vBeginDate,1,10) BETWEEN rtrim(#{date1})  and LTRIM(#{date2})
+        </if>
+        order by  v.vBeginDate  desc
+        limit #{begin} ,#{end}
+    </select>
 </mapper>

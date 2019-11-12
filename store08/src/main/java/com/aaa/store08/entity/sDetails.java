@@ -5,27 +5,23 @@ import java.io.Serializable;
 public class sDetails implements Serializable {
     private String odname;   //商品名称
     private String odaName; //窗口名称
-    private int odprice; //菜品价格
+    private double odprice; //菜品价格
+    private int odNum;  //点菜数量
     private String vphone;//vip手机号
-    private Double oyprice;  //优惠价格
-    private Double ocprice; // 总价
-    private Double oprice; //实收金额
+    private double oyprice;  //优惠价格
+    private double ocprice; // 总价
+    private double oprice; //实收金额
     private String odesk; //桌号
-    private Double vBalance; //余额
+    private double vBalance; //余额
+    private double vAcount; //余额
     private String vname; //会员名
     private String vCount;//会员编号
     private String vGrade;  //会员等级
-    private Double vDiscount;  //折扣力度
+    private double vDiscount;  //折扣力度
     private String vDisplay;  //数值
     private String payment; //付款状态
-
-    public String getPayment() {
-        return payment;
-    }
-
-    public void setPayment(String payment) {
-        this.payment = payment;
-    }
+    private int vid;
+    private  int odid;
 
     public String getOdname() {
         return odname;
@@ -43,12 +39,20 @@ public class sDetails implements Serializable {
         this.odaName = odaName;
     }
 
-    public int getOdprice() {
+    public double getOdprice() {
         return odprice;
     }
 
-    public void setOdprice(int odprice) {
+    public void setOdprice(double odprice) {
         this.odprice = odprice;
+    }
+
+    public int getOdNum() {
+        return odNum;
+    }
+
+    public void setOdNum(int odNum) {
+        this.odNum = odNum;
     }
 
     public String getVphone() {
@@ -59,7 +63,29 @@ public class sDetails implements Serializable {
         this.vphone = vphone;
     }
 
+    public double getOyprice() {
+        return oyprice;
+    }
 
+    public void setOyprice(double oyprice) {
+        this.oyprice = oyprice;
+    }
+
+    public double getOcprice() {
+        return ocprice;
+    }
+
+    public void setOcprice(double ocprice) {
+        this.ocprice = ocprice;
+    }
+
+    public double getOprice() {
+        return oprice;
+    }
+
+    public void setOprice(double oprice) {
+        this.oprice = oprice;
+    }
 
     public String getOdesk() {
         return odesk;
@@ -69,6 +95,21 @@ public class sDetails implements Serializable {
         this.odesk = odesk;
     }
 
+    public double getvBalance() {
+        return vBalance;
+    }
+
+    public void setvBalance(double vBalance) {
+        this.vBalance = vBalance;
+    }
+
+    public double getvAcount() {
+        return vAcount;
+    }
+
+    public void setvAcount(double vAcount) {
+        this.vAcount = vAcount;
+    }
 
     public String getVname() {
         return vname;
@@ -94,11 +135,11 @@ public class sDetails implements Serializable {
         this.vGrade = vGrade;
     }
 
-    public Double getvDiscount() {
+    public double getvDiscount() {
         return vDiscount;
     }
 
-    public void setvDiscount(Double vDiscount) {
+    public void setvDiscount(double vDiscount) {
         this.vDiscount = vDiscount;
     }
 
@@ -110,37 +151,30 @@ public class sDetails implements Serializable {
         this.vDisplay = vDisplay;
     }
 
-    public Double getOyprice() {
-        return oyprice;
+    public String getPayment() {
+        return payment;
     }
 
-    public void setOyprice(Double oyprice) {
-        this.oyprice = oyprice;
+    public void setPayment(String payment) {
+        this.payment = payment;
     }
 
-    public Double getOcprice() {
-        return ocprice;
+    public int getVid() {
+        return vid;
     }
 
-    public void setOcprice(Double ocprice) {
-        this.ocprice = ocprice;
+    public void setVid(int vid) {
+        this.vid = vid;
     }
 
-    public Double getOprice() {
-        return oprice;
+    public int getOdid() {
+        return odid;
     }
 
-    public void setOprice(Double oprice) {
-        this.oprice = oprice;
+    public void setOdid(int odid) {
+        this.odid = odid;
     }
 
-    public Double getvBalance() {
-        return vBalance;
-    }
-
-    public void setvBalance(Double vBalance) {
-        this.vBalance = vBalance;
-    }
 
     @Override
     public String toString() {
@@ -148,18 +182,22 @@ public class sDetails implements Serializable {
                 "odname='" + odname + '\'' +
                 ", odaName='" + odaName + '\'' +
                 ", odprice=" + odprice +
+                ", odNum=" + odNum +
                 ", vphone='" + vphone + '\'' +
                 ", oyprice=" + oyprice +
                 ", ocprice=" + ocprice +
                 ", oprice=" + oprice +
                 ", odesk='" + odesk + '\'' +
                 ", vBalance=" + vBalance +
+                ", vAcount=" + vAcount +
                 ", vname='" + vname + '\'' +
                 ", vCount='" + vCount + '\'' +
                 ", vGrade='" + vGrade + '\'' +
                 ", vDiscount=" + vDiscount +
                 ", vDisplay='" + vDisplay + '\'' +
                 ", payment='" + payment + '\'' +
+                ", vid=" + vid +
+                ", odid=" + odid +
                 '}';
     }
 }

@@ -1,10 +1,7 @@
 package com.aaa.store08.service;
 
 
-import com.aaa.store08.entity.Order;
-import com.aaa.store08.entity.PageVo;
-import com.aaa.store08.entity.oDetails;
-import com.aaa.store08.entity.sDetails;
+import com.aaa.store08.entity.*;
 import com.aaa.store08.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,11 +48,53 @@ public class OrderServiceImpl implements OrderService {
                 orderMapper.findDetails(map);
     }
 
+    @Override
+    public int updateOrder(Integer id) {
+        return orderMapper.updateOrder(id);
+    }
+    //会员支付修改会员的余额
+    @Override
+    public int updateBalance(Vip vip) {
+        return orderMapper.updateBalance(vip);
+    }
+
+
     //根据id查询vphone
     @Override
     public String selPhone(double id) {
         return orderMapper.selPhone(id);
     }
+
+    //顾客退餐服务
+    @Override
+    public int delOdt(int id) { return orderMapper.delOdt(id); }
+    //查询 数量 单价 计算总价
+    @Override
+    public List<Map> OdoIdDetails(int id) {
+        return orderMapper.OdoIdDetails(id);
+    }
+    //查询 odoid
+    @Override
+    public int selodoid(Integer id) {
+        return orderMapper.selodoid(id);
+    }
+
+    //  修改 总价
+    @Override
+    public int updPrice(double oprice, int id) {
+
+        Map map = new HashMap();
+        map.put("oprice",oprice);
+        map.put("id",id);
+        return orderMapper.updPrice(map);
+    }
+
+    //根据id  修改 优惠价格   优惠后的价格
+    @Override
+    public int updoDetails(int id) {
+        return orderMapper.updoDetails(id);
+    }
+
 
 
 }

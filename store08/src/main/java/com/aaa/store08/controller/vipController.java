@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,16 +29,37 @@ public class vipController  extends  BaseController{
         //查看会员
         @ResponseBody
         @RequestMapping("/findall")
-        public Object vipFindall(PageVo pageVo){
+        public Object vipFindall(PageVo pageVo,String value,VipVO vipVO){
+            System.out.println(value);
+            String date1 = null;
+            String date2 = null;
+            if(value != null){
+                date1 = value.substring(0,value.indexOf('~'));
+                date2 = value.substring(value.indexOf('~')+1);
+                System.out.println(date1);
+                System.out.println(date2);
+            }
+            Map<Object,Object> map = new HashMap<Object,Object>();
+            map.put("limit",pageVo.getLimit());
+            map.put("page",pageVo.getPage());
+            map.put("date1",date1);
+            map.put("date2",date2);
+
              DataGrid dg=new DataGrid();
-             List<Map> findall = iVipService.findall(pageVo);
-             int count = iVipService.vipFindall();
+             List<Map> findall = iVipService.findVip(map);
+             int count = iVipService.vipFindall(vipVO);
+
+            for(Map m:findall){
+                m.put("count",count);
+            }
+
              dg.setCode(0);
              dg.setData(findall);
              dg.setCount(count);
              dg.setMsg("");
              return dg;
         }
+
         //查看会员类型
         @RequestMapping("/vipAdd")
         public String addVip(Model model){

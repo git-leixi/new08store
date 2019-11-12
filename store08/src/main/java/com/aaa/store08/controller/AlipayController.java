@@ -26,6 +26,7 @@ public class AlipayController {
 	String private_key = AlipayConfig.private_key;
 	String notify_url = AlipayConfig.notify_url;
 	String return_url = AlipayConfig.return_url;
+	String returns_url = AlipayConfig.returns_url;
 	String url = AlipayConfig.url;
 	String charset = AlipayConfig.charset;
 	String format = AlipayConfig.format;
@@ -40,7 +41,7 @@ public class AlipayController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/pay")
-	public void pay(HttpServletRequest request, HttpServletResponse response,String money) throws Exception {
+	public void pay(HttpServletRequest request, HttpServletResponse response,String money,String val) throws Exception {
 	// 模拟从前台传来的数据
 	String orderNo = DateUtil.getCurrentDateStr(); // 生成订单号
 	String totalAmount = money; // 支付总金额
@@ -51,7 +52,12 @@ public class AlipayController {
 	AlipayClient client = new DefaultAlipayClient(url, app_id, private_key, format, charset, public_key, signtype);
 	// 支付请求
 	AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-	alipayRequest.setReturnUrl(return_url);
+		if(val.equals("1")){
+			alipayRequest.setReturnUrl(return_url);
+		}else if(val.equals("2")){
+			alipayRequest.setReturnUrl(returns_url);
+		}
+
 	alipayRequest.setNotifyUrl(notify_url);
 	AlipayTradePayModel model = new AlipayTradePayModel();
 	model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 设置销售产品码
