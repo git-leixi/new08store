@@ -35,7 +35,7 @@
     <select id="findDetails" resultType="sDetails" parameterType="Map" >
        select distinct o.odname,o.odaName,o.odprice ,od.vphone,od.oyprice,od.ocprice,od.oprice,od.payment,od.odesk,o.odoid,o.odid
        <if test="vphone!=''">
-           ,s.vBalance,s.vname,s.vCount,s.vGrade,s.vDiscount,s.vDisplay,s.vid,s.vAcount
+            ,s.vname,s.vCount,s.vGrade,s.vDiscount,s.vDisplay,s.vid,s.vAcount
        </if>
        <if test="vphone==''">
            ,'' as vname	,'' as vGrade,'' as vDisplay
@@ -43,8 +43,8 @@
        from  orderdetails o inner join area a on o.odaid=a.aId inner join  orders od on od.oid=o.odoid
         <if test="vphone!=''">
             inner join
-            (select v.vidc,v.vphone,v.vAcount,v.vid,vb.vBalance,v.vname,v.vCount,vt.vGrade,vt.vDiscount,vt.vDisplay from
-            vip v inner join vbills vb on v.vidc = vb.vidc inner join  vtype vt on v.vidc=vt.vidc ) s on s.vPhone = od.vPhone
+            (select v.vidc,v.vphone,v.vAcount,v.vid, v.vname,v.vCount,vt.vGrade,vt.vDiscount,vt.vDisplay from
+            vip v  inner join  vtype vt on v.vidc=vt.vidc ) s on s.vPhone = od.vPhone
         </if>
              where  o.odoId=#{oid}
     </select>
