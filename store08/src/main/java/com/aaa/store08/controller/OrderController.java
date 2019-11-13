@@ -132,7 +132,6 @@ public class OrderController {
         Map<Object,Object> map = new HashMap<Object,Object>();
         map.put("oid",id);
         map.put("vphone",vphone);
-
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
         System.out.println(slist.toString());
