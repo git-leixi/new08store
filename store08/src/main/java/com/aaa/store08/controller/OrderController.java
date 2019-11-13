@@ -4,7 +4,6 @@ package com.aaa.store08.controller;
 import com.aaa.store08.entity.*;
 import com.aaa.store08.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,9 +90,9 @@ public class OrderController {
         Map<Object,Object> map = new HashMap<Object,Object>();
         map.put("oid",oids);
         map.put("vphone",vphone);
-
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
+        model.addAttribute("id",id);
         return "page/orders/oDetails";
     }
 
@@ -114,11 +113,11 @@ public class OrderController {
     }
     //会员结账，修改余额
     @RequestMapping("/balance")
-    public String updateBalance(String balance,Integer vidc,Vip vip){
-        System.out.println("测试"+vidc+"--"+balance);
+    public String updateBalance(String balance,Integer vid,Integer vipid,Vip vip){
+        System.out.println("测试"+vid+"--"+balance);
         Double after = Double.parseDouble(balance);
         vip.setvAcount(after);
-        vip.setVid(vidc);
+        vip.setVid(vid);
         orderService.updateBalance(vip);//修改会员余额
         orderService.updateOrder(oids);//修改订单状态
         return "page/index";

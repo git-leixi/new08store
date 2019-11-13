@@ -88,6 +88,7 @@
         <div class="layui-input-inline" style="left: 160px">
             <input type="text" name="vAcount" th:value="${slist[0].vAcount}"  readonly autocomplete="off" class="layui-input">
             <a  type="button"  class="layui-btn"  id="cz">充值</a>
+            <input type="text" th:value="${id}" id="vipid" th:hidden="hidden">
         </div>
         <hr>
         <div class="layui-input-inline" style="left: 780px" >
@@ -113,7 +114,7 @@
         var payment = $("input[name=payment]").val();
         var vAcount = $("input[name=vAcount]").val();
         var acount = $("input[name=acount]").val();
-        var expences = $("#expences").val();
+        var expences = $("#money").val();
         var vIdc = $("#vIdc").val();
         if(payment=="已付款"){
             alert("已付款");
@@ -127,8 +128,9 @@
                 var balance = vAcount-expences;
                 if(balance>0){
                     var vIdc = $("#vIdc").val();
+                    var vipid = $("#vipid").val();
                     alert(vIdc);
-                    window.top.location.href="../order/balance?vidc="+vIdc;
+                    window.top.location.href="../order/balance?balance="+balance+"&vid="+vIdc+"&vipid="+vipid;
                 }else{
                     alert("余额不足，请充值！");
 
