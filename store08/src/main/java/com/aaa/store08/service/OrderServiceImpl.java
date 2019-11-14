@@ -94,7 +94,14 @@ public class OrderServiceImpl implements OrderService {
     public int updoDetails(int id) {
         return orderMapper.updoDetails(id);
     }
-
-
-
+    //查看会员类型
+    @Override
+    public int vipType(Integer id) {
+        return orderMapper.vipType(id);
+    }
+    //添加一条会员消费记录
+    @Override
+    public int insertVbills(Vbills vbills) {
+        return orderMapper.insertvBills(vbills);
+    }
 }

@@ -23,7 +23,7 @@
     </update>
     <!--会员支付，修改余额-->
     <update id="updateBalance" parameterType="Vip">
-        update vip set vAcount = #{vAcount} where id=#{id}
+        update vip set vAcount = #{vAcount} where vid=#{vid}
     </update>
 
     <!--  查询所有点餐信息的条数-->
@@ -73,5 +73,13 @@
             on o.vphone=s.vphone where o.oid =#{id}) c  on o.oid = c.oid set
              o.oyPrice = c.ocPrice-(c.ocPrice*c.vdiscount),o.oPrice=o.ocPrice*c.vdiscount
     </update>
+    <!--查看会员类型-->
+    <select id="vipType" parameterType="Integer" resultType="Integer">
+        select vidc from vip where vid = #{id}
+    </select>
+    <!--添加一条会员消费记录-->
+    <insert id="insertvBills" parameterType="Vbills" >
+        insert into vbills(vBalance,vBillsdate,vComment,vid,vidc,vOrders) values(#{vBalance},now(),"会员消费",#{vid},#{vidc},#{vOrders})
+    </insert>
 
 </mapper>

@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("order")
 public class OrderController {
-    private Integer oids;
+    private Integer oids = null;
     @Autowired
     private OrderService orderService;
 
@@ -31,7 +31,6 @@ public class OrderController {
     @ResponseBody
     @RequestMapping("findOrder")
     public Object findOrder(PageVo pageVo, Order order,String value){
-        System.out.println(value);
         String date1 = null;
         String date2 = null;
         if(value != null){
@@ -82,13 +81,17 @@ public class OrderController {
 
 
     @RequestMapping("findDetails")
-    public String findDetails(int id, Model model){
-        oids = id;
-        String vphone = orderService.selPhone(oids);
+    public String findDetails(Integer id, Model model){
+        if(oids==null){
+            oids = id;
+        }else{
+            oids = id;
+        }
+        String vphone = orderService.selPhone(id);
         System.out.println(vphone);
-        System.out.println(oids);
+        System.out.println(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
-        map.put("oid",oids);
+        map.put("oid",id);
         map.put("vphone",vphone);
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
@@ -113,20 +116,27 @@ public class OrderController {
     }
     //会员结账，修改余额
     @RequestMapping("/balance")
-    public String updateBalance(String balance,Integer vid,Integer vipid,Vip vip){
-        System.out.println("测试"+vid+"--"+balance);
+    public String updateBalance(String balance,Integer vid,Integer orderid,Vip vip,Vbills vbills){
+        orderService.updateOrder(orderid);   //支付成功以后，修改订单状态
         Double after = Double.parseDouble(balance);
+        System.out.println("消费的金额"+after+"会员id"+vid+"订单id"+orderid);
+        int i = orderService.vipType(vid);              //查看会员类型
+        vbills.setvBalance(after);
+        vbills.setVid(vid);
+        vbills.setVidc(i);
+        vbills.setvOrders(orderid);
+        orderService.insertVbills(vbills);              //添加一条会员消费记录
         vip.setvAcount(after);
         vip.setVid(vid);
         orderService.updateBalance(vip);//修改会员余额
-        orderService.updateOrder(oids);//修改订单状态
+        //修改订单状态
         return "page/index";
     }
     //李
     @RequestMapping("cbOrder")
-    public String cbOrder(sDetails sDetails, int id, Model model){
+    public String cbOrder(int id, Model model){
 
-        System.out.println(id);
+        System.out.println("输出的"+id);
         String vphone = orderService.selPhone(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
         map.put("oid",id);
