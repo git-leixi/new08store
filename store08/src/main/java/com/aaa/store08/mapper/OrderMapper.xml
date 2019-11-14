@@ -33,7 +33,7 @@
 
     <!--  根据id查询vphone-->
     <select id="findDetails" resultType="sDetails" parameterType="Map" >
-       select distinct o.odname,o.odaName,o.odprice ,od.vphone,od.oyprice,od.ocprice,od.oprice,od.payment,od.odesk,o.odoid,o.odid
+       select distinct o.odname,o.odaName,o.odprice ,od.vphone,od.oyprice,od.ocprice,od.oprice,od.payment,od.odesk,o.odoid,o.odid,o.otype
        <if test="vphone!=''">
             ,s.vname,s.vCount,s.vGrade,s.vDiscount,s.vDisplay,s.vid,s.vAcount
        </if>

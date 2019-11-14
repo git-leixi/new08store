@@ -15,7 +15,7 @@
     </select>
     <!--注册会员-->
     <insert id="addVip" parameterType="VipVO">
-        insert into vip (vName,vCount,vBeginDate,vPhone,vIdc,vAcount,vState,vSum)values(#{vName},#{vCount},NOW(),#{vPhone},#{vIdc},#{vAcount},#{vState},#{vSum})
+        insert into vip (vName,vCount,vBeginDate,vPhone,vIdc,vAcount,vState,vSum,vPassword,vPpassword)values(#{vName},#{vCount},NOW(),#{vPhone},#{vIdc},#{vAcount},#{vState},#{vSum},#{vPassword},#{vPpassword})
     </insert>
     <!--查询要修改的会员信息-->
     <select id="vipOne" parameterType="Integer" resultType="VipVO">

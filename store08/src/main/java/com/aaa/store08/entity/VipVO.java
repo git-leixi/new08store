@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class VipVO implements Serializable {
+    private int vPassword;
+    private int vPpassword;
     private Integer vid;
     private String vName;
     private String vCount;
@@ -23,7 +25,9 @@ public class VipVO implements Serializable {
     @Override
     public String toString() {
         return "VipVO{" +
-                "vid=" + vid +
+                "vPassword=" + vPassword +
+                ", vPpassword=" + vPpassword +
+                ", vid=" + vid +
                 ", vName='" + vName + '\'' +
                 ", vCount='" + vCount + '\'' +
                 ", oPrice=" + oPrice +
@@ -39,6 +43,22 @@ public class VipVO implements Serializable {
                 ", vDisplay='" + vDisplay + '\'' +
                 ", vLimit=" + vLimit +
                 '}';
+    }
+
+    public int getvPassword() {
+        return vPassword;
+    }
+
+    public void setvPassword(int vPassword) {
+        this.vPassword = vPassword;
+    }
+
+    public int getvPpassword() {
+        return vPpassword;
+    }
+
+    public void setvPpassword(int vPpassword) {
+        this.vPpassword = vPpassword;
     }
 
     public Double getvLimit() {

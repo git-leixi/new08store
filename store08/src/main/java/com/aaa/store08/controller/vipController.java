@@ -110,7 +110,6 @@ public class vipController  extends  BaseController{
             String vDisplay = vtype.get(0).getvDisplay();
             double vLimit = vtype.get(0).getvLimit();
             String zong = vidc+"."+vGrade+",享受折扣："+vDisplay+",累计充值："+vLimit+"元";
-            System.out.println(zong);
             return zong;
         }
 

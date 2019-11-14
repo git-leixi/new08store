@@ -22,6 +22,15 @@ public class sDetails implements Serializable {
     private String payment; //付款状态
     private int vid;
     private  int odid;
+    private int otype;
+
+    public int getOtype() {
+        return otype;
+    }
+
+    public void setOtype(int otype) {
+        this.otype = otype;
+    }
 
     public String getOdname() {
         return odname;
@@ -198,6 +207,7 @@ public class sDetails implements Serializable {
                 ", payment='" + payment + '\'' +
                 ", vid=" + vid +
                 ", odid=" + odid +
+                ", otype=" + otype +
                 '}';
     }
 }

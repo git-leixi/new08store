@@ -49,14 +49,14 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             //layer.msg(data.oId);
             if(layEvent === 'detail'){
-                layer.msg('ID：'+ data.oId + ' 的查看操作');
+                //layer.msg('ID：'+ data.oId + ' 的查看操作');
                 layer.open({
                     type: 2,
                     title: '查询详细信息',
                     maxmin: true,
                     area: ['950px', '600px'],
                     shadeClose: false, //点击遮罩关闭
-                    content: '../../order/findDetails?id='+data.oId
+                    content: '../../perform/findDetails?id='+data.oId
                 })
             } else if(layEvent === 'edit'){
                 layer.alert('编辑行：<br>'+ JSON.stringify(data))

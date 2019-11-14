@@ -27,6 +27,20 @@
                 <input type="text" id="vAcount" style="width: 230px"  required  lay-verify="required" autocomplete="off" placeholder="请输入会员的金额" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="vPassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">请输入六位数字</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登陆密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="vPpassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">辅助文字</div>
+        </div>
         <div class="layui-btn-group">
             <button type="button"   class="layui-btn layui-btn-primary layui-btn-sm" style="left: 80px">请选择充值金额</button>
             <button type="button" onclick="czje(500)" class="layui-btn layui-btn-primary layui-btn-sm">500</button>
@@ -39,13 +53,8 @@
             <label class="layui-form-label">会员类型</label>
             <div class="layui-input-block" style="width: 250px">
                 <input type="text" id="vGrade" readonly  style="width: 350px"  lay-verify="required" autocomplete="off" placeholder="会员等级" class="layui-input">
-                <input type="hidden" id="vIdc"  class="layui-input">
+                <input type="text" id="vIdc"  class="layui-input">
 
-                <!--   下拉框 等级查询
-                <select id="vIdc"  lay-filter="aihao">
-                    <option th:each="t:${typeFindall}"  readonly="readonly" th:value="${t.vIdc}" th:text="|${t.vGrade},  最低消费金额: ${t.vLimit}元|"></option>
-
-                </select>-->
             </div>
         </div>
 
@@ -62,19 +71,22 @@
     //  按钮值 绑定在 充值金额框
     function  czje(data1) {
         $("#vAcount").val(data1);
+
         $.ajax({
             url:"../vip/selVid",
             type:"post",
             async:false,
             data:{
                 vAcount:data1,
+
             },
             dataType:"text",
             success:function(data){
-               var ix =  data.indexOf(".");
-               var vidc =  data.substring(0,ix);
-                $("#vGrade").val(data);
+                var ix =  data.indexOf(".");
+                var vidc =  data.substring(0,ix);
                 $("#vIdc").val(vidc);
+               $("#vGrade").val(data);
+
             }
         });
     }
@@ -90,6 +102,9 @@
             var vPhone = $("#vPhone").val();
             var vAcount = $("#vAcount").val();
             var vIdc = $("#vIdc").val();
+            var vPpassword = $("#vPpassword").val();
+            var vPassword = $("#vPassword").val();
+
             $.ajax({
                 url:"../vip/addVip",
                 type:"post",
@@ -99,6 +114,8 @@
                     vPhone:vPhone,
                     vIdc:vIdc,
                     vAcount:vAcount,
+                    vPassword:vPassword,
+                    vPpassword:vPpassword
                 },
                 dataType:"json",
                 success:function(data){
@@ -133,6 +150,9 @@
                 dataType:"text",
                 success:function(data){
                     $("#vGrade").val(data);
+                    var ix =  data.indexOf(".");
+                    var vidc =  data.substring(0,ix);
+                    $("#vIdc").val(vidc);
 
                 }
             });
