@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.PerformMapper">
+
+     <!--菜完成  改变这个菜的状态 -->
+    <update id="updMenu" parameterType="int">
+        update orderdetails set otype=1 where odid= #{odid}
+    </update>
+    <!--    根据菜品菜品名字 去查询所属区域  然后找到 负责这个区域并在职的员工
+    List<Employee> selEmp(String eName);-->
+    <select id="selEmp" parameterType="int" resultType="Employee">
+		select * from employee where earea in (select aid from area where aname=(select odaname from orderdetails where odid = #{odid})) and estate =1
+    </select>
+</mapper>
