@@ -36,8 +36,6 @@ public class OrderController {
         if(value != null){
             date1 = value.substring(0,value.indexOf('~'));
             date2 = value.substring(value.indexOf('~')+1);
-            System.out.println(date1);
-            System.out.println(date2);
         }
         DataGrid dg = new DataGrid();
         Map<Object,Object> map = new HashMap<Object,Object>();
@@ -53,7 +51,6 @@ public class OrderController {
         for(Map m:orderList){
             m.put("count",count);
         }
-        System.out.println(orderList);
         dg.setCount(count);
         dg.setCode(0);
         dg.setMsg("");
@@ -67,10 +64,8 @@ public class OrderController {
         int count = orderService.findCount(order);
         HttpSession session = request.getSession();
         int a=0;
-        System.out.println(session.getAttribute("count"));
         if(session==null){
             session.setAttribute("count",count);
-            System.out.println(session.getAttribute("count"));
             a= (int) session.getAttribute("count");
         }else if(session!=null&&a!=count){
             session.setAttribute("count",count);
@@ -88,8 +83,6 @@ public class OrderController {
             oids = id;
         }
         String vphone = orderService.selPhone(id);
-        System.out.println(vphone);
-        System.out.println(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
         map.put("oid",id);
         map.put("vphone",vphone);
@@ -119,7 +112,6 @@ public class OrderController {
     public String updateBalance(String balance,Integer vid,Integer orderid,Vip vip,Vbills vbills){
         orderService.updateOrder(orderid);   //支付成功以后，修改订单状态
         Double after = Double.parseDouble(balance);
-        System.out.println("消费的金额"+after+"会员id"+vid+"订单id"+orderid);
         int i = orderService.vipType(vid);              //查看会员类型
         vbills.setvBalance(after);
         vbills.setVid(vid);
@@ -135,15 +127,12 @@ public class OrderController {
     //李
     @RequestMapping("cbOrder")
     public String cbOrder(int id, Model model){
-
-        System.out.println("输出的"+id);
         String vphone = orderService.selPhone(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
         map.put("oid",id);
         map.put("vphone",vphone);
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
-        System.out.println(slist.toString());
         return "page/orders/cbOrder";
     }
 
@@ -172,12 +161,9 @@ public class OrderController {
                 oprice+=num++;
 
             }
-            System.out.println(oprice);
             int sss = orderService.updPrice(oprice, selodoid);
-            System.out.println(sss);
             //根据id  修改 优惠价格   优惠后的价格
             orderService.updoDetails(selodoid);
-            System.out.println("12121");
             maps.put("result",1);
         }else{
             maps.put("result",0);

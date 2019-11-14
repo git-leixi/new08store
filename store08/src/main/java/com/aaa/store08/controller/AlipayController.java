@@ -57,7 +57,6 @@ public class AlipayController {
 		}else if(val.equals("2")){
 			alipayRequest.setReturnUrl(returns_url);
 		}
-
 	alipayRequest.setNotifyUrl(notify_url);
 	AlipayTradePayModel model = new AlipayTradePayModel();
 	model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 设置销售产品码

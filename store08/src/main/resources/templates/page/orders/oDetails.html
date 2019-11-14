@@ -74,7 +74,7 @@
         </div>
 
     </div>
-    <div class="layui-input-inline" >
+    <div class="layui-input-inline" style="display:none;">
         <select id="vIdc"  lay-filter="aihao">
             <option th:each="s:${slist}" th:value="${s.vid}"></option>
         </select>
@@ -92,7 +92,7 @@
         </div>
         <hr>
         <div class="layui-input-inline" style="left: 780px" >
-            <input type="submit"  class="layui-btn" id="accounts" value="结账》》》">
+            <input type="button"  class="layui-btn" id="accounts" value="结账》》》">
         </div>
 
     </div>
@@ -100,14 +100,33 @@
 
 
 <script type="text/javascript" th:inline="none">
+    layui.use(['table','layer','util','laydate','jquery'], function() {
+        var layer = layui.layer;
     $("#cz").on('click',function(){
         var acount = $("input[name=acount]").val();
         if(acount=="顾客不是会员"){
             alert("请注册会员!")
-            window.location.href="../vip/vipAdd";
+            layer.open({
+                type: 2,
+                title: '会员信息注册',
+                maxmin: true,
+                area: ['500px', '500px'],
+                shadeClose: false, //点击遮罩关闭
+                content: '../vip/vipAdd',
+            });
         }else{
-            var vIdc = $("#vIdc").val();
-            window.top.location="../member/pay?vcount="+vIdc;
+                var vIdc = $("#vIdc").val();
+                layer.open({
+                    type: 2,
+                    skin: 'layui-layer-demo', //样式类名
+                    title: '充值页面',
+                    closeBtn: 1, //显示关闭按钮
+                    anim: 2,
+                    area: ['300px', '150px'],
+                    shadeClose: true, //开启遮罩关闭
+                    content: '../member/pay?vcount=' + vIdc
+                });
+
         }
     });
     $("#accounts").on('click',function(){
@@ -122,24 +141,44 @@
             parent.layer.close(index);
         }else{
             if(acount=="顾客不是会员"){
-                window.top.location.href="../order/alipay?money="+expences;
+                layer.open({
+                    type: 2,
+                    skin: 'layui-layer-demo', //样式类名
+                    title: '付款页面',
+                    closeBtn: 1, //显示关闭按钮
+                    anim: 2,
+                    area: ['300px', '150px'],
+                    shadeClose: true, //开启遮罩关闭
+                    content: '../order/alipay?money='+expences
+                });
             }else{
                 var balance = vAcount-expences;
                 if(balance>0){
-                    var vIdc = $("#vIdc").val();
-                    var orderid = $("#orderid").val();
-                    alert(vIdc);
-                    window.top.location.href="../order/balance?balance="+balance+"&vid="+vIdc+"&orderid="+orderid;
+                    layer.confirm("确定要付款吗？", {btn: ['确定', '取消'], title: "提示"}, function () {
+                        var vIdc = $("#vIdc").val();
+                        var orderid = $("#orderid").val();
+                        window.top.location.href="../order/balance?balance="+balance+"&vid="+vIdc+"&orderid="+orderid;
+                    });
 
                 }else{
                     alert("余额不足，请充值！");
-                    window.top.location="../member/pay?vcount="+vIdc;
+                    var vIdc = $("#vIdc").val();
+                    layer.open({
+                        type: 2,
+                        skin: 'layui-layer-demo', //样式类名
+                        title: '充值页面',
+                        closeBtn: 1, //显示关闭按钮
+                        anim: 2,
+                        area: ['300px', '150px'],
+                        shadeClose: true, //开启遮罩关闭
+                        content: '../member/pay?vcount=' + vIdc
+                    });
                 }
 
             }
         }
 
-
+    });
     });
 </script>
 <body>
