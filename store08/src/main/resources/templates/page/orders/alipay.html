@@ -7,8 +7,8 @@
     <script src="../common/layui/layui.js"></script>
 </head>
 <body>
-        <form action="../alipay/pay">
-            <div class="layui-input-block">
+        <form action="../alipay/pay" id="fm">
+            <div class="layui-input-block" id="dvd">
                 <input type="text" name="money" readonly th:value="${money}"  id="money"  style="width: 180px" placeholder="请输入金额" class="layui-input">
             </div>
             <input th:value="2" name="val" id="val" style="display: none">
@@ -17,15 +17,22 @@
         </form>
 </body>
 <style type="text/css">
+    #fm{
+        position: absolute;
+    }
+    #dvd{
+        position: relative;
+        left: -50px;
+    }
     #accounts{
         position: relative;
         top:20px;
-        left: 45px;
+        left: 59px;
     }
     #qx{
         position: relative;
         top:20px;
-        left: 56px;
+        left: 77px;
     }
 </style>
 <script type="text/javascript">

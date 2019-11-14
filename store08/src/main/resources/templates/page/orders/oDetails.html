@@ -106,17 +106,23 @@
         var acount = $("input[name=acount]").val();
         if(acount=="顾客不是会员"){
             alert("请注册会员!")
-            window.location.href="../vip/vipAdd";
+            layer.open({
+                type: 2,
+                title: '会员信息注册',
+                maxmin: true,
+                area: ['500px', '500px'],
+                shadeClose: false, //点击遮罩关闭
+                content: '../vip/vipAdd',
+            });
         }else{
                 var vIdc = $("#vIdc").val();
-                alert(vIdc);
                 layer.open({
                     type: 2,
                     skin: 'layui-layer-demo', //样式类名
                     title: '充值页面',
                     closeBtn: 1, //显示关闭按钮
                     anim: 2,
-                    area: ['400px', '150px'],
+                    area: ['300px', '150px'],
                     shadeClose: true, //开启遮罩关闭
                     content: '../member/pay?vcount=' + vIdc
                 });
@@ -138,20 +144,22 @@
                 layer.open({
                     type: 2,
                     skin: 'layui-layer-demo', //样式类名
-                    title: '充值页面',
+                    title: '付款页面',
                     closeBtn: 1, //显示关闭按钮
                     anim: 2,
-                    area: ['400px', '150px'],
+                    area: ['300px', '150px'],
                     shadeClose: true, //开启遮罩关闭
                     content: '../order/alipay?money='+expences
                 });
             }else{
                 var balance = vAcount-expences;
                 if(balance>0){
-                    var vIdc = $("#vIdc").val();
-                    var orderid = $("#orderid").val();
-                    alert(vIdc);
-                    window.top.location.href="../order/balance?balance="+balance+"&vid="+vIdc+"&orderid="+orderid;
+                    layer.confirm("确定要付款吗？", {btn: ['确定', '取消'], title: "提示"}, function () {
+                        var vIdc = $("#vIdc").val();
+                        var orderid = $("#orderid").val();
+                        window.top.location.href="../order/balance?balance="+balance+"&vid="+vIdc+"&orderid="+orderid;
+                    });
+
                 }else{
                     alert("余额不足，请充值！");
                     var vIdc = $("#vIdc").val();
@@ -161,7 +169,7 @@
                         title: '充值页面',
                         closeBtn: 1, //显示关闭按钮
                         anim: 2,
-                        area: ['400px', '150px'],
+                        area: ['300px', '150px'],
                         shadeClose: true, //开启遮罩关闭
                         content: '../member/pay?vcount=' + vIdc
                     });
