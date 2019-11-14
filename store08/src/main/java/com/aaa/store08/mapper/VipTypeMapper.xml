@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.VipTypeMapper">
+    <select id="findCount" resultType="int">
+        select count(vIdc) from vtype
+    </select>
+    <select id="VipTypeAll"  parameterType="map"   resultType="map">
+        select vIdc,vDiscount,vGrade,vDisplay,vLimit from vtype order by vIdc limit #{begin},#{count}
+    </select>
+    <insert id="AddVType" parameterType="VipType">
+        insert into vtype(vDiscount,vGrade,vDisplay,vLimit) values(#{vDiscount},#{vGrade},#{vDisplay},#{vLimit})
+    </insert>
+    <delete id="DelVType" parameterType="Integer">
+        delete from vtype where vIdc = #{vIdc}
+    </delete>
+    <update id="UpdVType" parameterType="VipType">
+        update vtype set vDiscount = #{vDiscount},vGrade = #{vGrade},vDisplay = #{vDisplay},vLimit = #{vLimit} where vIdc = #{vIdc}
+    </update>
+    <select id="SelVType" parameterType="Integer" resultType="VipType">
+        select vIdc,vDiscount,vGrade,vDisplay,vLimit from vtype where vIdc = #{vIdc}
+    </select>
+    <select id="Seltype" resultType="VipType">
+        select * from vtype
+    </select>
+</mapper>
