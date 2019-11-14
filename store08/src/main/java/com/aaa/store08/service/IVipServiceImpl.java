@@ -102,4 +102,10 @@ public class IVipServiceImpl  implements  IVipService{
     public int UpdVip(VipVO vipVO) {
         return vipMapper.UpdVip(vipVO);
     }
+
+    //根据充值金额 查询等级id
+    @Override
+    public List<VipVO> selVid(Integer vlimit) {
+        return vipMapper.selVid(vlimit);
+    }
 }

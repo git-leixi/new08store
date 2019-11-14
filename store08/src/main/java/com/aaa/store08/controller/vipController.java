@@ -74,6 +74,8 @@ public class vipController  extends  BaseController{
             Date date = new Date();
             SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
             String dates = dateFormat.format(date);
+            System.out.println(vipVO.getvIdc());
+            vipVO.setvState(1);
             vipVO.setvCount(dates);
             vipVO.setvSum(vipVO.getvAcount());
             int success = iVipService.addVip(vipVO);
@@ -94,6 +96,22 @@ public class vipController  extends  BaseController{
         public Object vipEdit_do(VipVO vipVO){
             int success = iVipService.updateVip(vipVO);
             return success;
+        }
+
+        //根据 充值金额 去查询 等级id
+        @ResponseBody
+        @RequestMapping("/selVid")
+        public Object selVid(Integer vAcount,Model model){
+            System.out.println("vlimit:"+vAcount);
+            List<VipVO> vtype = iVipService.selVid(vAcount);
+            Integer vidc = vtype.get(0).getvIdc();
+            //double vDiscount = vtype.get(0).getvDiscount();
+            String vGrade = vtype.get(0).getvGrade();
+            String vDisplay = vtype.get(0).getvDisplay();
+            double vLimit = vtype.get(0).getvLimit();
+            String zong = vidc+"."+vGrade+",享受折扣："+vDisplay+",累计充值："+vLimit+"元";
+            System.out.println(zong);
+            return zong;
         }
 
 
