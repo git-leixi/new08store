@@ -3,7 +3,9 @@ package com.aaa.store08.controller;
 import com.aaa.store08.entity.DataGrid;
 import com.aaa.store08.entity.PageVo;
 import com.aaa.store08.entity.VipType;
+import com.aaa.store08.entity.VipVO;
 import com.aaa.store08.mapper.VipTypeMapper;
+import com.aaa.store08.service.IVipService;
 import com.aaa.store08.service.VipTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,8 @@ import java.util.Map;
 public class VipTypeController {
     @Autowired
     private VipTypeService vs;
-
+    @Autowired
+    private IVipService iVipService;
     @ResponseBody
     @RequestMapping("SelVType")
     public Object SelFood(PageVo pageVo) {
@@ -60,8 +63,9 @@ public class VipTypeController {
 
     @ResponseBody
     @RequestMapping("UpdVType")
-    public Object UpdVType(VipType vipType){
+    public Object UpdVType(VipType vipType, VipVO vipVO){
         int success = vs.UpdVType(vipType);
+        iVipService.UpdVip(vipVO);
         return success;
     }
 
