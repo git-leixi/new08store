@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.StatMapper">
+    <select id="findOdName" resultType="Map">
+      select odId,odName,odPrice,sum(odNum) as num from orderdetails GROUP  BY odName ORDER BY num desc
+    </select>
+    <select id="findMonthCount" resultType="int" >
+        select count(o.oId) as num from orders o  where payment='已付款'
+        and  date(o.oDate) &lt;=last_day(curdate())
+        and date(o.oDate) &gt;=(select date_add(curdate(), interval - day(curdate()) + 1 day))
+    </select>
+    <select id="AreaRanking" resultType="Map">
+        select aId, aName,oprice ,
+        @rank :=@rank + 1 AS ranking from (
+        select aId, aName,sum(oprice) oprice FROM orders o INNER JOIN area a on o.oArea=a.aId
+        GROUP  BY a.aName ORDER BY oprice desc) o
+        ,(SELECT @rank := 0) B
+    </select>
+</mapper>
