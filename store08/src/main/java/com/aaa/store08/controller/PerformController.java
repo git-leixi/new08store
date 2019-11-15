@@ -44,6 +44,24 @@ public class PerformController {
         return "page/orders/oPerform";
     }
 
+    //查询详细  信息
+    @RequestMapping("tfindDetails")
+    public String tfindDetails(Integer id, Model model){
+        if(oids==null){
+            oids = id;
+        }else{
+            oids = id;
+        }
+        String vphone = orderService.selPhone(id);
+        Map<Object,Object> map = new HashMap<Object,Object>();
+        map.put("oid",id);
+        map.put("vphone",vphone);
+        List<sDetails> slist = orderService.findDetails(map);
+        model.addAttribute("slist",slist);
+        model.addAttribute("id",id);
+        return "page/orders/oPperform";
+    }
+
     @ResponseBody
     @RequestMapping("updME")
     public Object updME(int odid){
