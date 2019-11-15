@@ -4,7 +4,6 @@ package com.aaa.store08.controller;
 import com.aaa.store08.entity.*;
 import com.aaa.store08.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("order")
 public class OrderController {
-    private Integer oids;
+    private Integer oids = null;
     @Autowired
     private OrderService orderService;
 
@@ -32,14 +31,11 @@ public class OrderController {
     @ResponseBody
     @RequestMapping("findOrder")
     public Object findOrder(PageVo pageVo, Order order,String value){
-        System.out.println(value);
         String date1 = null;
         String date2 = null;
         if(value != null){
             date1 = value.substring(0,value.indexOf('~'));
             date2 = value.substring(value.indexOf('~')+1);
-            System.out.println(date1);
-            System.out.println(date2);
         }
         DataGrid dg = new DataGrid();
         Map<Object,Object> map = new HashMap<Object,Object>();
@@ -55,7 +51,6 @@ public class OrderController {
         for(Map m:orderList){
             m.put("count",count);
         }
-        System.out.println(orderList);
         dg.setCount(count);
         dg.setCode(0);
         dg.setMsg("");
@@ -69,10 +64,8 @@ public class OrderController {
         int count = orderService.findCount(order);
         HttpSession session = request.getSession();
         int a=0;
-        System.out.println(session.getAttribute("count"));
         if(session==null){
             session.setAttribute("count",count);
-            System.out.println(session.getAttribute("count"));
             a= (int) session.getAttribute("count");
         }else if(session!=null&&a!=count){
             session.setAttribute("count",count);
@@ -83,17 +76,19 @@ public class OrderController {
 
 
     @RequestMapping("findDetails")
-    public String findDetails(int id, Model model){
-        oids = id;
-        String vphone = orderService.selPhone(oids);
-        System.out.println(vphone);
-        System.out.println(oids);
+    public String findDetails(Integer id, Model model){
+        if(oids==null){
+            oids = id;
+        }else{
+            oids = id;
+        }
+        String vphone = orderService.selPhone(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
-        map.put("oid",oids);
+        map.put("oid",id);
         map.put("vphone",vphone);
-
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
+        model.addAttribute("id",id);
         return "page/orders/oDetails";
     }
 
@@ -114,27 +109,30 @@ public class OrderController {
     }
     //会员结账，修改余额
     @RequestMapping("/balance")
-    public String updateBalance(String balance,Integer vidc,Vip vip){
-        System.out.println("测试"+vidc+"--"+balance);
+    public String updateBalance(String balance,Integer vid,Integer orderid,Vip vip,Vbills vbills){
+        orderService.updateOrder(orderid);   //支付成功以后，修改订单状态
         Double after = Double.parseDouble(balance);
+        int i = orderService.vipType(vid);              //查看会员类型
+        vbills.setvBalance(after);
+        vbills.setVid(vid);
+        vbills.setVidc(i);
+        vbills.setvOrders(orderid);
+        orderService.insertVbills(vbills);              //添加一条会员消费记录
         vip.setvAcount(after);
-        vip.setVid(vidc);
+        vip.setVid(vid);
         orderService.updateBalance(vip);//修改会员余额
-        orderService.updateOrder(oids);//修改订单状态
+        //修改订单状态
         return "page/index";
     }
     //李
     @RequestMapping("cbOrder")
-    public String cbOrder(sDetails sDetails, int id, Model model){
-
-        System.out.println(id);
+    public String cbOrder(int id, Model model){
         String vphone = orderService.selPhone(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
         map.put("oid",id);
         map.put("vphone",vphone);
         List<sDetails> slist = orderService.findDetails(map);
         model.addAttribute("slist",slist);
-        System.out.println(slist.toString());
         return "page/orders/cbOrder";
     }
 
@@ -163,12 +161,9 @@ public class OrderController {
                 oprice+=num++;
 
             }
-            System.out.println(oprice);
             int sss = orderService.updPrice(oprice, selodoid);
-            System.out.println(sss);
             //根据id  修改 优惠价格   优惠后的价格
             orderService.updoDetails(selodoid);
-            System.out.println("12121");
             maps.put("result",1);
         }else{
             maps.put("result",0);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,10 +13,10 @@
 <table class="layui-hide" id="orders" lay-filter="orders"></table>
 </body>
 <script>
-    layui.use('table', function() {
+    layui.use(['table','util'], function() {
         var table = layui.table
             , form = layui.form;
-
+        var util = layui.util;
         table.render({
             elem: "#orders",//表格table的id属性
             url: "../../Orders/findOrders", //请求数据接口
@@ -31,7 +31,11 @@
                 {field: 'aName', title: '所属区域', align: 'center'},
                 {field: 'oDesk', title: "桌号", align: 'center'},
                 {field: 'oId', title: "编号", align: 'center'},
-                {field: 'oDate', title: "时间", align: 'center'},
+                {field : 'oDate',title: '日期', width:'20%',align:'center',sort: true,
+                    templet:function(d){
+                        return util.toDateString(d.oDate, "yyyy-MM-dd HH:mm:ss")
+                    }
+                },
                 {field: 'oPrice', title: "应付款", align: 'center' },
                 {field: 'ocPrice', title: '原价',  align: 'center'},
                 {field: 'vPhone', title: "手机号", align: 'center'},
@@ -45,14 +49,14 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             //layer.msg(data.oId);
             if(layEvent === 'detail'){
-                layer.msg('ID：'+ data.oId + ' 的查看操作');
+                //layer.msg('ID：'+ data.oId + ' 的查看操作');
                 layer.open({
                     type: 2,
                     title: '查询详细信息',
                     maxmin: true,
                     area: ['950px', '600px'],
                     shadeClose: false, //点击遮罩关闭
-                    content: '../../order/findDetails?id='+data.oId
+                    content: '../../perform/findDetails?id='+data.oId
                 })
             } else if(layEvent === 'edit'){
                 layer.alert('编辑行：<br>'+ JSON.stringify(data))

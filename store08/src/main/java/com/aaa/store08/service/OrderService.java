@@ -1,6 +1,7 @@
 package com.aaa.store08.service;
 
 import com.aaa.store08.entity.Order;
+import com.aaa.store08.entity.Vbills;
 import com.aaa.store08.entity.Vip;
 import com.aaa.store08.entity.sDetails;
 
@@ -33,4 +34,8 @@ public interface OrderService {
     int updPrice(double oprice,int id );
     //根据id  修改 优惠价格   优惠后的价格
     int updoDetails(int id);
+    //查看会员类型
+    int vipType(Integer id);
+    //添加一条会员消费记录
+    int insertVbills(Vbills vbills);
 }

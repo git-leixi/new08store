@@ -56,9 +56,7 @@
         //第一个实例
         var tableIns =   table.render({
             elem: '#demo'
-            ,cellMinWidth: 312
             ,url: "../vip/findall" //数据接口
-            ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,initSort: {
                 field: 'vId' //排序字段，对应 cols 设定的各字段名
                 ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
@@ -69,27 +67,15 @@
             ,toolbar:"#staffInster"
             ,cols: [ //表头
                 [
-                    {field: 'vid', title: 'ID', width:80, sort: true}
-                    ,{field: 'vname', title: '会员姓名', width:120,align:'center'}
-                    ,{field: 'vCount', title: '会员编号', width:120,align:'center', sort: true}
-                    ,{field: 'vPhone', title: '手机号码', width:120,align:'center', sort: true}
-                    ,{field: 'vBeginDate', title: '创建时间', width:220,align:'center',sort: true,templet:function(d){return util.toDateString(d.vBeginDate, "yyyy-MM-dd HH:mm:ss")}}
-                    ,{field: 'vDiscount', title: '折扣力度', width:130,align:'center', sort: true,templet:function(d){
-                        if(d.vDiscount==1){
-                            return '无优惠';
-                        }else if(d.vDiscount==0.9){
-                            return '九折';
-                        }else if(d.vDiscount==0.8){
-                            return '八折';
-                        }else if(d.vDiscount==0.7){
-                            return '七折';
-                        }
-                        else if(d.vDiscount==0.5){
-                            return '五折';
-                        }
-                    }}
-                    ,{field: 'vGrade', title: '会员等级', width:120,align:'center', sort: true}
-                    ,{field: 'vState', title: '会员状态', width:130,align:'center', sort: true,templet:function(d){
+                    {field: 'vid', title: 'ID',  sort: true}
+                    ,{field: 'vname', title: '会员姓名', align:'center'}
+                    ,{field: 'vCount', title: '会员编号',align:'center', sort: true}
+                    ,{field: 'vPhone', title: '手机号码',align:'center', sort: true}
+                    ,{field: 'vBeginDate', title: '创建时间',align:'center',sort: true,templet:function(d){return util.toDateString(d.vBeginDate, "yyyy-MM-dd HH:mm:ss")}}
+                    ,{field: 'vDiscount', title: '折扣力度', align:'center', sort: true
+                    }
+                    ,{field: 'vGrade', title: '会员等级', align:'center', sort: true}
+                    ,{field: 'vState', title: '会员状态',align:'center', sort: true,templet:function(d){
                         if(d.vState==0){
                             return '未启用';
                         }else if(d.vState==1){
@@ -100,9 +86,9 @@
                             return "挂失";
                         }
                     }}
-                    ,{field: 'vAcount', title: '余额', width:120,align:'center', sort: true}
-                    ,{field: 'vSum', title: '充值总计', width:120,align:'center', sort: true}
-                    ,{field : "action",title : "操作",width:130,align:'center',toolbar: '#barDemo'}
+                    ,{field: 'vAcount', title: '余额', align:'center', sort: true}
+                    ,{field: 'vSum', title: '充值总计', align:'center', sort: true}
+                    ,{field : "action",title : "操作",align:'center',toolbar: '#barDemo'}
                 ]
             ]
 
@@ -112,13 +98,25 @@
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent=='detail'){
                 var vcount = data.vid;
-                window.top.location="../member/pay?vcount="+vcount;
+                layui.use(['table','layer','util','laydate','jquery'], function() {
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 2,
+                        skin: 'layui-layer-demo', //样式类名
+                        title: '充值页面',
+                        closeBtn: 1, //显示关闭按钮
+                        anim: 2,
+                        area: ['350px', '150px'],
+                        shadeClose: true, //开启遮罩关闭
+                        content: '../member/pay?vcount=' + vcount
+                    });
+                });
             }else if(layEvent === 'edit'){
                 var data = obj.data;
                 var id = data.vid;
                 layer.open({
                     type:2,
-                    title:'编辑员工信息',
+                    title:'编辑会员信息',
                     maxmin: true,
                     area: ['500px', '500px'],
                     shadeClose: false, //点击遮罩关闭
@@ -129,7 +127,7 @@
         $("#add").on('click',function(){
             layer.open({
                 type: 2,
-                title: '添加员工信息',
+                title: '会员信息注册',
                 maxmin: true,
                 area: ['500px', '500px'],
                 shadeClose: false, //点击遮罩关闭

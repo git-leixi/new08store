@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+
+
+</head>
+<body>
+<button id="return" class="layui-btn" type="button">返回</button>
+<script type="text/html" id="vipInster">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-sm" id="add"><i class="layui-icon"></i></button>
+    </div>
+
+</script>
+<table class="layui-hide" id="dg" lay-filter="dg"></table>
+<script id="barDemo" type="text/html">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+<script>
+    layui.use(['table','util'], function(){
+        var util = layui.util;
+        $ = layui.jquery;
+        var table = layui.table;
+        table.render({
+            elem: "#dg",//表格table的id属性
+            url: "../VType/SelVType", //请求数据接口
+            limits: [10,20,30],
+            limit:10,//要传向后台的每页显示条数
+            //,page:true(自带的这个要注掉)
+            page:true,
+            title: '查询所有信息',
+            /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            toolbar: '#vipInster',
+            cols: [ [
+                {field : 'vIdc', title : "优惠等级编号",align:'center', sort: true},
+                {field : 'vGrade', title : "会员等级",align:'center', sort: true},
+                {field : 'vDisplay', title:"优惠程度",align:'center', sort: true},
+                {field : 'vLimit', title : "等级额度",align:'center', sort: true},
+                {field : "action",title : "操作",width:130,align:'center',toolbar: '#barDemo'}
+
+            ] ]
+
+        });
+
+        table.on('tool(dg)', function(obj){
+            var data = obj.data;
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            //layer.msg(data.oId);
+            if(layEvent === 'delete'){
+                    layer.confirm('您确定要删除吗？', {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                        layui.use('jquery',function () {
+                            var $ = layui.$;
+                            $.ajax({
+                                type:'post',
+                                url:'../VType/DelVType',
+                                data:{
+                                    vIdc:data.vIdc
+                                },
+                            });
+                            setTimeout('window.location.reload()',0);
+                        });
+                    }, function(){
+                        layer.msg('取消删除', {
+                            time: 1000, //1s后自动关闭
+                        });
+                    });
+            } else if(layEvent === 'edit'){
+                var data = obj.data;
+                var vIdc = data.vIdc;
+                layer.open({
+                    type: 2,
+                    title: '修改会员等级',
+                    maxmin: true,
+                    area: ['500px', '500px'],
+                    shadeClose: false, //点击遮罩关闭
+                    content: '../VType/ToUpdVType?vIdc='+vIdc,
+                });
+            }
+        });
+
+        $("#add").on('click',function(){
+            layer.open({
+                type: 2,
+                title: '添加会员等级',
+                maxmin: true,
+                area: ['450px', '450px'],
+                shadeClose: false, //点击遮罩关闭
+                content: '../VType/ToAddVType',
+            });
+        });
+
+    });
+</script>
+</body>
+
+</html>

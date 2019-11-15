@@ -24,26 +24,40 @@
         <div class="layui-form-item">
             <label class="layui-form-label">会员金额</label>
             <div class="layui-input-block">
-                <input type="text" id="vAcount"  style="width: 230px"  required  lay-verify="required" autocomplete="off" placeholder="请输入会员的金额" class="layui-input">
+                <input type="text" id="vAcount" style="width: 230px"  required  lay-verify="required" autocomplete="off" placeholder="请输入会员的金额" class="layui-input">
             </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="vPassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">请输入六位数字</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登陆密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="vPpassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">辅助文字</div>
+        </div>
+        <div class="layui-btn-group">
+            <button type="button"   class="layui-btn layui-btn-primary layui-btn-sm" style="left: 80px">请选择充值金额</button>
+            <button type="button" onclick="czje(500)" class="layui-btn layui-btn-primary layui-btn-sm">500</button>
+            <button type="button" onclick="czje(800)" class="layui-btn layui-btn-primary layui-btn-sm">800</button>
+            <button type="button" onclick="czje(1200)" class="layui-btn layui-btn-primary layui-btn-sm">1200</button>
+            <button type="button" onclick="czje(2000)" class="layui-btn layui-btn-primary layui-btn-sm">2000</button>
+            <button type="button" onclick="czje(3000)" class="layui-btn layui-btn-primary layui-btn-sm">3000</button>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">会员类型</label>
-            <div class="layui-input-block" style="width: 180px">
-                <select id="vIdc"  lay-filter="aihao">
-                    <option th:each="t:${typeFindall}" th:value="${t.vIdc}" th:text="${t.vGrade}"></option>
-                </select>
+            <div class="layui-input-block" style="width: 250px">
+                <input type="text" id="vGrade" readonly  style="width: 350px"  lay-verify="required" autocomplete="off" placeholder="会员等级" class="layui-input">
+                <input type="text" id="vIdc"  class="layui-input">
+
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">会员状态</label>
-            <div class="layui-input-block" id="IsPurchased">
-                <input type="radio" name="vState" value="0" title="未启用" checked="">
-                <input type="radio" name="vState" value="1" title="启用">
-                <input type="radio" name="vState" value="2" title="禁用">
-                <input type="radio" name="vState" value="3" title="挂失">
-            </div>
-        </div>
+
         <div class="layui-form-item" style="margin-top:40px">
             <div class="layui-input-block">
                 <button class="layui-btn  layui-btn-submit " lay-submit="stffadd" lay-filter="demo1">立即提交</button>
@@ -54,6 +68,30 @@
     </form>
 </div>
 <script type="text/javascript">
+    //  按钮值 绑定在 充值金额框
+    function  czje(data1) {
+        $("#vAcount").val(data1);
+
+        $.ajax({
+            url:"../vip/selVid",
+            type:"post",
+            async:false,
+            data:{
+                vAcount:data1,
+
+            },
+            dataType:"text",
+            success:function(data){
+                var ix =  data.indexOf(".");
+                var vidc =  data.substring(0,ix);
+                $("#vIdc").val(vidc);
+               $("#vGrade").val(data);
+
+            }
+        });
+    }
+
+
     layui.use(['form','layer'],function(){
         var form = layui.form;
         var layer = layui.layer;
@@ -62,9 +100,11 @@
         form.on('submit(demo1)',function(data){
             var vName = $("#vName").val();
             var vPhone = $("#vPhone").val();
-            var vIdc = $("#vIdc").val();
-            var vState = $('#IsPurchased input[name="vState"]:checked ').val();
             var vAcount = $("#vAcount").val();
+            var vIdc = $("#vIdc").val();
+            var vPpassword = $("#vPpassword").val();
+            var vPassword = $("#vPassword").val();
+
             $.ajax({
                 url:"../vip/addVip",
                 type:"post",
@@ -73,8 +113,9 @@
                     vName:vName,
                     vPhone:vPhone,
                     vIdc:vIdc,
-                    vState:vState,
                     vAcount:vAcount,
+                    vPassword:vPassword,
+                    vPpassword:vPpassword
                 },
                 dataType:"json",
                 success:function(data){
@@ -96,7 +137,30 @@
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             parent.layer.close(index);
         })
+
+        $("#vAcount").bind("change", function(){
+            var va  = $("#vAcount").val();
+            $.ajax({
+                url:"../vip/selVid",
+                type:"post",
+                async:false,
+                data:{
+                    vAcount:va,
+                },
+                dataType:"text",
+                success:function(data){
+                    $("#vGrade").val(data);
+                    var ix =  data.indexOf(".");
+                    var vidc =  data.substring(0,ix);
+                    $("#vIdc").val(vidc);
+
+                }
+            });
+        })
+
     });
+
+
 </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -19,10 +19,10 @@
 <table class="layui-hide" id="orders" lay-filter="orders"></table>
 </body>
 <script>
-    layui.use('table', function() {
+    layui.use(['table','util'], function() {
         var table = layui.table
             , form = layui.form;
-
+        var util = layui.util;
         table.render({
             elem: "#orders",//表格table的id属性
             url: "../../Orders/findOrdersMonth", //请求数据接口
@@ -37,7 +37,11 @@
                 {field: 'aName', title: '所属区域', align: 'center'},
                 {field: 'oDesk', title: "桌号", align: 'center'},
                 {field: 'oId', title: "编号", align: 'center'},
-                {field: 'oDate', title: "时间", align: 'center'},
+                {field : 'oDate',title: '日期', width:'20%',align:'center',sort: true,
+                    templet:function(d){
+                        return util.toDateString(d.oDate, "yyyy-MM-dd HH:mm:ss")
+                    }
+                },
                 {field: 'oPrice', title: "应付款", align: 'center' },
                 {field: 'ocPrice', title: '原价',  align: 'center'},
                 {field: 'vPhone', title: "手机号", align: 'center'},

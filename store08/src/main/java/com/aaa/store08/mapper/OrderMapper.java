@@ -1,11 +1,13 @@
 package com.aaa.store08.mapper;
 
 
+import com.aaa.store08.entity.Vbills;
 import com.aaa.store08.entity.Vip;
 import com.aaa.store08.entity.sDetails;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -23,7 +25,6 @@ public interface OrderMapper {
     //会员支付，修改余额
     int updateBalance(Vip vip);
 
-
     //根据id查询vphone
     String selPhone(double id);
 
@@ -36,4 +37,8 @@ public interface OrderMapper {
     int updPrice(Map map);
     //根据id  修改 优惠价格   优惠后的价格
     int updoDetails(int id);
+    //查询会员类型
+    int vipType(Integer id);
+    //添加一条会员消费记录
+    int insertvBills(Vbills vbills);
 }

@@ -15,7 +15,7 @@
     </select>
     <!--注册会员-->
     <insert id="addVip" parameterType="VipVO">
-        insert into vip (vName,vCount,vBeginDate,vPhone,vIdc,vAcount,vState,vSum)values(#{vName},#{vCount},NOW(),#{vPhone},#{vIdc},#{vAcount},#{vState},#{vSum})
+        insert into vip (vName,vCount,vBeginDate,vPhone,vIdc,vAcount,vState,vSum,vPassword,vPpassword)values(#{vName},#{vCount},NOW(),#{vPhone},#{vIdc},#{vAcount},#{vState},#{vSum},#{vPassword},#{vPpassword})
     </insert>
     <!--查询要修改的会员信息-->
     <select id="vipOne" parameterType="Integer" resultType="VipVO">
@@ -75,5 +75,10 @@
         </if>
         order by  v.vBeginDate  desc
         limit #{begin} ,#{end}
+    </select>
+    <!--根据 充值金额 去查询 等级id-->
+    <select id="selVid" parameterType="integer" resultType="VipVO">
+        select vidc,vdiscount,vgrade,vdisplay,vlimit  from vtype
+        where vDiscount in (SELECT min(vDiscount) from vtype where vlimit &lt;=  #{vlimit} ORDER BY vDiscount desc)
     </select>
 </mapper>
