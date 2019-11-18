@@ -7,9 +7,20 @@
     <update id="updMenu" parameterType="int">
         update orderdetails set otype=1 where odid= #{odid}
     </update>
-    <!--    根据菜品菜品名字 去查询所属区域  然后找到 负责这个区域并在职的员工
-    List<Employee> selEmp(String eName);-->
+    <!--    根据菜品菜品名字 去查询所属区域  然后找到 负责这个区域并在职的员工 -->
     <select id="selEmp" parameterType="int" resultType="Employee">
 		select * from employee where earea in (select aid from area where aname=(select odaname from orderdetails where odid = #{odid})) and estate =1
     </select>
+    <!--    查询所有会员信息 -->
+    <select id="selVip" parameterType="int" resultType="vin">
+		select vid,vidc,vsum from vip
+    </select>
+    <!--     根据vsum 查询vtype 的vidc -->
+    <select id="selVidc"  resultType="int" >
+        SELECT  max(vidc) from vtype where vlimit &lt;= #{vsum}
+    </select>
+    <!--     根据vidc1 修改 会员等级 -->
+    <update id="updVidc" parameterType="map">
+        update vip set vidc=#{vidc} where vid=#{vid}
+    </update>
 </mapper>

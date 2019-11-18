@@ -6,6 +6,14 @@ public class Kind implements Serializable {
     private Integer kId;
     private String kName;
 
+    @Override
+    public String toString() {
+        return "Kind{" +
+                "kId=" + kId +
+                ", kName='" + kName + '\'' +
+                '}';
+    }
+
     public Integer getkId() {
         return kId;
     }
