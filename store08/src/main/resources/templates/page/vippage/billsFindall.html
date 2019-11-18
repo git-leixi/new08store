@@ -35,9 +35,9 @@
             elem: '#demo'
             ,cellMinWidth: 100
             ,url: "../vips/billsFindall" //数据接口
-            ,limits:[15,30,50]
-            ,limit:15
-            ,page: true //开启分页
+            ,page: true
+            ,limits: [15,20,30]
+            ,limit:15//要传向后台的每页显示条数
             ,cols: [ //表头
                 [
                     {field: 'vName', title: '会员姓名',  align:'center'}
