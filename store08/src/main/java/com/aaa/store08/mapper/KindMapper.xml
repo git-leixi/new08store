@@ -3,10 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.aaa.store08.mapper.KindMapper">
+    <!--查询所有餐饮类别信息 -->
     <select id="SelKind" resultType="Kind">
         select kId,kName from kind
     </select>
-    <insert id="InsertKind" parameterType="Kind">
+    <!-- 添加餐饮类别信息 -->
+    <insert id="InsertKind" parameterType="String">
         insert into kind(kName) values(#{kName})
     </insert>
+    <!-- 删除餐饮类别信息 -->
+    <delete id="delKind" parameterType="int">
+        delete from kind where kid = #{kid}
+    </delete>
+    <!-- 修改 餐饮类别 名称-->
+    <update id="updKind" parameterType="map">
+        update kind set kname = #{kName} where kid = #{kId}
+    </update>
 </mapper>
