@@ -22,6 +22,7 @@
         <span th:id="kind">
         <span th:class="kindSelect" th:id="kName">
          <select onchange="kindCha(this)"  name="dArea" th:class="kName"  style="width: 60px;height: 35px;border:1px solid #E6E6E6;">
+             <option style="text-align: center;"  th:value="-1"  th:text="请选择"></option>
              <option style="text-align: center;"   th:each="k:${kind}" th:value="${k.kId}" th:text="${k.kName}"></option>
          </select>
         </span>
@@ -55,18 +56,59 @@
            span.innerHTML = kind;//为div输入内容
            cell.appendChild(span);
 
-              var num=Math.floor(Math.random()*7+1);//所得到的的是1-10之间的随机数，每次刷新都不同
-              $(".kName")[spanindex].value=num;
+               // var num=Math.floor(Math.random()*7+1);//所得到的的是1-10之间的随机数，每次刷新都不同
+               //$(".kName")[spanindex].value=num;
            }
        })
     })
   function  kindCha(obj){
 
-             if ($(".kName")[0].value == $(".kName")[1].value || $(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value) {
-                 alert("不能存在相同");
-                 var num=Math.floor(Math.random()*7+1);//所得到的的是1-10之间的随机数，每次刷新都不同
-                 $(obj).val(num);
+             if($(".kName")[0].value!=-1&&$(".kName")[1].value==-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[1].value || $(".kName")[0].value == $(".kName")[2].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+
+             }else if($(".kName")[1].value!=-1&&$(".kName")[0].value==-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[1].value || $(".kName")[1].value == $(".kName")[2].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[2].value!=-1&&$(".kName")[0].value==-1&&$(".kName")[1].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[0].value!=-1&&$(".kName")[1].value!=-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[0].value!=-1&&$(".kName")[2].value!=-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[2].value!=-1&&$(".kName")[1].value!=-1&&$(".kName")[0].value==-1){
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[0].value!=-1&&$(".kName")[1].value!=-1&&$(".kName")[2].value!=-1){
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else{
+
              }
+
+
   }
 </script>
 <script type="text/javascript">
