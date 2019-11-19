@@ -15,17 +15,17 @@
 <body>
 <form class="layui-form layui-from-pane" method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div class="layui-form-item" style="width: 400px;height: 370px;">
-        <label class="layui-form-label">等级名称:</label>
+        <label class="layui-form-label" >等级名称:</label>
         <div class="layui-input-inline" style="width: 280px">
-            <input type="text" id="vGrade" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required"><br/>
+            <input type="text" id="vGrade" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required|username" ><br/>
         </div>
         <label class="layui-form-label">折扣力度:</label>
         <div class="layui-input-inline" style="width: 280px">
-            <input type="text" id="vDiscount" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required"><br/>
+            <input type="text" id="vDiscount" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required|number|double"><br/>
         </div>
         <label class="layui-form-label">等级额度:</label>
         <div class="layui-input-inline" style="width: 280px">
-            <input type="text" id="vLimit" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required"><br/>
+            <input type="text" id="vLimit" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required|number"><br/>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -91,8 +91,30 @@
         return chnStr;
     }
 
+
+</script>
+<script>
     layui.use(['form','layer'],function(){
         var form = layui.form;
+        form.verify({
+            username: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+            },
+            double: [
+                /^(0(\.\d{1,2})?|1(\.0{1,2})?)$/
+                ,'折扣力度只能在0.00~1.00'
+            ]
+        });
+
+
         var layer = layui.layer;
         $ = layui.jquery;
         form.render();
@@ -119,14 +141,14 @@
                 dataType:"json",
                 success:function(data){
                     if(data>0){
-                        window.parent.location.reload();
+                        // window.parent.location.reload();
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
                         alert("添加成功！");
                     }else{
                         alert("添加失败！");
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                        window.parent.location.reload();
+                        // window.parent.location.reload();
                         window.parent.layer.close(index);
                     }
                 }
@@ -140,6 +162,7 @@
                 location.href="../page/home.html";
             })
         })
+
 
     });
 </script>

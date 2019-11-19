@@ -14,6 +14,7 @@
 <script type="text/html" id="vipInster">
     <div class="layui-btn-group">
         <button type="button" class="layui-btn layui-btn-sm" id="add"><i class="layui-icon"></i></button>
+        <button type="button" class="layui-btn layui-btn-sm" id="refresh"><i class="layui-icon">刷新老会员等级</i></button>
     </div>
 
 </script>
@@ -29,11 +30,10 @@
         var table = layui.table;
         table.render({
             elem: "#dg",//表格table的id属性
-            url: "../VType/SelVType", //请求数据接口
-            limits: [10,20,30],
-            limit:10,//要传向后台的每页显示条数
-            //,page:true(自带的这个要注掉)
-            page:true,
+            url: "../VType/SelVType"//请求数据接口
+            ,page: true
+            ,limits: [15,20,30]
+            ,limit:15,//要传向后台的每页显示条数
             title: '查询所有信息',
             /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
             toolbar: '#vipInster',
@@ -95,6 +95,23 @@
                 area: ['450px', '450px'],
                 shadeClose: false, //点击遮罩关闭
                 content: '../VType/ToAddVType',
+            });
+        });
+
+        //刷新老会员等级
+        $("#refresh").on('click',function(){
+            $.ajax({
+                url:"../perform/updGrade",
+                type:"post",
+                async:false,
+                data:{
+                },
+                dataType:"text",
+                success:function(data){
+                    if(data==0){
+                        layer.msg("老会员等级更新成功")
+                    }
+                }
             });
         });
 

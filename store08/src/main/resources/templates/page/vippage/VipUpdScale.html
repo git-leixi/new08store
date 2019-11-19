@@ -18,15 +18,15 @@
     <div class="layui-form-item" style="width: 400px;height: 370px;">
         <label class="layui-form-label">等级名称:</label>
         <div class="layui-input-inline" style="width: 280px">
-            <input type="text" id="vGrade" placeholder="请输入" th:value="${vt.vGrade}" autocomplete="off" class="layui-input" lay-verify="required"><br/>
+            <input type="text" id="vGrade" placeholder="请输入" th:value="${vt.vGrade}" autocomplete="off" class="layui-input" lay-verify="required|username"><br/>
         </div>
         <label class="layui-form-label">折扣力度:</label>
         <div class="layui-input-inline" style="width: 280px">
-            <input type="text" id="vDiscount" placeholder="请输入" th:value="${vt.vDiscount}" autocomplete="off" class="layui-input" lay-verify="required"><br/>
+            <input type="text" id="vDiscount" placeholder="请输入" th:value="${vt.vDiscount}" autocomplete="off" class="layui-input" lay-verify="required|number|double"><br/>
         </div>
         <label class="layui-form-label">等级额度:</label>
         <div class="layui-input-inline" style="width: 280px">
-            <input type="text" id="vLimit" placeholder="请输入" th:value="${vt.vLimit}" autocomplete="off" class="layui-input" lay-verify="required"><br/>
+            <input type="text" id="vLimit" placeholder="请输入" th:value="${vt.vLimit}" autocomplete="off" class="layui-input" lay-verify="required|number"><br/>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -94,6 +94,25 @@
 
     layui.use(['form','layer'],function(){
         var form = layui.form;
+        form.verify({
+            username: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                    return '用户名不能有特殊字符';
+                }
+                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if(/^\d+\d+\d$/.test(value)){
+                    return '用户名不能全为数字';
+                }
+            },
+            double: [
+                /^(0(\.\d{1,2})?|1(\.0{1,2})?)$/
+                ,'折扣力度只能在0.00~1.00'
+            ]
+        });
+
+
         var layer = layui.layer;
         $ = layui.jquery;
         form.render();

@@ -26,10 +26,10 @@
         table.render({
             elem: '#demo'
             ,url: "../staff/findall" //数据接口
-            ,limits: [10,20,30]
-            ,limit:10//要传向后台的每页显示条数
+            ,page: true
+            ,limits: [15,20,30]
+            ,limit:15//要传向后台的每页显示条数
             ,cellMinWidth: 100 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            ,page: true //开启分页
             ,toolbar:"#staffInster"
             ,cols: [ //表头
                 [

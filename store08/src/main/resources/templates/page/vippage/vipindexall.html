@@ -61,9 +61,9 @@
                 field: 'vId' //排序字段，对应 cols 设定的各字段名
                 ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
             }
-            ,limits:[4,8,12]
-            ,limit:4
-            ,page: true //开启分页
+            ,page: true
+            ,limits: [15,20,30]
+            ,limit:15//要传向后台的每页显示条数
             ,toolbar:"#staffInster"
             ,cols: [ //表头
                 [

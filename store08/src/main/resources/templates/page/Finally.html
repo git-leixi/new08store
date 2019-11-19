@@ -14,6 +14,7 @@
 
 <table class="layui-hide" id="dg" lay-filter="dg"></table>
 <script id="barDemo" type="text/html">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="perform">菜品状态</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看发票</a>
 </script>
 <script>
@@ -44,7 +45,7 @@
                 {field: 'ocPrice', title: "原价",align:'center', sort: true},
                 {field : 'vPhone', title : "手机号",align:'center', sort: true},
                 {field : 'payment', title : "状态",align:'center', sort: true},
-                {field : "action",title : "操作",width:130,align:'center',toolbar: '#barDemo'}
+                {field : "action",title : "操作",width:260,align:'center',toolbar: '#barDemo'}
 
             ] ]
 
@@ -68,8 +69,18 @@
                         $('#win100').height('auto');
                     }
                 })
-            } else if(layEvent === 'edit'){
-                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            } else if(layEvent === 'perform'){
+                layer.open({
+                    type: 2,
+                    title: '菜品状态',
+                    maxmin: true,
+                    area : ['1000px','650px'],
+                    shadeClose: false, //点击遮罩关闭
+                    content: '../perform/tfindDetails?id='+data.oId,
+                    success: function(layero, index){
+                        $('#win100').height('auto');
+                    }
+                })
             }
         });
 

@@ -66,8 +66,8 @@
                 ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
             }
             ,page: true
-            ,limits: [10,20,30]
-            ,limit:10//要传向后台的每页显示条数
+            ,limits: [15,20,30]
+            ,limit:15//要传向后台的每页显示条数
             ,cols: [[
                  {field:'oId',  title: '编号',align:'center', sort: true}
                 ,{field:'oDate',title: '日期', width:'20%',align:'center',sort: true,templet:function(d){return util.toDateString(d.oDate, "yyyy-MM-dd HH:mm:ss")}}

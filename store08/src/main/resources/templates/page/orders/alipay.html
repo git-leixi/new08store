@@ -9,7 +9,7 @@
 <body>
         <form action="../alipay/pay" id="fm">
             <div class="layui-input-block" id="dvd">
-                <input type="text" name="money" readonly th:value="${money}"  id="money"  style="width: 180px" placeholder="请输入金额" class="layui-input">
+                <input type="text" name="money" readonly th:value="${money}"  id="money"  lay-verify="number" style="width: 180px" placeholder="请输入金额" class="layui-input">
             </div>
             <input th:value="2" name="val" id="val" style="display: none">
             <input type="submit"  class="layui-btn" id="accounts" value="结账》》">
