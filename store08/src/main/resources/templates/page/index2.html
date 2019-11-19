@@ -59,7 +59,7 @@
 				</li>
 				<li class="menu-item"><a href=""><i class="icon-font "></i><span>收银管理</span><i class="icon-font icon-right"></i></a>
 					<ul class="menu-item-child" id="menu-child-6">
-						<li><a href="../order/findorder"><i class="icon-font"></i><span>点餐提醒</span></a></li>
+						<li><a th:href="@{'../principal/selAid?username='+${session.username}}"><i class="icon-font"></i><span>点餐提醒</span></a></li>
 						<li><a href="../page/test1.html"><i class="icon-font"></i><span>今日收入</span></a></li>
 						<li><a href="../page/test2.html"><i class="icon-font"></i><span>今日售出</span></a></li>
 						<li><a href="../page/stat/stat.html"><i class="icon-font"></i><span>月计报表</span></a></li>

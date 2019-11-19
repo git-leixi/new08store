@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.PrincipalMapper">
+    <!--   根据登陆账号名称去查询所绑定的 窗口id -->
+    <select id="selAid" parameterType="String"  resultType="int">
+		select aid from users where uUsername = #{username}
+    </select>
+
+    <!--&lt;!&ndash;    查询所有会员信息 &ndash;&gt;
+    <select id="selVip" parameterType="int" resultType="vin">
+		select vid,vidc,vsum from vip
+    </select>
+    &lt;!&ndash;     根据vsum 查询vtype 的vidc &ndash;&gt;
+    <select id="selVidc"  resultType="int" >
+        SELECT  max(vidc) from vtype where vlimit &lt;= #{vsum}
+    </select>
+    &lt;!&ndash;     根据vidc1 修改 会员等级 &ndash;&gt;
+    <update id="updVidc" parameterType="map">
+        update vip set vidc=#{vidc} where vid=#{vid}
+    </update>-->
+</mapper>
