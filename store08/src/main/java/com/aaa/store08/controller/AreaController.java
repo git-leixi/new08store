@@ -160,11 +160,14 @@ public class AreaController {
     }
     @RequestMapping("AddArea")
     @ResponseBody
-    public Object AddArea(String aName,String aMain,String aImg) {
+    public Object AddArea(String aName,String aMain,String aImg,HttpServletRequest request) {
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String fileName =basePath+"/uploadFiles/"+aImg;
+        System.out.println(fileName);
         Map map=new HashMap();
         map.put("aName",aName);
         map.put("aMain",aMain);
-        map.put("aImg",aImg);
+        map.put("aImg",fileName);
         int num = as.AddArea(map);
         return num;
     }
