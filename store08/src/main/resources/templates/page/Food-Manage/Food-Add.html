@@ -118,7 +118,7 @@
                 alert("请选择区域");
                 return;
             }
-            alert(mArea);
+            //alert(mArea);
             $.ajax({
                 url:"../Food/GetFood?=tArea"+mArea,
                 type:"post",
@@ -128,7 +128,7 @@
                 },
                 dataType:"json",
                 success:function(data){
-                    alert(data);
+                    //alert(data);
                             var optionString = "";
                             var beanList = data;     //返回的json数据
                             if (beanList) {

@@ -20,8 +20,6 @@ import java.util.Map;
 public class VipTypeController {
     @Autowired
     private VipTypeService vs;
-    @Autowired
-    private IVipService iVipService;
     //分页查询vtype表
 
     @ResponseBody
