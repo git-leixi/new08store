@@ -18,8 +18,13 @@ public class FoodServiceImpl implements FoodService {
     private FoodMapper fm;
 
     @Override
-    public List<Food> SelFood() {
-        return fm.SelFood();
+    public List<Food> SelFoods() {
+        return fm.SelFoods();
+    }
+
+    @Override
+    public List<Food> SelFoodId(Integer tArea) {
+        return fm.SelFoodId(tArea);
     }
 
     @Override

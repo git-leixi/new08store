@@ -28,9 +28,13 @@ public interface VipMapper {
     //修改金额
     int editVip(Vip vip);
     //修改会员等级
+    public int SelUpdVidc(VipVO vipVO);
+    public int UpdVips(VipVO vipVO);
+    public VipVO vipTwo(Integer id);
     public int UpdVip(VipVO vipVO);
     //查询会员信息表
     List<Map> findVip(Map<String, Object> map);
     //根据充值金额 查询等级id
     List<VipVO> selVid(Integer vlimit);
+
 }

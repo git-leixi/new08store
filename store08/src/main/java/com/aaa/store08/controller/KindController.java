@@ -41,7 +41,7 @@ public class KindController {
     @RequestMapping("InsertKind")
     public String InsertKind(String kname){
         kindService.InsertKind(kname);
-        return "";
+        return "redirect: selKind";
     }
 
     //删除餐饮类别信息

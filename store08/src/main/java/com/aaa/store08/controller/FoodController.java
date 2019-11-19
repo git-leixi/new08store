@@ -37,6 +37,7 @@ public class FoodController {
     @Autowired
     private KindService ks;
 
+    //分页查询菜品
     @ResponseBody
     @RequestMapping("SelFood")
     public Object SelFood(PageVo pageVo) {
@@ -50,6 +51,7 @@ public class FoodController {
         return dg;
 
     }
+    //跳转菜品页面
     @RequestMapping("aaa")
     public String aaa(){
         return "page/Food-Manage/Food-index";
@@ -63,21 +65,31 @@ public class FoodController {
         System.out.println(i);
         return "redirect:Food/SelFood";
     }
-
+    //添加菜品
     @RequestMapping("ToAddFood")
-    public String ToAddFood(Area area, Kind kind, Model model){
+    public String ToAddFood(Model model){
         List<Area> areas = as.SelArea();
-        List<Kind> kinds = ks.SelKind();
         model.addAttribute("as",areas);
-        model.addAttribute("ks",kinds);
         return "page/Food-Manage/Food-Add";
     }
 
+    @RequestMapping("GetFood")
+    @ResponseBody
+    public Object GetFood(Integer tArea){
+        System.out.println("123");
+        List<Food> kInd = fs.SelFoodId(tArea);
+        for (Food food : kInd){
+            System.out.println(food.getkName());
+        }
+        return kInd;
+    }
+
+    //跳转添加页面
     @RequestMapping("Add")
     public  String Add(){
         return "page/Food-Manage/Food-Add";
     }
-
+    //添加菜品图片
     @RequestMapping("InsertFood")
     public String InsertFood(Food food, Area area, Kind kind,HttpServletRequest request){
            System.out.println("进来了");
@@ -93,7 +105,7 @@ public class FoodController {
         System.out.println(food.getmName()+food.getmImg());
         return "redirect:aaa";
     }
-
+    //文件上传
     @RequestMapping("upload")
     public @ResponseBody Map<String, Object> image(@RequestBody MultipartFile file){
 

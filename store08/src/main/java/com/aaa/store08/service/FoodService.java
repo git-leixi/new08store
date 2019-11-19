@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface FoodService {
-    public List<Food> SelFood();
+    public List<Food> SelFoods();
+    public List<Food> SelFoodId(Integer tArea);
     public int DelAll(Integer[] ids);
     public int DelFood(Integer mId);
     public int findCount();

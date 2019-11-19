@@ -19,6 +19,7 @@ public interface IVipService {
     int updateVip(VipVO vipVO);
     //查询要修改的会员信息
     List<VipVO> vipOne(Integer id);
+    public VipVO vipTwo(Integer id);
     //查看会员消费记录
     List<Map> billsFindall(PageVo pageVo, VipVO vipVO);
     int countBills();
@@ -27,6 +28,8 @@ public interface IVipService {
     //修改金额
     int editVip(Vip vip);
     //修改会员等级
+    public int SelUpdVidc(VipVO vipVO);
+    public int UpdVips(VipVO vipVO);
     public int UpdVip(VipVO vipVO);
     //查询会员信息表
     List<Map> findVip(Map map);

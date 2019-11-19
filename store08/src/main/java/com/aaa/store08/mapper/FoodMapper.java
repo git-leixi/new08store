@@ -9,7 +9,8 @@ import java.util.Map;
 @Mapper
 public interface FoodMapper {
     //查询菜单
-    public List<Food> SelFood();
+    public List<Food> SelFoods();
+    public List<Food> SelFoodId(Integer tArea);
     //批量删除
     public int DelAll(Integer[] ids);
     //按编号删除

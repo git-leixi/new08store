@@ -23,6 +23,7 @@ public class VipTypeController {
     private VipTypeService vs;
     @Autowired
     private IVipService iVipService;
+    //分页查询vtype表
     @ResponseBody
     @RequestMapping("SelVType")
     public Object SelFood(PageVo pageVo) {
@@ -42,11 +43,13 @@ public class VipTypeController {
         return "page/vippage/VipScale";
     }
 
+    //跳转添加页面
     @RequestMapping("ToAddVType")
     public String ToAddVType(){
         return "page/vippage/VipAddScale";
     }
     @ResponseBody
+    //添加会员类型
     @RequestMapping("AddVType")
     public Object AddVType(VipType vipType){
         int success = vs.AddVType(vipType);
@@ -60,7 +63,7 @@ public class VipTypeController {
         model.addAttribute("vt",vipType);
         return "page/vippage/VipUpdScale";
     }
-
+    //修改会员类型
     @ResponseBody
     @RequestMapping("UpdVType")
     public Object UpdVType(VipType vipType, VipVO vipVO){

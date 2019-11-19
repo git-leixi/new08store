@@ -68,6 +68,12 @@ public class IVipServiceImpl  implements  IVipService{
     public List<VipVO> vipOne(Integer id) {
         return vipMapper.vipOne(id);
     }
+
+    @Override
+    public VipVO vipTwo(Integer id) {
+        return vipMapper.vipTwo(id);
+    }
+
     //查看会员消费记录
     @Override
     public List<Map> billsFindall(PageVo pageVo,VipVO vipVO) {
@@ -91,11 +97,20 @@ public class IVipServiceImpl  implements  IVipService{
     public Vip selectVip(Integer id) {
         return vipMapper.selectVip(id);
     }
-
     //修改金额
     @Override
     public int editVip(Vip vip) {
         return vipMapper.editVip(vip);
+    }
+
+    @Override
+    public int SelUpdVidc(VipVO vipVO) {
+        return vipMapper.SelUpdVidc(vipVO);
+    }
+
+    @Override
+    public int UpdVips(VipVO vipVO) {
+        return vipMapper.UpdVips(vipVO);
     }
 
     @Override

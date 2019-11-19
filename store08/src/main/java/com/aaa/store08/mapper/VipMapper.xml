@@ -81,4 +81,10 @@
         select vidc,vdiscount,vgrade,vdisplay,vlimit  from vtype
         where vDiscount in (SELECT min(vDiscount) from vtype where vlimit &lt;=  #{vlimit} ORDER BY vDiscount desc)
     </select>
+    <select id="SelUpdVidc" parameterType="VipVO" resultType="int">
+        select vidc  from vtype where vDiscount in (SELECT min(vDiscount) from vtype where vLimit=#{vLimit} &lt;= (select vSum from vip where vId = #{vid}))
+    </select>
+    <update id="UpdVips" parameterType="VipVO">
+        update vip set vidc= #{vIdc} WHERE vId = #{vid}
+    </update>
 </mapper>

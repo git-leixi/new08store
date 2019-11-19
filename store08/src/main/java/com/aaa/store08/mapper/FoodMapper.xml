@@ -3,8 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.aaa.store08.mapper.FoodMapper">
-    <select id="SelFood" resultType="Food" >
-        select m.mId,m.mName,m.mPrice,m.mImg,k.kName,a.aName from menu m,kind k,area a where m.mKind = k.kId and m.mArea = a.aId order by mId ASC
+    <select id="SelFoods" resultType="Food" >
+      select t.tId,a.aName,a.aMain,k.kName from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind
+    </select>
+    <select id="SelFoodId" resultType="Food" parameterType="Integer">
+      select t.tId,a.aName,a.aMain,k.kName from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind and t.tArea = #{tArea}
     </select>
     <delete id="DelAll" parameterType="Integer[]">
         delete from menu where mId in
