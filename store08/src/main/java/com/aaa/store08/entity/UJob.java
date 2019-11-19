@@ -8,6 +8,9 @@ public class UJob implements Serializable {
     private String uUsername;
     private Integer uJob;
     private String jName;
+    private Integer jPermission;
+
+
 
     public Integer getuId() {
         return uId;
@@ -41,5 +44,22 @@ public class UJob implements Serializable {
         this.jName = jName;
     }
 
+    public Integer getjPermission() {
+        return jPermission;
+    }
 
+    public void setjPermission(Integer jPermission) {
+        this.jPermission = jPermission;
+    }
+
+    @Override
+    public String toString() {
+        return "UJob{" +
+                "uId=" + uId +
+                ", uUsername='" + uUsername + '\'' +
+                ", uJob=" + uJob +
+                ", jName='" + jName + '\'' +
+                ", jPermission=" + jPermission +
+                '}';
+    }
 }
