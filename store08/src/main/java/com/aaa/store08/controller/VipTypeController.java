@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,9 +61,12 @@ public class VipTypeController {
 
     @ResponseBody
     @RequestMapping("UpdVType")
-    public Object UpdVType(VipType vipType){
+    public Map UpdVType(VipType vipType){
         int success = vs.UpdVType(vipType);
-        return success;
+        System.out.println("成功修改"+success);
+        Map map=new HashMap();
+        map.put("num",success);
+    return map;
     }
 
     //按编号删除

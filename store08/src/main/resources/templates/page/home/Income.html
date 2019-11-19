@@ -79,6 +79,32 @@
 </script>
 <script>
     $(function(){
+       var num=0;
+        $.ajax({
+            type : "post",
+            async : true,
+            dataType : "json",
+            url:"../../Stat/findMonthCount",
+            success:function(result){
+                num=result.num;
+                count();
+            }
+        });
+        function count(){
+            setTimeout(count,1000);
+        $.ajax({
+            type : "post",
+            async : true,
+            dataType : "json",
+            url:"../../Stat/newMonthCount",
+            success:function(data){
+                if (data.num!=num) {
+                    location.replace(location.href);
+                }
+            }
+        });
+        }
+
         $("#return").click(function () {
             location.href="../home.html";
         })

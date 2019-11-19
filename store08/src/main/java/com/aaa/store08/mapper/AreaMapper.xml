@@ -8,12 +8,14 @@
     <select id="SelArea" resultType="Area">
         select aId,aName from area
     </select>
+    <select id="findAreaKing" resultType="Map">
+       select * from area
+    </select>
     <select id="findCount" resultType="int" parameterType="com.aaa.store08.entity.AreaVo">
         select count(dId) from desk where 1=1
         <if test="aName!=null and aName!='全部'">
         and dArea=(select aId from area where aName=#{aName})
         </if>
-
     </select>
     <select id="SelDeskAll"  parameterType="map"   resultType="map">
       select d.dId,d.dName,a.aName,d.dsort from desk d,area a where d.dArea = a.aId
@@ -23,7 +25,10 @@
         limit #{begin},#{count}
     </select>
     <insert id="AddDesk" parameterType="com.aaa.store08.entity.AreaVo">
-            insert into desk(dName,dArea,dsort) VALUES(#{dName},(select aId from area where aName=#{aName}),'未使用')
+            insert into desk(dName,dArea,dimg,dsort) VALUES(#{dName},(select aId from area where aName=#{aName}),#{dimg},'未使用')
+    </insert>
+    <insert id="AddArea" parameterType="Map">
+            insert into area(aName,aMain,aImg) VALUES(#{aName},#{aMain},#{aImg})
     </insert>
     <delete id="DelDesk" parameterType="int">
              delete from desk where dId=#{dId}
@@ -33,5 +38,20 @@
     </update>
     <update id="UpdDesk" parameterType="com.aaa.store08.entity.AreaVo">
              update  desk set dName=#{dName} where dId=#{dId}
+    </update>
+    <select id="findAreaKname" resultType="Map" parameterType="int">
+        select k.Kname as kName from tempt t,kind k where tarea=#{aId} and t.tkind=k.kId
+    </select>
+    <select id="findKind" resultType="Map">
+        select *  from kind
+    </select>
+    <insert id="AddTempt" parameterType="int">
+            insert into tempt (tarea,tkind) VALUES ((select MAX(aId) from area),#{kId});
+    </insert>
+    <delete id="DelArea" parameterType="int">
+             delete from area where aId=#{aId}
+    </delete>
+    <update id="UpdArea" parameterType="Map">
+             update  area set aName=#{aName} where aId=#{aId}
     </update>
 </mapper>

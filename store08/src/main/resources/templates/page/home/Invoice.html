@@ -26,7 +26,7 @@
              </tr>
              <tr th:each="list:${list}">
                  <td th:text="${list.odName}"></td><td th:text="${list.odNum}"></td>
-                 <td>份</td><td th:text="${list.odPrice}"></td>
+                 <td>份</td><td th:text="${list.odPrice} * ${list.odNum}"></td>
              </tr>
              <tr>
                  <td colspan="4">---------------------------------------------</td>

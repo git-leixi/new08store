@@ -80,7 +80,6 @@ public class FoodController {
 
     @RequestMapping("InsertFood")
     public String InsertFood(Food food, Area area, Kind kind,HttpServletRequest request){
-           System.out.println("进来了");
            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
            System.out.println(food.getmPrice()+food.getmName()+food.getmImg());

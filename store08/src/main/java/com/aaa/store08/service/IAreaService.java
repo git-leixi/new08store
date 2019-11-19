@@ -71,6 +71,41 @@ public class IAreaService implements AreaService {
         return am.UpdDesk(areaVo);
     }
 
+    @Override
+    public List<Map> findAreaKing() {
+        return am.findAreaKing();
+    }
+
+    @Override
+    public int AddArea(Map map) {
+        return am.AddArea(map);
+    }
+
+    @Override
+    public List<Map> findAreaKname(Integer aId) {
+        return am.findAreaKname(aId);
+    }
+
+    @Override
+    public List<Map> findKind() {
+        return am.findKind();
+    }
+
+    @Override
+    public int AddTempt(Integer kId) {
+        return am.AddTempt(kId);
+    }
+
+    @Override
+    public int DelArea(Integer aId) {
+        return am.DelArea(aId);
+    }
+
+    @Override
+    public int UpdArea(Map map) {
+        return am.UpdArea(map);
+    }
+
 }
 
 

@@ -17,7 +17,7 @@
     <div class="layui-tab-content" style="height: 100px;">
         <div class="layui-tab-item layui-show">
 
-            <div class="layui-inline"style="margin-top: -380px" >
+            <div class="layui-inline"style="margin-top: -350px" >
                 <table class="layui-hide"  id="area" lay-filter="area"></table>
             </div>
             <div class="layui-inline">
@@ -67,7 +67,7 @@
             url: "../../Stat/findOdName", //请求数据接口
             width:400,
             title: '菜品排行',
-            /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            toolbar: '#toolbarDemo', //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
             cols: [[
                 {field: 'odId', title: "编号", align: 'center'},
                 {field: 'odName',width:135, title: "菜名", align: 'center'},
@@ -80,31 +80,12 @@
             url: "../../Stat/AreaRanking", //请求数据接口
             width:400,
             title: '商家销售排行',
-            /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            toolbar: '#toolbarDemo', //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
             cols: [[
                 {field: 'aId', title: "编号", align: 'center'},
                 {field: 'aName', title: "窗口名字", align: 'center'},
                 {field: 'oprice', title: '销售总价', align: 'center'},
                 {field: 'ranking', title:'当前排名', align: 'center'}
-            ]]
-        });
-    });
-</script>
-<script type="text/javascript">
-    layui.use('table', function() {
-        var table = layui.table
-            , form = layui.form;
-        table.render({
-            elem: "#area",//表格table的id属性
-            url: "../../Stat/AreaRanking", //请求数据接口
-            width:320,
-            title: '菜品排行',
-            /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
-            cols: [[
-                {field: 'odId', title: "编号", align: 'center'},
-                {field: 'odName',width:135, title: "菜名", align: 'center'},
-                {field: 'odPrice', title: '单价', align: 'center'},
-                {field: 'num', title:'数量', align: 'center'}
             ]]
         });
     });

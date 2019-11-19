@@ -10,6 +10,15 @@ public class AreaVo implements Serializable {
       private String dName;
       private String dArea;
       private String dsort;
+      private String dimg;
+
+      public String getDimg() {
+            return dimg;
+      }
+
+      public void setDimg(String dimg) {
+            this.dimg = dimg;
+      }
 
       @Override
       public String toString() {
