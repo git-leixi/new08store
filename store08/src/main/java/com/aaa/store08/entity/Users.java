@@ -9,6 +9,27 @@ public class Users implements Serializable {
     private String uPassword;
     private Integer uJob;
     private Integer uPermission;
+    private Integer aid;
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "uId=" + uId +
+                ", uUsername='" + uUsername + '\'' +
+                ", uPassword='" + uPassword + '\'' +
+                ", uJob=" + uJob +
+                ", uPermission=" + uPermission +
+                ", aid=" + aid +
+                '}';
+    }
+
+    public Integer getAid() {
+        return aid;
+    }
+
+    public void setAid(Integer aid) {
+        this.aid = aid;
+    }
 
     public Integer getuId() {
         return uId;
