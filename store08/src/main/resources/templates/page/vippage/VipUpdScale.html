@@ -143,16 +143,16 @@
                 },
                 dataType:"json",
                 success:function(data){
-                    if(data>0){
-                        window.parent.location.reload();
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
+                    if(data.num>0){
                         alert("修改成功！");
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.parent.layer.close(index);
+                        window.parent.location.reload();
                     }else{
                         alert("修改失败！");
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                        window.parent.location.reload();
                         window.parent.layer.close(index);
+                        window.parent.location.reload();
                     }
                 }
             });

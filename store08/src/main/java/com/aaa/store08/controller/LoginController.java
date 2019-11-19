@@ -37,6 +37,9 @@ public class LoginController {
             model.addAttribute("jName",ujob.getjName());
             HttpSession session = request.getSession();
             session.setAttribute("username",username);
+            if(ujob.getjPermission() == 2){
+                return "page/index2";
+            }
             return "page/index";
         }else {
             return "page/login/login";

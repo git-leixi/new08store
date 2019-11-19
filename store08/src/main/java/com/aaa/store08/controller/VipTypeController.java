@@ -3,9 +3,7 @@ package com.aaa.store08.controller;
 import com.aaa.store08.entity.DataGrid;
 import com.aaa.store08.entity.PageVo;
 import com.aaa.store08.entity.VipType;
-import com.aaa.store08.entity.VipVO;
 import com.aaa.store08.mapper.VipTypeMapper;
-import com.aaa.store08.service.IVipService;
 import com.aaa.store08.service.VipTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,7 @@ public class VipTypeController {
     @Autowired
     private IVipService iVipService;
     //分页查询vtype表
+
     @ResponseBody
     @RequestMapping("SelVType")
     public Object SelFood(PageVo pageVo) {
@@ -66,10 +66,12 @@ public class VipTypeController {
     //修改会员类型
     @ResponseBody
     @RequestMapping("UpdVType")
-    public Object UpdVType(VipType vipType, VipVO vipVO){
+    public Map UpdVType(VipType vipType){
         int success = vs.UpdVType(vipType);
-        iVipService.UpdVip(vipVO);
-        return success;
+        System.out.println("成功修改"+success);
+        Map map=new HashMap();
+        map.put("num",success);
+    return map;
     }
 
     //按编号删除

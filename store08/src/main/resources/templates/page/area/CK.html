@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>窗口信息</title>
+    <link rel="stylesheet" href="../../common/layui/css/layui.css">
+    <script src="../../common/layui/layui.js"></script>
+    <script src="../../common/layui/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<table class="layui-hide" id="chuangkou" lay-filter="chuangkou"></table>
+<script type="text/javascript">
+     layui.use('table', function() {
+          var table = layui.table
+              , form = layui.form;
+         table.render({
+             elem: "#chuangkou",//表格table的id属性
+             url: "../../Area/CKSelect", //请求数据接口
+             title: '菜品排行',
+             toolbar: '#toolbarDemo', //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+             cols: [[
+                 {field: 'aId', title: "编号", align: 'center'},
+                 {field: 'aName', title: "窗口名称", align: 'center',edit: 'text'},
+                 {field: 'kName', title: "菜品类别", align: 'center'},
+                 {fixed: 'right', width:178,align:'center', sort: true, toolbar: '#btn'}
+             ]]
+         });
+         table.on('toolbar(chuangkou)', function(obj){
+             var checkStatus = table.checkStatus(obj.config.id);
+             switch(obj.event){
+                 case 'add':
+                     layer.open({
+                         type: 2,
+                         skin: 'layui-layer-demo', //样式类名
+                         title: '添加页面',
+                         closeBtn: 1, //显示关闭按钮
+                         anim: 2,
+                         area: ['600px', '500px'],
+                         shadeClose: true, //开启遮罩关闭
+                         content: '../../Area/toCKAdd'
+                     });
+                     break;
+             };
+         });
+         table.on('tool(chuangkou)', function(obj){
+             var data = obj.data;
+             if(obj.event === 'del'){
+                 layer.confirm('真的删除行么', function(index){
+                     $.ajax({
+                         type:"GET",
+                         url:"../../Area/DelArea?aId="+data.aId,
+                         success:function(result){
+                             alert("删除成功");
+                             layer.close(index);
+                             setTimeout('window.location.reload()',0);
+                         }
+                     });
+                 });
+             }
+         });
+         //监听单元格编辑
+         table.on('edit(chuangkou)', function(obj){
+             var value = obj.value //得到修改后的值
+                 ,data = obj.data //得到所在行所有键值
+                 ,field = obj.field; //得到字段
+             layer.confirm('确定要修改此内容？',{btn: ['确定', '取消']},
+                 function(index){
+                     $.ajax({
+                         type:"GET",
+                         url:"../../Area/UpdArea",
+                         data:{aId:data.aId,aName:data.aName},
+                         success:function(result){
+
+                             layer.close(index);
+                             setTimeout('window.location.reload()',0);
+                         },
+                         error:function(){
+                             setTimeout('window.location.reload()',0);
+                         }
+                     });
+
+                 },
+                 function(){
+                     setTimeout('window.location.reload()',0);
+                 }
+             );
+         });
+    });
+</script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-inline">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        </div>
+    </div>
+</script>
+<script id="btn" type="text/html">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+</body>
+</html>

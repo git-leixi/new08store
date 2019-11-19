@@ -9,15 +9,18 @@
     <script src="../common/layui/jquery-1.8.3.min.js"></script>
 </head>
 <body>
-<label class="layui-form-label">选择框</label>
-<select  name="dArea" th:id="aName" style="width: 200px;height: 35px;border:1px solid #E6E6E6;">
-    <option style="text-align: center;"   th:each="area:${area}" th:value="${area.aId}" th:text="${area.aName}"></option>
-</select>
 <div class="layui-form-item" style="width: 350px;">
     <label class="layui-form-label">桌号</label>
     <div class="layui-input-block">
         <input th:id="dName" type="text" name="dName" required  lay-verify="required" placeholder="请输入桌号" autocomplete="off" class="layui-input">
     </div>
+    <div class="layui-upload" style="margin-left: 12%">
+          <button type="button" class="layui-btn" id="test1" > 绑定二维码</button>
+          <div class="layui-upload-list">
+            <img class="layui-upload-img" id="demo1" height="150px" width="360px">
+            <input type="dimg"  id="demoText" name="mImg" style="display: none"/>
+          </div>
+    </div> </br>
 </div>
 <div class="layui-form-item">
     <div class="layui-input-block">
@@ -34,6 +37,7 @@
     function closeCurrForm(){
         var aName=$("#aName").find("option:selected").text();
         var dName=$("#dName").val();
+        var dimg=$("#dimg").val();
         if(dName==""){
             layer.msg('有必填框未填入对应值！', {
                 time: 5000, //5s后自动关闭
@@ -43,7 +47,7 @@
             $.ajax({
                 type:"GET",
                 url:"../Area/AreaAdd",
-                data:{aName:aName,dName:dName},
+                data:{aName:aName,dName:dName,dimg:dimg},
                 success:function(result){
                     window.parent.location.reload();
                     var index = parent.layer.getFrameIndex(window.name);
@@ -57,6 +61,67 @@
 
 
 </script>
+                       
+<script src="layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
 
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,method: 'POST'
+            ,url: '../Food/upload/'
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）demoText
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                $('#demoText').val(res.path);
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+</script>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(demo1)',function(data){
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+            parent.layer.close(index);
+
+        });
+
+    });
+
+
+    //单文件示例  选完文件后不自动上传
+    var uploadSingle = upload.render({
+        elem: '#mImg'
+        , accept: 'images'  // 允许上传的文件类型
+        , size: 2048        // 最大允许上传的文件大小  单位 KB
+        , auto: false
+    });
+
+
+
+</script>
 </body>
 </html>

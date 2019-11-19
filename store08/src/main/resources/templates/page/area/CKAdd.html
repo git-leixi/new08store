@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<div class="layui-form-item" style="width: 350px;">
+    <label class="layui-form-label">窗口名称</label>
+    <div class="layui-input-block">
+        <input id="aName" type="text" name="aName" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+    <label class="layui-form-label">窗口介绍</label>
+    <div class="layui-input-block">
+        <input id="aMain" type="text" name="aMain" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+    <div>
+        <label class="layui-form-label">菜品类别</label>
+        <span th:id="kind">
+        <span th:class="kindSelect" th:id="kName">
+         <select onchange="kindCha(this)"  name="dArea" th:class="kName"  style="width: 60px;height: 35px;border:1px solid #E6E6E6;">
+             <option style="text-align: center;"  th:value="-1"  th:text="请选择"></option>
+             <option style="text-align: center;"   th:each="k:${kind}" th:value="${k.kId}" th:text="${k.kName}"></option>
+         </select>
+        </span>
+      </span>
+    <input type="button" value="添加" th:id="AddSpan"/>
+    </div>
+    <div class="layui-upload" style="margin-left: 12%">
+          <button type="button" class="layui-btn" id="test1" >上传图片</button>
+          <div class="layui-upload-list">
+            <img class="layui-upload-img" id="demo1" height="150px" width="360px">
+            <input type="text"  id="demoText" name="aImg" style="display: none"/>
+          </div>
+    </div> </br>
+</div>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button class="layui-btn" lay-button lay-filter="formDemo" onclick="closeCurrForm()">立即提交</button>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+       $("#AddSpan").click(function () {
+           var spanindex=$("#kind").children("span").size()
+           if(spanindex==3){
+              alert("每个窗口菜品类别最多三个");
+           }else {
+           var kind=$("#kind").children("#kName").html();
+           cell = document.getElementById("kind");
+           var span = document.createElement("span");
+           span.innerHTML = kind;//为div输入内容
+           cell.appendChild(span);
+
+               // var num=Math.floor(Math.random()*7+1);//所得到的的是1-10之间的随机数，每次刷新都不同
+               //$(".kName")[spanindex].value=num;
+           }
+       })
+    })
+  function  kindCha(obj){
+
+             if($(".kName")[0].value!=-1&&$(".kName")[1].value==-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[1].value || $(".kName")[0].value == $(".kName")[2].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+
+             }else if($(".kName")[1].value!=-1&&$(".kName")[0].value==-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[1].value || $(".kName")[1].value == $(".kName")[2].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[2].value!=-1&&$(".kName")[0].value==-1&&$(".kName")[1].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[0].value!=-1&&$(".kName")[1].value!=-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[0].value!=-1&&$(".kName")[2].value!=-1&&$(".kName")[2].value==-1){
+
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[2].value!=-1&&$(".kName")[1].value!=-1&&$(".kName")[0].value==-1){
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else if($(".kName")[0].value!=-1&&$(".kName")[1].value!=-1&&$(".kName")[2].value!=-1){
+                 if ($(".kName")[0].value == $(".kName")[2].value || $(".kName")[1].value == $(".kName")[2].value|| $(".kName")[0].value == $(".kName")[1].value ) {
+                     alert("不能相同");
+                     $(obj).val(-1);
+                 }
+             }else{
+
+             }
+
+
+  }
+</script>
+<script type="text/javascript">
+    layui.use(['form', 'upload', 'layer'], function () {
+        var form = layui.form;
+        var $ = layui.$;
+//检查项目添加到下拉框中
+    });
+    function closeCurrForm(){
+
+        var aName=$("#aName").val();
+        var aMain=$("#aMain").val();
+        var aImg=$("#demoText").val();
+        if(aName==""&&aMain==""&&aImg==""){
+            layer.msg('有必填框未填入对应值！', {
+                time: 5000, //5s后自动关闭
+                btn: ['明白了']
+            });
+        }else {
+            $.ajax({
+                type:"GET",
+                url:"../Area/AddArea",
+                data:{aName:aName,aMain:aMain,aImg:aImg},
+                success:function(result){
+                        var spanindex=$("#kind").children("span").size()
+                        for (var i=0;i<spanindex;i++) {
+                              var kId=$(".kName")[i].value;
+                            $.ajax({
+                                type: "GET",
+                                url: "../Area/AddTempt",
+                                data: {kId:$(".kName")[i].value},
+                                success: function (result) {
+                                    window.parent.location.reload();
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    parent.layer.close(index);
+                                }
+                            });
+                        }
+                }
+            });
+
+        }
+    }
+
+
+
+</script>
+                       
+<script src="layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,method: 'POST'
+            ,url: '../Food/upload/'
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）demoText
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                $('#demoText').val(res.path);
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+</script>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(demo1)',function(data){
+            var index = parent.layer.getFrameIndex(window.name);
+            window.parent.location.reload();
+            parent.layer.close(index);
+
+        });
+
+    });
+
+
+    //单文件示例  选完文件后不自动上传
+    var uploadSingle = upload.render({
+        elem: '#mImg'
+        , accept: 'images'  // 允许上传的文件类型
+        , size: 2048        // 最大允许上传的文件大小  单位 KB
+        , auto: false
+    });
+
+
+
+</script>
+</html>

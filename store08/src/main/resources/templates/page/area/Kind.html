@@ -33,11 +33,10 @@
 
         table.render({
             elem: "#dg",//表格table的id属性
-            url: "../Kind/selKind", //请求数据接口
-            limits: [10,20,30],
-            limit:10,//要传向后台的每页显示条数
-            //,page:true(自带的这个要注掉)
-            page:true,
+            url: "../Kind/selKind" //请求数据接口
+            ,page: true
+            ,limits: [15,20,30]
+            ,limit:15,//要传向后台的每页显示条数
             title: '查询所有信息',
             /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
             toolbar: '#toolbarDemo',

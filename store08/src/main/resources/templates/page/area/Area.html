@@ -29,7 +29,6 @@
             /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
             toolbar: '#toolbarDemo',
             cols: [ [
-                {field : 'aName', title : '所属区域',align:'center', sort: true},
                 {field : 'dId', title : "编号",align:'center', sort: true},
                 {field : 'dName', title : "桌号",align:'center', sort: true,edit: 'text'},
                 {field : 'dsort', title : '使用状态',templet: '#dsort',align:'center', sort: true},
@@ -48,7 +47,7 @@
                         title: '添加页面',
                         closeBtn: 1, //显示关闭按钮
                         anim: 2,
-                        area: ['600px', '300px'],
+                        area: ['600px', '450px'],
                         shadeClose: true, //开启遮罩关闭
                         content: '../Area/toAreaAdd'
                     });
@@ -155,17 +154,6 @@
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
     </div>
-    </div>
-    <div class="layui-inline">
-
-                <label class="layui-form-label">区域:</label>
-                <div class="layui-input-inline" style="width: 150px;">
-                    <select  lay-filter="area" id="area">
-                        <option th:text="-----请选择----" th:value="0"></option>
-                        <option th:text="全部" th:value="0"></option>
-                        <option th:each="area:${area}" th:text="${area.aName }"  th:value="${area.aId}" ></option>
-                    </select>
-                </div>
     </div>
 </script>
 <script id="btn" type="text/html">

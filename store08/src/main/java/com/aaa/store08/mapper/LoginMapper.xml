@@ -7,7 +7,7 @@
        select * from users where uusername = #{username} and upassword=#{password}
     </select>
     <select id="findJob" resultType="com.aaa.store08.entity.UJob">
-       select jName from job where jid =(select ujob from users where uUsername = #{username})
+       select jName,jPermission from job where jid =(select ujob from users where uUsername = #{username})
     </select>
 
     <select id="findall" resultType="Users">

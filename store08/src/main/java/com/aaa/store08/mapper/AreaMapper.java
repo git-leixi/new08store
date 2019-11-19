@@ -24,4 +24,17 @@ public interface AreaMapper {
 
     public int UpdDesk(AreaVo areaVo);
 
+    public List<Map> findAreaKing();
+    //添加窗口
+    public int AddArea(Map map);
+   //查询窗口菜品类别
+    public List<Map> findAreaKname(Integer aId);
+    //查询所有类别
+    public List<Map> findKind();
+    //添加tempt
+    public int AddTempt(Integer kId);
+    //删除窗口
+    public int DelArea(Integer aId);
+    //修改窗口
+    public int UpdArea(Map map);
 }
