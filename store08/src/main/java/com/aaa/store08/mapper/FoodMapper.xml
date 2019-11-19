@@ -19,7 +19,10 @@
         select count(mId) from menu
     </select>
     <select id="SelFoodAll"  parameterType="map"   resultType="map">
-        select m.mId,m.mName,m.mPrice,m.mImg,k.kName,a.aName from menu m,kind k,area a where m.mKind = k.kId and m.mArea = a.aId limit #{begin},#{count}
+        select m.mId,m.mName,m.mPrice,m.mImg,k.kName,a.aName from menu m,kind k,area a where m.mKind = k.kId and m.mArea = a.aId
+           order by m.mId desc
+         limit #{begin},#{count}
+
     </select>
     <insert id="InsertFood" parameterType="Food">
         insert into menu(mName,mPrice,mImg,mKind,mArea) values(#{mName},#{mPrice},#{mImg},#{mKind},#{mArea})
