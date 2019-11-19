@@ -7,7 +7,7 @@
       select t.tId,a.aName,a.aMain,k.kName from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind
     </select>
     <select id="SelFoodId" resultType="Food" parameterType="Integer">
-      select t.tId,a.aName,a.aMain,k.kName from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind and t.tArea = #{tArea}
+      select * from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind and t.tArea = #{tArea}
     </select>
     <delete id="DelAll" parameterType="Integer[]">
         delete from menu where mId in

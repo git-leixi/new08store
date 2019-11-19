@@ -15,6 +15,7 @@ public class Food implements Serializable {
     private Integer tId;
     private Integer tArea;
     private Integer tKind;
+    private Integer kId;
 
     @Override
     public String toString() {
@@ -31,6 +32,7 @@ public class Food implements Serializable {
                 ", tId=" + tId +
                 ", tArea=" + tArea +
                 ", tKind=" + tKind +
+                ", kId=" + kId +
                 '}';
     }
 
@@ -128,5 +130,13 @@ public class Food implements Serializable {
 
     public void settKind(Integer tKind) {
         this.tKind = tKind;
+    }
+
+    public Integer getkId() {
+        return kId;
+    }
+
+    public void setkId(Integer kId) {
+        this.kId = kId;
     }
 }

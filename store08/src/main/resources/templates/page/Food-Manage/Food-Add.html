@@ -139,36 +139,25 @@
                                 $("select[name=mKind]").append(optionString);
                             };
 
-                    layui.use('form', function(){
-                        var table = layui.table
-                            ,form = layui.form;
-                        form.render('select');
-                    })
+                            layui.use('form', function(){
+                                var table = layui.table
+                                    ,form = layui.form;
+                                form.render('select');
+                            })
+
                     $("#mKind").html(optionString);//清除下拉框的值
                 }
             })
 
 
-
-            // $.post("../Food/GetFood",
-            //     {mArea:mArea},
-            //     function (data) {
-            //         alert(data);
-            //         var optionString = "";
-            //         var beanList = data;     //返回的json数据
-            //         if (beanList) {
-            //             for (var i = 0;i<beanList.length;i++){  // 遍历  动态赋值
-            //                 optionString +="<option grade=\""+beanList[i].id+"\" value=\""+beanList[i].id+"\"";
-            //                 optionString +=">"+beanList[i].name+"</option>";
-            //             }
-            //             $("select[name=mKind]").append(optionString);
-            //         };
-            //         $("#mKind").html(optionString);//清除下拉框的值
-            //     });
-
         });
 
         form.on('submit(demo1)',function(data){
+            var mKind = $("#mKind").val();
+           // Integer.parseInt(mKind.toString());
+            //Integer.parseInte(String.valueof(obj));
+
+            alert(mKind);
             var index = parent.layer.getFrameIndex(window.name);
             window.parent.location.reload();
             parent.layer.close(index);

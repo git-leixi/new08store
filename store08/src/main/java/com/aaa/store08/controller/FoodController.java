@@ -80,6 +80,7 @@ public class FoodController {
         List<Food> kInd = fs.SelFoodId(tArea);
         for (Food food : kInd){
             System.out.println(food.getkName());
+            System.out.println(food.getkId());
         }
         return kInd;
     }
