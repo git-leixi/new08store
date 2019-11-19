@@ -6,6 +6,9 @@
     <select id="selAid" parameterType="String"  resultType="int">
 		select aid from users where uUsername = #{username}
     </select>
+    <select id="selAreaAll" resultType="Area">
+        SELECT aId,aName,aMain,uId FROM area WHERE uId = 0
+    </select>
 
     <!--&lt;!&ndash;    查询所有会员信息 &ndash;&gt;
     <select id="selVip" parameterType="int" resultType="vin">

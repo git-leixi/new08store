@@ -6,6 +6,15 @@ public class Area implements Serializable {
     private Integer aId;
     private String aName;
     private String aMain;
+    private Integer uId;
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
 
     public Integer getaId() {
         return aId;

@@ -1,11 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>绑定窗口</title>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+
 </head>
 <body>
 <!--  进来后  选择所拥有的窗口  并绑定（修改 aid的值  ）  -->
-123456789
+    <div>
+        <div>
+            <form class="layui-form" style="position: absolute;left:50%;top: 50%;margin-top: -100px;margin-left: -200px;">
+               <div style="display: flex;">
+                   <div class="windowText">
+                       绑定窗口:&nbsp;
+                   </div>
+                   <div class="windowChose">
+                       <select id="vIdc"  lay-filter="aihao">
+                           <option th:each="s:${list}" th:value="${s.aId}" th:text="${s.aName}"></option>
+                       </select>
+                   </div>
+               </div>
+                <div>
+                    <input class="layui-btn" type="submit" value="确定"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
+ <script>
+     layui.use("form",function () {
+         var form = layui.form;
+     });
+ </script>
+ <style>
+     .windowText{
+         height: 40px;
+         line-height: 40px;
+     }
+     .windowChose{
+         width: 300px;
+     }
+     .layui-btn{
+         margin: 50px 0px 0px 170px;
+     }
+ </style>
 </html>
