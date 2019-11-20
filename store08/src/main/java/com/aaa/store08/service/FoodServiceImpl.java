@@ -67,4 +67,36 @@ public class FoodServiceImpl implements FoodService {
         return fm.UpdFoodId(mId);
     }
 
+    @Override
+    public List<Map> findTemptKind(Integer aId) {
+        return fm.findTemptKind(aId);
+    }
+
+    @Override
+    public int insertKind(String kName) {
+        Map map=new HashMap();
+        map.put("kName",kName);
+        return fm.insertKind(map);
+    }
+
+    @Override
+    public int insertTempt(Integer tArea) {
+        Map map=new HashMap();
+        map.put("tArea",tArea);
+        return fm.insertTempt(map);
+    }
+
+    @Override
+    public int deleteTempt(Integer aId) {
+        return fm.deleteTempt(aId);
+    }
+
+    @Override
+    public int UpdKind(Integer tId, String kName) {
+        Map map=new HashMap();
+        map.put("tId",tId);
+        map.put("kName",kName);
+        return fm.UpdKind(map);
+    }
+
 }

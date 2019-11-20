@@ -36,4 +36,21 @@
     <select id="UpdFoodId" resultType="Food">
         select mId,mName,mPrice,mImg,mKind,mArea from menu where mId = #{mId}
     </select>
+
+    <!-- 新增 -->
+    <select id="findTemptKind" parameterType="int" resultType="Map">
+        select * from tempt t, kind k,area a where t.tkind=k.kId and t.tArea=a.aId and aId=#{aId}
+    </select>
+    <insert id="insertKind" parameterType="Map">
+        insert into kind(kName) values(#{kName});
+    </insert>
+    <insert id="insertTempt" parameterType="Map">
+        insert into tempt(tArea,tKind) values(#{tArea},(select Max(kId) from kind));
+    </insert>
+    <delete id="deleteTempt" parameterType="int">
+        delete from tempt where tId=#{tId}
+    </delete>
+    <update id="UpdKind" parameterType="Map">
+        update kind set kName=#{kName} where kId=(select tkind from tempt where tId=#{tId})
+    </update>
 </mapper>

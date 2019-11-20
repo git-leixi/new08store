@@ -17,7 +17,7 @@
     <div class="layui-input-block">
         <input id="aMain" type="text" name="aMain" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
     </div>
-    <div>
+    <!--<div>
         <label class="layui-form-label">菜品类别</label>
         <span th:id="kind">
         <span th:class="kindSelect" th:id="kName">
@@ -29,6 +29,7 @@
       </span>
     <input type="button" value="添加" th:id="AddSpan"/>
     </div>
+    -->
     <div class="layui-upload" style="margin-left: 12%">
           <button type="button" class="layui-btn" id="test1" >上传图片</button>
           <div class="layui-upload-list">
@@ -44,7 +45,7 @@
 </div>
 </body>
 <script>
-    $(function(){
+    /*$(function(){
        $("#AddSpan").click(function () {
            var spanindex=$("#kind").children("span").size()
            if(spanindex==3){
@@ -55,9 +56,6 @@
            var span = document.createElement("span");
            span.innerHTML = kind;//为div输入内容
            cell.appendChild(span);
-
-               // var num=Math.floor(Math.random()*7+1);//所得到的的是1-10之间的随机数，每次刷新都不同
-               //$(".kName")[spanindex].value=num;
            }
        })
     })
@@ -109,7 +107,7 @@
              }
 
 
-  }
+  }*/
 </script>
 <script type="text/javascript">
     layui.use(['form', 'upload', 'layer'], function () {
@@ -133,7 +131,10 @@
                 url:"../Area/AddArea",
                 data:{aName:aName,aMain:aMain,aImg:aImg},
                 success:function(result){
-                        var spanindex=$("#kind").children("span").size()
+                    window.parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                     /*   var spanindex=$("#kind").children("span").size()
                         for (var i=0;i<spanindex;i++) {
                               var kId=$(".kName")[i].value;
                               if(kId!=-1){
@@ -149,7 +150,7 @@
                                   });
                               }
 
-                        }
+                        }*/
                 }
             });
 

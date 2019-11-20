@@ -25,4 +25,14 @@ public interface FoodMapper {
     public int UpdateFood(Food food);
     //查询指定行数据
     public Food UpdFoodId(int mId);
+    //新增
+    //查询菜品类别
+    public List<Map> findTemptKind(Integer aId);
+    //新增类别
+    public int insertKind(Map map);
+    public int insertTempt(Map map);
+    //删除
+    public int deleteTempt(Integer aId);
+    //修改
+    public int UpdKind(Map map);
 }
