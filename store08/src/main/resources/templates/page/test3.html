@@ -13,6 +13,8 @@
 </head>
 <body>
 <!--  进来后  选择所拥有的窗口  并绑定（修改 aid的值  ）  -->
+<!--
+<form th:action="@{'../principal/updAid?aId='+$('#vIdc').val()">
     <div>
         <div>
             <form class="layui-form" style="position: absolute;left:50%;top: 50%;margin-top: -100px;margin-left: -200px;">
@@ -32,23 +34,44 @@
             </form>
         </div>
     </div>
+</form>
+-->
+
+
+
+<form class="layui-form layui-form-pane" action="" lay-filter="example" style="position: absolute;left:50%;top: 50%;margin-top: -100px;margin-left: -200px;">
+    <div class="layui-form-item">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 200px"><i class="required-color">*</i>请绑定要选择的窗口:&nbsp;</label>
+            <div class="layui-input-inline">
+                <select id="vIdc"  lay-filter="bj" name="aid">
+                    <option th:each="s:${list}" th:value="${s.aId}" th:text="${s.aName}"></option>
+                </select>
+
+            </div>
+            <input class="layui-btn" type="button" id="btn" value="确定"/>
+        </div>
+    </div>
+</form>
 
 </body>
  <script>
-     layui.use("form",function () {
-         var form = layui.form;
-     });
+     layui.use('form', function() {
+
+     })
+
+     btn.onclick = function () {
+         var i = $('#vIdc').val();
+         $.ajax({
+             type: "GET",
+             url: "../principal/updAid?aId=" + $('#vIdc').val(),
+             success:function (i) {
+                 if(i==1){
+                     location.reload();
+                 }
+             }
+         });
+
+     }
  </script>
- <style>
-     .windowText{
-         height: 40px;
-         line-height: 40px;
-     }
-     .windowChose{
-         width: 300px;
-     }
-     .layui-btn{
-         margin: 50px 0px 0px 170px;
-     }
- </style>
 </html>

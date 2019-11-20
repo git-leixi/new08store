@@ -9,7 +9,10 @@
     <select id="selAreaAll" resultType="Area">
         SELECT aId,aName,aMain,uId FROM area WHERE uId = 0
     </select>
-
+    <!--    修改登陆账号所绑定的窗口-->
+    <update id="updAid" parameterType="map" >
+        update users set aId=#{aid} where uusername=#{username}
+    </update>
     <!--&lt;!&ndash;    查询所有会员信息 &ndash;&gt;
     <select id="selVip" parameterType="int" resultType="vin">
 		select vid,vidc,vsum from vip

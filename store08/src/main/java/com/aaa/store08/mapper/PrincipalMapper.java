@@ -4,6 +4,7 @@ import com.aaa.store08.entity.Area;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PrincipalMapper {
@@ -11,4 +12,6 @@ public interface PrincipalMapper {
     int selAid(String username);
     //查询uId为0的窗口
     List<Area> selAreaAll();
+    // 修改登陆账号所绑定的窗口
+    int updAid(Map map);
 }

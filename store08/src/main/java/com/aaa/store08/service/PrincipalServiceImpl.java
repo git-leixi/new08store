@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -19,9 +20,14 @@ public class PrincipalServiceImpl implements  PrincipalService {
     public int selAid(String username) {
         return principalMapper.selAid(username);
     }
-
+    //查询uId为0的窗口
     @Override
     public List<Area> selAreaAll() {
         return principalMapper.selAreaAll();
+    }
+    // 修改登陆账号所绑定的窗口
+    @Override
+    public int updAid(Map map) {
+        return principalMapper.updAid(map);
     }
 }
