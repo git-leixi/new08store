@@ -9,6 +9,12 @@
     <select id="SelFoodId" resultType="Food" parameterType="Integer">
       select * from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind and t.tArea = #{tArea}
     </select>
+
+    <!--  根据session  查询username -->
+    <select id="selAName"  parameterType="String" resultType="int">
+     select aid from area where aid = (select aid from users where uusername = #{username})
+    </select>
+
     <delete id="DelAll" parameterType="Integer[]">
         delete from menu where mId in
         <foreach collection="array" open="(" item="id" separator="," close=")">
@@ -28,6 +34,9 @@
 
     </select>
     <insert id="InsertFood" parameterType="Food">
+        insert into menu(mName,mPrice,mImg,mKind,mArea) values(#{mName},#{mPrice},#{mImg},#{mKind},#{mArea})
+    </insert>
+    <insert id="InsertFoods" parameterType="Food">
         insert into menu(mName,mPrice,mImg,mKind,mArea) values(#{mName},#{mPrice},#{mImg},#{mKind},#{mArea})
     </insert>
     <update id="UpdateFood" parameterType="Food">

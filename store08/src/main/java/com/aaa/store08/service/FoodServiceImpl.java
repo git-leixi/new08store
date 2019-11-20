@@ -56,6 +56,10 @@ public class FoodServiceImpl implements FoodService {
     public int InsertFood(Food food) {
         return fm.InsertFood(food);
     }
+    @Override
+    public int InsertFoods(Food food) {
+        return fm.InsertFoods(food);
+    }
 
     @Override
     public int UpdateFood(Food food) {
@@ -65,6 +69,11 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Food UpdFoodId(int mId) {
         return fm.UpdFoodId(mId);
+    }
+    //根据session  查询username
+    @Override
+    public int selAName(String username) {
+        return fm.selAName(username);
     }
 
 }
