@@ -7,8 +7,22 @@
     <select id="SelKind" resultType="Kind">
         select kId,kName from kind
     </select>
+    <!--查询编号总数-->
+    <select id="findCount" resultType="int">
+        select count(kId) from kind
+    </select>
+    <!--分页查询-->
+    <select id="SelKindAll"  parameterType="map"   resultType="map">
+           select * from area a,kind k where a.aId = k.kId
+           order by k.kId asc limit #{begin},#{count}
+    </select>
+    <!-- 查询种类对应区域-->
+    <select id="SelKindId"  parameterType="map"   resultType="map">
+        select * from area a,tempt t,kind k where a.aId = t.tArea and k.kId = t.tKind and k.kId=#{kId};
+
+    </select>
     <!-- 添加餐饮类别信息 -->
-    <insert id="InsertKind" parameterType="String">
+    <insert id="InsertKind" parameterType="Kind">
         insert into kind(kName) values(#{kName})
     </insert>
     <!-- 删除餐饮类别信息 -->

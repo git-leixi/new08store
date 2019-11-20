@@ -16,14 +16,15 @@
 	  <script src="../common/layui/layui.all.js"></script>
   </head>
   <body style="background-color: #fafafa;">
-       <input type="text" th:value="${username}" th:id="username">
+       <input type="hidden" th:value="${username}" th:id="username">
        <table class="layui-hide" id="orders" lay-filter="orders"></table>
   </body>
   <script type="text/javascript" th:inline="none">
 	  var username=$("#username").val();
-      layui.use('table', function() {
+      layui.use(['table','util'], function() {
           var table = layui.table
               , form = layui.form;
+		  var util = layui.util;
           table.render({
               elem: "#orders",//表格table的id属性
               url: "../newTest/OrdersSelect?username="+username, //请求数据接口
@@ -33,7 +34,7 @@
               toolbar: '#toolbarDemo',
               cols: [[
                   {field: 'oId', title: "编号", align: 'center', sort: true},
-                  {field: 'oDate', title: "订单时间", align: 'center', sort: true},
+                  {field: 'oDate', title: "订单时间", align: 'center', sort: true,templet:function(d){return util.toDateString(d.oDate, "yyyy-MM-dd HH:mm:ss")}},
                   {field: 'oDesk', title: '所在桌', align: 'center', sort: true},
                   {field: 'oPrice', title: '价钱', align: 'center', sort: true},
                   {field: 'vPhone', title: '手机号码', align: 'center', sort: true},
@@ -88,11 +89,11 @@
 							  skin: 'layui-layer-molv' //样式类名  自定义样式
                               ,closeBtn: 1    // 是否显示关闭按钮
 							  ,anim: 1 //动画类型
-							  ,time:20000
+							  ,time:200000
                               ,btn: ['查看','知道了'] //按钮
                               ,icon: 6    // icon
                               ,yes:function(){
-                                  layer.open({
+							  	layer.open({
                                       type: 2,
                                       title: '菜品状态',
                                       maxmin: true,
@@ -101,8 +102,16 @@
                                       content: '../perform/tfindDetails?id='+result.data[0].oId,
                                       success: function(layero, index){
                                           $('#win100').height('auto');
-                                          //location.replace(location.href);
-                                      }
+										  // window.parent.location.reload();//刷新父页面
+										 /* var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+										   parent.layer.close(index);*/
+										  //location.replace(location.href);
+										  //layer.close(fff);
+
+										 /* var mylayer= parent.layer.getFrameIndex(window.name);
+											alert(mylayer);
+										  parent.layer.close(mylayer);*/
+									  }
                                   });
 
                                 }
