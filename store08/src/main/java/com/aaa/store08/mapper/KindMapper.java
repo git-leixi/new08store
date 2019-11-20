@@ -1,6 +1,5 @@
 package com.aaa.store08.mapper;
 
-import com.aaa.store08.entity.Food;
 import com.aaa.store08.entity.Kind;
 import org.apache.ibatis.annotations.Mapper;
 

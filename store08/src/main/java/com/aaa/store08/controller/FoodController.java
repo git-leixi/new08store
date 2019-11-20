@@ -55,8 +55,69 @@ public class FoodController {
     public String aaa(){
         return "page/Food-Manage/Food-index";
     }
+    //跳转菜品页面
+    @RequestMapping("aaaa")
+    public String aaaa(){
+        return "page/Food-Manage/Food-aindex";
+    }
 
 
+    @RequestMapping("tGetFood")
+    public String tGetFood(Model model, HttpSession httpSession){
+        String username = String.valueOf(httpSession.getAttribute("username"));
+        int tArea = fs.selAName(username);
+        //System.out.println("i"+tArea);
+        List<Food> kInd = fs.SelFoodId(tArea);
+        model.addAttribute("kind",kInd);
+        return "page/Food-Manage/Food-aAdd";
+    }
+
+
+    //添加菜品图片
+    @RequestMapping("InsertFoods")
+    public String InsertFood(Food food, int mKind,HttpServletRequest request, HttpSession httpSession){
+        String username = String.valueOf(httpSession.getAttribute("username"));
+        int tArea = fs.selAName(username);
+        System.out.println("mkind"+mKind);
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+        //System.out.println(food.getmPrice()+food.getmName()+food.getmImg());
+        String fileName =basePath+"/uploadFiles/"+food.getmImg();
+        //System.out.println(fileName);
+        food.setmImg(fileName);
+        food.setmArea(tArea);
+        fs.InsertFoods(food);
+
+
+        //System.out.println(food.getmName()+food.getmImg());
+        return "redirect:aaaa";
+    }
+    //修改  查询修改信息
+    @RequestMapping("aToUpdateFood")
+    public String aToUpdateFood(Area area, Kind kind, Model model,Integer mId,HttpSession session){
+        Food food = fs.UpdFoodId(mId);
+        List<Area> areas = as.SelArea();
+        String username = String.valueOf(session.getAttribute("username"));
+        int tArea = fs.selAName(username);
+        food.setmArea(tArea);
+        List<Food> kInd = fs.SelFoodId(tArea);
+        model.addAttribute("kind",kInd);
+        model.addAttribute("upd",food);
+        model.addAttribute("as",areas);
+        model.addAttribute("ks",kInd);
+        return "page/Food-Manage/Food-aUpdate";
+    }
+    //修改
+    @RequestMapping("aUpd")
+    public String aUpd(Food food,@RequestBody MultipartFile upload,int mId,HttpServletRequest request){
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        //System.out.println(food.getmPrice()+food.getmName()+food.getmImg());
+        String fileName =basePath+"/uploadFiles/"+food.getmImg();
+        //System.out.println(fileName);
+        food.setmImg(fileName);
+        fs.UpdateFood(food);
+        return "redirect:aaaa";
+    }
         //按编号删除
     @RequestMapping("DelFood")
     public String DelStu(Integer mId){
@@ -74,7 +135,7 @@ public class FoodController {
 
     @RequestMapping("GetFood")
     @ResponseBody
-    public Object GetFood(Integer tArea){
+    public Object GetFood(Integer tArea, HttpSession httpSession){
         System.out.println("123");
         List<Food> kInd = fs.SelFoodId(tArea);
         for (Food food : kInd){
@@ -89,21 +150,22 @@ public class FoodController {
     public  String Add(){
         return "page/Food-Manage/Food-Add";
     }
-    //添加菜品图片
-    @RequestMapping("InsertFood")
-    public String InsertFood(Food food, Area area, Kind kind,HttpServletRequest request){
-           String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-           System.out.println(food.getmPrice()+food.getmName()+food.getmImg());
-           String fileName =basePath+"/uploadFiles/"+food.getmImg();
-           System.out.println(fileName);
-           food.setmImg(fileName);
-           fs.InsertFood(food);
+    @RequestMapping("InsertFood")
+    public String InsertFoods(Food food, Area area, Kind kind,HttpServletRequest request){
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+        System.out.println(food.getmPrice()+food.getmName()+food.getmImg());
+        String fileName =basePath+"/uploadFiles/"+food.getmImg();
+        System.out.println(fileName);
+        food.setmImg(fileName);
+        fs.InsertFood(food);
 
 
         System.out.println(food.getmName()+food.getmImg());
         return "redirect:aaa";
     }
+
     //文件上传
     @RequestMapping("upload")
     public @ResponseBody Map<String, Object> image(@RequestBody MultipartFile file){
@@ -132,6 +194,7 @@ public class FoodController {
     }
 
 
+
     //修改
     @RequestMapping("Upd")
     public String Upd(Food food,@RequestBody MultipartFile upload,HttpServletRequest request){
@@ -141,7 +204,7 @@ public class FoodController {
         String fileName =basePath+"/uploadFiles/"+food.getmImg();
         System.out.println(fileName);
         food.setmImg(fileName);
-        fs.InsertFood(food);
+        fs.UpdateFood(food);
         return "redirect:aaa";
     }
     //雷禧新增

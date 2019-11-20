@@ -14,8 +14,11 @@ public interface FoodService {
     public int findCount();
     public List<Map> SelFoodAll(PageVo pageVo);
     public int InsertFood(Food food);
+    public int InsertFoods(Food food);
     public int UpdateFood(Food food);
     public Food UpdFoodId(int mId);
+    //根据session  查询username
+    int selAName(String username);
     //新增
     //查询菜品类别
     public List<Map> findTemptKind(Integer aId);

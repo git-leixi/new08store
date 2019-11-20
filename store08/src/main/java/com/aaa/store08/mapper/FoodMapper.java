@@ -21,10 +21,13 @@ public interface FoodMapper {
     public List<Map> SelFoodAll(Map<String, Object> map);
     //添加菜品
     public int InsertFood(Food food);
+    public int InsertFoods(Food food);
     //修改菜品
     public int UpdateFood(Food food);
     //查询指定行数据
     public Food UpdFoodId(int mId);
+    //根据session  查询username
+    int selAName(String username);
     //新增
     //查询菜品类别
     public List<Map> findTemptKind(Integer aId);
