@@ -29,4 +29,6 @@ public interface FoodService {
     public int deleteTempt(Integer aId);
     //修改
     public int UpdKind(Integer tId,String kName);
+    //查询该账号绑定的aid
+    public int selAidArea(String username);
 }

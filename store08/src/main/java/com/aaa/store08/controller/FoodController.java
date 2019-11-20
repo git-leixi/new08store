@@ -1,10 +1,7 @@
 package com.aaa.store08.controller;
 
 import com.aaa.store08.entity.*;
-import com.aaa.store08.service.AreaService;
-import com.aaa.store08.service.FoodService;
-import com.aaa.store08.service.KindService;
-import com.aaa.store08.service.TestService;
+import com.aaa.store08.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -38,11 +35,19 @@ public class FoodController {
     private AreaService as;
     @Autowired
     private KindService ks;
+    @Autowired
+    private LoginService ls;
 
     //分页查询菜品
     @ResponseBody
     @RequestMapping("SelFood")
-    public Object SelFood(PageVo pageVo) {
+    public Object SelFood(PageVo pageVo,HttpSession session) {
+
+        //如果 session 取来premission 值为2 ，则 执行分类查询
+        String username = String.valueOf(session.getAttribute("username"));
+        UJob ujob = ls.findJob(username);
+        int aid = fs.selAidArea(username);
+        pageVo.setAid(aid);
         DataGrid dg = new DataGrid();
         int count = fs.findCount();
         List<Map> maps = fs.SelFoodAll(pageVo);

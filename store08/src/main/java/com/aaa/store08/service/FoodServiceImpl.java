@@ -47,6 +47,7 @@ public class FoodServiceImpl implements FoodService {
         Map<String,Object> map = new HashMap<String,Object>();
         int count = pageVo.getLimit();
         int begin =pageVo.getLimit() * (pageVo.getPage() - 1);
+        map.put("aid",pageVo.getAid());
         map.put("count",count);
         map.put("begin",begin);
         return fm.SelFoodAll(map);
@@ -106,6 +107,11 @@ public class FoodServiceImpl implements FoodService {
         map.put("tId",tId);
         map.put("kName",kName);
         return fm.UpdKind(map);
+    }
+
+    @Override
+    public int selAidArea(String username) {
+        return fm.selAidArea(username);
     }
 
 }

@@ -9,8 +9,15 @@ public class UJob implements Serializable {
     private Integer uJob;
     private String jName;
     private Integer jPermission;
+    private Integer aId;
 
+    public Integer getaId() {
+        return aId;
+    }
 
+    public void setaId(Integer aId) {
+        this.aId = aId;
+    }
 
     public Integer getuId() {
         return uId;
