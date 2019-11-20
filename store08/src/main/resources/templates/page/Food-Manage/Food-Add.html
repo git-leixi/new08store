@@ -138,14 +138,12 @@
                                 }
                                 $("select[name=mKind]").append(optionString);
                             };
-
+                    $("#mKind").html(optionString);//清除下拉框的值
                             layui.use('form', function(){
                                 var table = layui.table
                                     ,form = layui.form;
                                 form.render('select');
                             })
-
-                    $("#mKind").html(optionString);//清除下拉框的值
                 }
             })
 
@@ -153,11 +151,6 @@
         });
 
         form.on('submit(demo1)',function(data){
-            var mKind = $("#mKind").val();
-           // Integer.parseInt(mKind.toString());
-            //Integer.parseInte(String.valueof(obj));
-
-            alert(mKind);
             var index = parent.layer.getFrameIndex(window.name);
             window.parent.location.reload();
             parent.layer.close(index);
