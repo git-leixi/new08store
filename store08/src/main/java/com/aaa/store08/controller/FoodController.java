@@ -4,6 +4,7 @@ import com.aaa.store08.entity.*;
 import com.aaa.store08.service.AreaService;
 import com.aaa.store08.service.FoodService;
 import com.aaa.store08.service.KindService;
+import com.aaa.store08.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -208,5 +209,51 @@ public class FoodController {
         food.setmImg(fileName);
         fs.UpdateFood(food);
         return "redirect:aaa";
+    }
+    //雷禧新增
+    @Autowired
+    private TestService ts;
+    //添加菜品类别
+    @RequestMapping("toType")
+    public String toType(){
+        return "page/Food-Manage/Food-type";
+    }
+    @RequestMapping("findTemptKind")
+    @ResponseBody
+    public Object findType(HttpSession httpSession){
+        String username = String.valueOf(httpSession.getAttribute("username"));
+        DataGrid dg = new DataGrid();
+        int usersaId = ts.findUsersaId(username);
+        //查询出所有类别
+        List<Map> temptKind = fs.findTemptKind(usersaId);
+        dg.setCode(0);
+        dg.setData(temptKind);
+        dg.setMsg("");
+        return dg;
+    }
+    @RequestMapping("AddTemptKind")
+    public String AddKind(HttpSession httpSession){
+        String kName=null;
+        //添加Kind
+         fs.insertKind(kName);
+        //添加tempt
+        String username = String.valueOf(httpSession.getAttribute("username"));
+        System.out.println("测试123"+username);
+        DataGrid dg = new DataGrid();
+        int tArea = ts.findUsersaId(username);
+        System.out.println("测试"+tArea);
+         fs.insertTempt(tArea);
+        return "page/Food-Manage/Food-Type";
+    }
+    @RequestMapping("TemptDel")
+    public String TemptDel(Integer tId){
+
+        fs.deleteTempt(tId);
+        return "page/Food-Manage/Food-Type";
+    }
+    @RequestMapping("UpdKind")
+    public String UpdKind(Integer tId,String kName){
+        fs.UpdKind(tId,kName);
+        return "page/Food-Manage/Food-Type";
     }
 }

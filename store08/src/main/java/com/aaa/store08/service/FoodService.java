@@ -19,4 +19,14 @@ public interface FoodService {
     public Food UpdFoodId(int mId);
     //根据session  查询username
     int selAName(String username);
+    //新增
+    //查询菜品类别
+    public List<Map> findTemptKind(Integer aId);
+    //新增类别
+    public int insertKind(String kName);
+    public int insertTempt(Integer tArea);
+    //删除
+    public int deleteTempt(Integer aId);
+    //修改
+    public int UpdKind(Integer tId,String kName);
 }
