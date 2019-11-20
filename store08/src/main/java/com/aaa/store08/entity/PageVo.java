@@ -5,7 +5,16 @@ public class PageVo {
 
 	private Integer limit;//数据量
 	private Integer page;//页码数
-	
+	private Integer aid;
+
+	public Integer getAid() {
+		return aid;
+	}
+
+	public void setAid(Integer aid) {
+		this.aid = aid;
+	}
+
 	public Integer getLimit() {
 		return limit;
 	}

@@ -38,4 +38,6 @@ public interface FoodMapper {
     public int deleteTempt(Integer aId);
     //修改
     public int UpdKind(Map map);
+    //查询该账号绑定的aid
+    public int selAidArea(String username);
 }
