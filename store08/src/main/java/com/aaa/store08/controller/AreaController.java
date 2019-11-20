@@ -58,6 +58,7 @@ public class AreaController {
     @RequestMapping("CKSelect")
     @ResponseBody
     public Object WindowSelect() {
+        System.out.println("测试");
         DataGrid dg = new DataGrid();
         List<Map> areas = as.findAreaKing();
         //查询介绍添加

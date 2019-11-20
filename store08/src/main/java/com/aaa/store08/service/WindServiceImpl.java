@@ -1,7 +1,6 @@
 package com.aaa.store08.service;
 
-import com.aaa.store08.mapper.AreaMapper;
-import com.aaa.store08.mapper.TestMapper;
+import com.aaa.store08.mapper.WindMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +11,9 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class TestServiceImpl implements TestService {
+public class WindServiceImpl implements WindService {
     @Resource
-    private TestMapper am;
+    private WindMapper am;
 
 
     @Override

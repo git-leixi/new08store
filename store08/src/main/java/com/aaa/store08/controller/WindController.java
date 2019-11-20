@@ -1,24 +1,20 @@
 package com.aaa.store08.controller;
 
 import com.aaa.store08.entity.DataGrid;
-import com.aaa.store08.service.AreaService;
-import com.aaa.store08.service.TestService;
+import com.aaa.store08.service.WindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("newTest")
-public class TestController {
+public class WindController {
     @Autowired
-    private TestService ts;
+    private WindService ts;
     @RequestMapping("toCkHome")
     public String toHome(){
         return "page/ckHome";

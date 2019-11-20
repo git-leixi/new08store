@@ -50,6 +50,11 @@ public class HomeServiceImpl implements HomeService {
     public Home OpriceTest(String oDate) {
         return tm.OpriceTest(oDate);
     }
+
+    @Override
+    public List<Map> selOrders() {
+        return tm.selOrders();
+    }
 }
 
 

@@ -34,4 +34,7 @@
        select  sum(oPrice) as oprice from orders
         where payment='已付款' and date(oDate)=#{oDate}
     </select>
+    <select id="selOrders" resultType="Map">
+       select  *  from orders where payment='已付款'
+    </select>
 </mapper>

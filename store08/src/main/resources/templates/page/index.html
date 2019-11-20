@@ -12,6 +12,11 @@
 	
 	<link rel="stylesheet" href="../common/css/sccl.css">
 	<link rel="stylesheet" type="text/css" href="../common/skin/qingxin/skin.css" id="layout-skin"/>
+	  <link rel="stylesheet" href="../common/layui/css/layui.css">
+	  <script src="../common/layui/echarts.common.min.js"></script>
+	  <script src="../common/layui/jquery-1.8.3.min.js"></script>
+	  <script src="../common/layui/layui.js"></script>
+	  <script src="../common/layui/layui.all.js"></script>
     
   </head>
   
@@ -118,4 +123,57 @@
 	<script type="text/javascript" src="../common/js/sccl.js"></script>
 	<script type="text/javascript" src="../common/js/sccl-util.js"></script>
   </body>
+<script>
+	   $(function () {
+	       var num=0
+           $.ajax({
+               type: "post",
+               async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+               url: "../Test/indexFindOrders",    //请求发送到TestServlet处
+               dataType: "json",        //返回数据形式为json
+               success: function (result) {
+                   num=result.data.length;
+                   count();
+               }
+           })
+           function count(){
+               setTimeout(count,1000);
+               $.ajax({
+                   type : "post",
+                   async : true,
+                   dataType : "json",
+                   url:"../Test/indexFindOrders",
+                   success:function(result){
+                       var data= result.data.length
+                       if (data!=num) {
+                           num=data;
+                           layer.alert('有一个新的订单', {
+                               skin: 'layui-layer-molv' //样式类名  自定义样式
+                               ,closeBtn: 1    // 是否显示关闭按钮
+                               ,anim: 1 //动画类型
+                               ,time:200000
+                               ,btn: ['查看','知道了'] //按钮
+                               ,icon: 6    // icon
+                               ,yes:function(){
+                                   layer.open({
+                                       type: 2,
+                                       title: '菜品状态',
+                                       maxmin: true,
+                                       area : ['1000px','650px'],
+                                       shadeClose: false, //点击遮罩关闭
+                                       content: '../perform/tfindDetails?id='+result.data[0].oId,
+                                       success: function(layero, index){
+                                           $('#win100').height('auto');
+                                       }
+                                   });
+
+                               }
+                               ,btn2:function(){
+                               }});
+                       }
+                   }
+               });
+           }
+       })
+</script>
 </html>

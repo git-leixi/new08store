@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface TestMapper {
+public interface WindMapper {
     //查看本账户订单
     public List<Map> findOrders(Integer oArea);
     //查看订单数据量

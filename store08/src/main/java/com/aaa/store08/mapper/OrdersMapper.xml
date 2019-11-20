@@ -3,11 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aaa.store08.mapper.OrdersMapper">
     <select id="findOrders" resultType="Map" parameterType="Map">
-       select * from orders o,area a where o.oArea=a.aId and date(oDate)=CURDATE()and payment='未付款'
+       select * from orders o,orderdetails od where o.oId=od.odoId and otype = 0 and payment='已付款' group by o.oId
        limit #{begin},#{count}
     </select>
     <select id="findOrdersCount" resultType="int">
-        select count(oId) from orders where date(oDate)=CURDATE()and payment='未付款'
+        select count(oId) orders o,orderdetails od where o.oId=od.odoId and otype = 0 and payment='已付款' group by o.oId
     </select>
     <select id="findOrdersMonth" resultType="Map" parameterType="Map">
         select *  from orders o,area a  where payment='已付款' and o.oArea=a.aId

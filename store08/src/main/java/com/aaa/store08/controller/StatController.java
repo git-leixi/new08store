@@ -1,15 +1,16 @@
 package com.aaa.store08.controller;
 
-import com.aaa.store08.entity.AreaVo;
 import com.aaa.store08.entity.DataGrid;
 import com.aaa.store08.service.AreaService;
 import com.aaa.store08.service.StatService;
+import com.aaa.store08.service.WindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,31 +22,54 @@ public class StatController {
     private StatService ss;
     @Autowired
     private AreaService as;
-    private String prefix = "page/stat/stat";
-    @RequestMapping("toStat")
-    public String toStat(Model model){
+    @Autowired
+    private WindService ts;
+
+    @RequestMapping("toCKStat")
+    public String toCKStat(Model model){
+        String prefix = "page/stat/CKstat";
         List<Map> areaKing = as.findAreaKing();
         model.addAttribute("area",areaKing);
         return prefix;
     }
+
+    @RequestMapping("toStat")
+    public String toStat(Model model){
+        String prefix = "page/stat/stat";
+        List<Map> areaKing = as.findAreaKing();
+        model.addAttribute("area",areaKing);
+        return prefix;
+    }
+
+    @RequestMapping("findaIdOdName")
+    @ResponseBody
+    public Object aIdfindOdName(HttpSession httpSession){
+        String aName="";
+        String username = String.valueOf(httpSession.getAttribute("username"));
+        int aId = ts.findUsersaId(username);
+        List<Map> anames = ss.SelectaName(aId);
+        aName = (String) anames.get(0).get("aName");
+        DataGrid dg = new DataGrid();
+        List<Map> list = ss.findOdName(aName);
+        dg.setCode(0);
+        dg.setData(list);
+        dg.setMsg("");
+        return dg;
+    }
     @RequestMapping("findOdName")
     @ResponseBody
     public Object findOdName(Integer aId){
-        System.out.println("测试aId"+aId);
         String aName="";
          if(aId!=null){
              if(aId==-1){
-                 System.out.println("运行这一句了1");
                  aName="全部";
              }else {
                  List<Map> anames = ss.SelectaName(aId);
                  aName = (String) anames.get(0).get("aName");
              }
         } else {
-            System.out.println("运行这一句了2");
             aName="全部";
         }
-        System.out.println("测试aName"+aName);
         DataGrid dg = new DataGrid();
         List<Map> list = ss.findOdName(aName);
         dg.setCode(0);

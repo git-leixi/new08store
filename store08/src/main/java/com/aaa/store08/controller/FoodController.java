@@ -4,7 +4,7 @@ import com.aaa.store08.entity.*;
 import com.aaa.store08.service.AreaService;
 import com.aaa.store08.service.FoodService;
 import com.aaa.store08.service.KindService;
-import com.aaa.store08.service.TestService;
+import com.aaa.store08.service.WindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.Data;
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,7 +146,7 @@ public class FoodController {
     }
     //雷禧新增
     @Autowired
-    private TestService ts;
+    private WindService ts;
     //添加菜品类别
     @RequestMapping("toType")
     public String toType(){
@@ -175,10 +172,8 @@ public class FoodController {
          fs.insertKind(kName);
         //添加tempt
         String username = String.valueOf(httpSession.getAttribute("username"));
-        System.out.println("测试123"+username);
         DataGrid dg = new DataGrid();
         int tArea = ts.findUsersaId(username);
-        System.out.println("测试"+tArea);
          fs.insertTempt(tArea);
         return "page/Food-Manage/Food-Type";
     }

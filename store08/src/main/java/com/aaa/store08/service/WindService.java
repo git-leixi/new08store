@@ -3,7 +3,7 @@ package com.aaa.store08.service;
 import java.util.List;
 import java.util.Map;
 
-public interface TestService {
+public interface WindService {
     //查看本账户订单
     public List<Map> findOrders(Integer oArea);
     //查看订单数据量

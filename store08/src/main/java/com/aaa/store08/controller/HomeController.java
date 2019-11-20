@@ -119,6 +119,15 @@ public class HomeController {
         return dg;
 
     }
-
+    @ResponseBody
+    @RequestMapping("indexFindOrders")
+    public Object indexFindOrders(PageVo pageVo) {
+        DataGrid dg = new DataGrid();
+        List<Map> list = ts.selOrders();
+        dg.setCode(0);
+        dg.setData(list);
+        dg.setMsg("");
+        return dg;
+    }
 
 }

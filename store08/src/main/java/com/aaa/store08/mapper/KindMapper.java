@@ -2,7 +2,6 @@ package com.aaa.store08.mapper;
 
 import com.aaa.store08.entity.Food;
 import com.aaa.store08.entity.Kind;
-import com.aaa.store08.entity.Tempt;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

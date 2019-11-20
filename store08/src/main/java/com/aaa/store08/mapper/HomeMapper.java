@@ -16,5 +16,6 @@ public interface HomeMapper {
     public List<Map> monthly();  //每月
     public List<Map> MonthTest();  //每月的日期
     public Home OpriceTest(String oDate);  //每天的收入
+    public List<Map> selOrders();//总订单
 
 }
