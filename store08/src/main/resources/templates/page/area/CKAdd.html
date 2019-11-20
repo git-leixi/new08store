@@ -136,16 +136,19 @@
                         var spanindex=$("#kind").children("span").size()
                         for (var i=0;i<spanindex;i++) {
                               var kId=$(".kName")[i].value;
-                            $.ajax({
-                                type: "GET",
-                                url: "../Area/AddTempt",
-                                data: {kId:$(".kName")[i].value},
-                                success: function (result) {
-                                    window.parent.location.reload();
-                                    var index = parent.layer.getFrameIndex(window.name);
-                                    parent.layer.close(index);
-                                }
-                            });
+                              if(kId!=-1){
+                                  $.ajax({
+                                      type: "GET",
+                                      url: "../Area/AddTempt",
+                                      data: {kId:$(".kName")[i].value},
+                                      success: function (result) {
+                                          window.parent.location.reload();
+                                          var index = parent.layer.getFrameIndex(window.name);
+                                          parent.layer.close(index);
+                                      }
+                                  });
+                              }
+
                         }
                 }
             });

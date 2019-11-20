@@ -26,14 +26,14 @@ public class PrincipalController {
     @RequestMapping("selAid")
     public String selAid( Model model, HttpSession httpSession){
         String username = String.valueOf(httpSession.getAttribute("username"));
-        System.out.println(httpSession.getAttribute("username"));
         int i = principalService.selAid(username);
         if(i==0){
             List<Area> areas = principalService.selAreaAll();
             model.addAttribute("list",areas);
             return "page/test3";
         }
-        return "page/test2";
+        model.addAttribute("username",username);
+        return "page/ckHome";  //sel
     }
 
     //根据未绑定账户  根据所选择绑定的窗口 进行绑定

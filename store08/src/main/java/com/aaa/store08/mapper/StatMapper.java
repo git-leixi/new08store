@@ -7,7 +7,8 @@ import java.util.Map;
 
 @Mapper
 public interface StatMapper {
-    public List<Map>  findOdName();
+    public List<Map>  findOdName(Map map);
     public int findMonthCount();
     public List<Map> AreaRanking();
+    public List<Map> SelectaName(Integer aId);
 }

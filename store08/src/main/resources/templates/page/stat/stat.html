@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../common/layui/css/layui.css">
-    <script src="../../common/layui/layui.js"></script>
-    <script src="../../common/layui/jquery-1.8.3.min.js"></script>
-    <script src="../../common/layui/echarts.common.min.js"></script>
+    <link rel="stylesheet" href="../common/layui/css/layui.css">
+    <script src="../common/layui/layui.js"></script>
+    <script src="../common/layui/jquery-1.8.3.min.js"></script>
+    <script src="../common/layui/echarts.common.min.js"></script>
 </head>
 <body>
 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
     <ul class="layui-tab-title">
-        <li class="layui-this" >商家销售排行</li>
+        <li class="layui-this">商家销售排行</li>
         <li>菜单销售排行</li>
     </ul>
     <div class="layui-tab-content" style="height: 100px;">
@@ -26,7 +26,11 @@
         </div>
         <div class="layui-tab-item">
 
-                <div class="layui-inline" >
+                <div class="layui-inline" style="height: 800px;">
+                    <select th:id="aName" onChange="getVariety(this.options[this.selectedIndex].value)">
+                        <option th:value="-1" th:text="全部"></option>
+                        <option th:each="a:${area}" th:value="${a.aId}" th:text="${a.aName}"></option>
+                    </select>
                     <table class="layui-hide"  id="stat" lay-filter="stat"></table>
                 </div>
                 <div class="layui-inline" >
@@ -38,7 +42,7 @@
 </div>
 
 </body>
-<script>
+<script th:inline="none">
     layui.use('element', function(){
         var $ = layui.jquery
             ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
@@ -57,17 +61,16 @@
         });
 
     });
-</script>
-<script type="text/javascript">
     layui.use('table', function() {
         var table = layui.table
             , form = layui.form;
         table.render({
             elem: "#stat",//表格table的id属性
-            url: "../../Stat/findOdName", //请求数据接口
+            url: "../Stat/findOdName", //请求数据接口
             width:400,
             title: '菜品排行',
             toolbar: '#toolbarDemo', //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            page:false,
             cols: [[
                 {field: 'odId', title: "编号", align: 'center'},
                 {field: 'odName',width:135, title: "菜名", align: 'center'},
@@ -77,10 +80,11 @@
         });
         table.render({
             elem: "#area",//表格table的id属性
-            url: "../../Stat/AreaRanking", //请求数据接口
+            url: "../Stat/AreaRanking", //请求数据接口
             width:400,
             title: '商家销售排行',
-            toolbar: '#toolbarDemo', //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+            page:false,
+            toolbar: '#toolbar', //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
             cols: [[
                 {field: 'aId', title: "编号", align: 'center'},
                 {field: 'aName', title: "窗口名字", align: 'center'},
@@ -88,10 +92,31 @@
                 {field: 'ranking', title:'当前排名', align: 'center'}
             ]]
         });
+        var $ = layui.$;
+
+
+
     });
-</script>
-<script>
-$(function(){
+    </script>
+    <script>
+
+    $(function(){
+        setTimeout(echart);
+        var echartAid="";
+            $("#aName").change(function () {
+                var aId = $(this).val();
+                echartAid=aId;
+                layui.use('table', function() {
+                    var table = layui.table
+                    table.reload('stat', {
+                        where: {
+                            aId: aId
+                        }
+                    });
+                });
+                echart()
+            });
+        function echart() {
     var myChart = echarts.init(document.getElementById('findOdId'));
     var option = {
         tooltip: {
@@ -138,7 +163,7 @@ $(function(){
     $.ajax({
         type : "post",
         async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        url : "../../Stat/findOdName",    //请求发送到TestServlet处
+        url : "../Stat/findOdName?aId="+echartAid,    //请求发送到TestServlet处
         data : {},
         dataType : "json",        //返回数据形式为json
         success : function(result) {
@@ -164,7 +189,8 @@ $(function(){
         }
     })
     myChart.setOption(option);
-})
+        }
+    })
 </script>
 <script>
     $(function(){
@@ -214,7 +240,7 @@ $(function(){
         $.ajax({
             type : "post",
             async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-            url : "../../Stat/AreaRanking",    //请求发送到TestServlet处
+            url : "../Stat/AreaRanking",    //请求发送到TestServlet处
             data : {},
             dataType : "json",        //返回数据形式为json
             success : function(result) {
@@ -241,5 +267,8 @@ $(function(){
         })
         myChart.setOption(option);
     })
+</script>
+<script id="toolbarDemo" type="text/html">
+
 </script>
 </html>

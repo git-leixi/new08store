@@ -3,7 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aaa.store08.mapper.StatMapper">
     <select id="findOdName" resultType="Map">
-      select odId,odName,odPrice,sum(odNum) as num from orderdetails GROUP  BY odName ORDER BY num desc
+      select odId,odName,odPrice,sum(odNum) as num from orderdetails where 1=1
+      <if test="aName!=null">
+         and odaName=#{aName}
+      </if>
+       GROUP  BY odName ORDER BY num desc
+    </select>
+    <select id="SelectaName" parameterType="int" resultType="Map">
+        select * from area where aId=#{aId}
     </select>
     <select id="findMonthCount" resultType="int" >
         select count(o.oId) as num from orders o  where payment='已付款'

@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.store08.mapper.TestMapper">
+    <select id="findOrders" resultType="Map" parameterType="int">
+       select *  from orders where oArea=#{oArea} and payment='已付款' order by oId desc
+    </select>
+    <select id="findOrdersCount" resultType="int" parameterType="int">
+       select count(oId)  from orders where oArea=#{oArea} and payment='已付款'
+    </select>
+    <select id="findUsersaId" parameterType="Map" resultType="int">
+       select aId  from users where uUsername=#{username}
+    </select>
+</mapper>

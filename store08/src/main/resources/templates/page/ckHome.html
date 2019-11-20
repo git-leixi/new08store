@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta name="keywords" content="08餐饮后台">
+	<meta name="description" content="08餐饮后台管理系统">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>首页</title>
+	  <link rel="stylesheet" href="../common/layui/css/layui.css">
+	  <script src="../common/layui/echarts.common.min.js"></script>
+	  <script src="../common/layui/jquery-1.8.3.min.js"></script>
+	  <script src="../common/layui/layui.js"></script>
+	  <script src="../common/layui/layui.all.js"></script>
+  </head>
+  <body style="background-color: #fafafa;">
+       <input type="text" th:value="${username}" th:id="username">
+       <table class="layui-hide" id="orders" lay-filter="orders"></table>
+  </body>
+  <script type="text/javascript" th:inline="none">
+	  var username=$("#username").val();
+      layui.use('table', function() {
+          var table = layui.table
+              , form = layui.form;
+          table.render({
+              elem: "#orders",//表格table的id属性
+              url: "../newTest/OrdersSelect?username="+username, //请求数据接口
+              limits: [10, 20, 30],
+              title: '查询所有信息',
+              /*  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档 */
+              toolbar: '#toolbarDemo',
+              cols: [[
+                  {field: 'oId', title: "编号", align: 'center', sort: true},
+                  {field: 'oDate', title: "订单时间", align: 'center', sort: true},
+                  {field: 'oDesk', title: '所在桌', align: 'center', sort: true},
+                  {field: 'oPrice', title: '价钱', align: 'center', sort: true},
+                  {field: 'vPhone', title: '手机号码', align: 'center', sort: true},
+                  {field: 'payment', title: '订单状态', align: 'center', sort: true},
+                  {field : "action",title : "操作",width:260,align:'center',toolbar: '#barDemo'}
+              ]],
+          });
+          table.on('tool(orders)', function(obj){
+              var data = obj.data;
+              var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+              if(layEvent === 'perform'){
+                  layer.open({
+                      type: 2,
+                      title: '菜品状态',
+                      maxmin: true,
+                      area : ['1000px','650px'],
+                      shadeClose: false, //点击遮罩关闭
+                      content: '../perform/tfindDetails?id='+data.oId,
+                      success: function(layero, index){
+                          $('#win100').height('auto');
+                      }
+                  })
+              }
+          });
+      });
+  </script>
+<script>
+	  $(function(){
+          var username=$("#username").val();
+	      var num=0
+          $.ajax({
+              type:"GET",
+              url:"../newTest/findOrdersCount?username="+username,
+              success:function(result){
+                 num=result;
+                  count();
+              }
+           });
+          function count(){
+
+              setTimeout(count,1000);
+              $.ajax({
+                  type : "post",
+                  async : true,
+                  dataType : "json",
+                  url:"../newTest/OrdersSelect?username="+username,
+                  success:function(result){
+                    var data= result.data.length
+                      if (data!=num) {
+                           num=data;
+                          layer.alert('有一个新的订单', {
+							  skin: 'layui-layer-molv' //样式类名  自定义样式
+                              ,closeBtn: 1    // 是否显示关闭按钮
+							  ,anim: 1 //动画类型
+							  ,time:20000
+                              ,btn: ['查看','知道了'] //按钮
+                              ,icon: 6    // icon
+                              ,yes:function(){
+                                  layer.open({
+                                      type: 2,
+                                      title: '菜品状态',
+                                      maxmin: true,
+                                      area : ['1000px','650px'],
+                                      shadeClose: false, //点击遮罩关闭
+                                      content: '../perform/tfindDetails?id='+result.data[0].oId,
+                                      success: function(layero, index){
+                                          $('#win100').height('auto');
+                                          //location.replace(location.href);
+                                      }
+                                  });
+
+                                }
+                              ,btn2:function(){
+                                  location.replace(location.href);
+                                  }});
+
+                          //location.replace(location.href);
+                      }
+                  }
+              });
+          }
+	  })
+
+/*
+$.ajax({
+                  type : "post",
+                  async : true,
+                  dataType : "json",
+                  url:"../newTest/OrdersSelect",
+                  success:function(result){
+                     if (result.data.length != num) {
+                         //alert(result.data.length+"-->"+num);
+                           num=data;
+                          layer.alert('有一个新的订单', {
+							  skin: 'layui-layer-molv' //样式类名  自定义样式
+                              ,closeBtn: 1    // 是否显示关闭按钮
+							  ,anim: 1 //动画类型
+                              ,btn: ['查看','知道了'] //按钮
+                              ,icon: 6    // icon
+                              ,yes:function(){
+							      alert("有个新订单！");
+                                /*  layer.open({
+                                      type: 2,
+                                      title: '菜品状态',
+                                      maxmin: true,
+                                      area : ['1000px','650px'],
+                                      shadeClose: false, //点击遮罩关闭
+                                      content: '../perform/tfindDetails?id='+result.data[0].oId,
+                                      success: function(layero, index){
+                                          $('#win100').height('auto');
+                                      }
+                                  });
+      }
+      ,btn2:function(){
+      }
+      });
+
+      //location.replace(location.href);
+      }
+      }
+      });
+ */
+</script>
+  <script id="barDemo" type="text/html">
+	  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="perform">菜品状态</a>
+  </script>
+</html>
+

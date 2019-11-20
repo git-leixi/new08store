@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface StatService {
-    public List<Map> findOdName();
+    public List<Map> findOdName(String aName);
     public int findMonthCount();
     public List<Map> AreaRanking();
+    public List<Map> SelectaName(Integer aId);
 }
