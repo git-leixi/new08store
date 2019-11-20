@@ -89,11 +89,11 @@
 							  skin: 'layui-layer-molv' //样式类名  自定义样式
                               ,closeBtn: 1    // 是否显示关闭按钮
 							  ,anim: 1 //动画类型
-							  ,time:20000
+							  ,time:200000
                               ,btn: ['查看','知道了'] //按钮
                               ,icon: 6    // icon
                               ,yes:function(){
-                                  layer.open({
+							  	layer.open({
                                       type: 2,
                                       title: '菜品状态',
                                       maxmin: true,
@@ -102,8 +102,16 @@
                                       content: '../perform/tfindDetails?id='+result.data[0].oId,
                                       success: function(layero, index){
                                           $('#win100').height('auto');
-                                          //location.replace(location.href);
-                                      }
+										  // window.parent.location.reload();//刷新父页面
+										 /* var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+										   parent.layer.close(index);*/
+										  //location.replace(location.href);
+										  //layer.close(fff);
+
+										 /* var mylayer= parent.layer.getFrameIndex(window.name);
+											alert(mylayer);
+										  parent.layer.close(mylayer);*/
+									  }
                                   });
 
                                 }
