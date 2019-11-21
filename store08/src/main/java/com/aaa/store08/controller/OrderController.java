@@ -2,6 +2,7 @@ package com.aaa.store08.controller;
 
 
 import com.aaa.store08.entity.*;
+import com.aaa.store08.service.FoodService;
 import com.aaa.store08.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class OrderController {
     private Integer oids = null;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private FoodService fs;
 
     @RequestMapping("findorder")
     public String findorder(){
@@ -76,14 +79,17 @@ public class OrderController {
 
 
     @RequestMapping("findDetails")
-    public String findDetails(Integer id, Model model){
+    public String findDetails(Integer id, Model model,HttpSession session){
         if(oids==null){
             oids = id;
         }else{
             oids = id;
         }
+        String username = String.valueOf(session.getAttribute("username"));
+        int aid = fs.selAidArea(username);
         String vphone = orderService.selPhone(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
+        map.put("aId",aid);
         map.put("oid",id);
         map.put("vphone",vphone);
         List<sDetails> slist = orderService.findDetails(map);

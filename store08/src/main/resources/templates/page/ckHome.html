@@ -52,7 +52,7 @@
                       maxmin: true,
                       area : ['1000px','650px'],
                       shadeClose: false, //点击遮罩关闭
-                      content: '../perform/tfindDetails?id='+data.oId,
+                      content: '../perform/nfindDetails?id='+data.oId,
                       success: function(layero, index){
                           $('#win100').height('auto');
                       }
@@ -75,7 +75,7 @@
            });
           function count(){
 
-              setTimeout(count,1000);
+              //setTimeout(count,1000);
               $.ajax({
                   type : "post",
                   async : true,
@@ -99,7 +99,7 @@
                                       maxmin: true,
                                       area : ['1000px','650px'],
                                       shadeClose: false, //点击遮罩关闭
-                                      content: '../perform/tfindDetails?id='+result.data[0].oId,
+                                      content: '../perform/nfindDetails?id='+result.data[0].oId,
                                       success: function(layero, index){
                                           $('#win100').height('auto');
 										  // window.parent.location.reload();//刷新父页面

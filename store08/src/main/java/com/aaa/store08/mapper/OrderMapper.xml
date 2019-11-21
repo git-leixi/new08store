@@ -47,6 +47,9 @@
             vip v  inner join  vtype vt on v.vidc=vt.vidc ) s on s.vPhone = od.vPhone
         </if>
              where  o.odoId=#{oid}
+        <if test="aId!=null and aId!=''">
+            and o.odaName=(select aName from area where aId=#{aId})
+        </if>
     </select>
     <!--  顾客退餐服务-->
     <select id="OdoIdDetails" resultType="Map" parameterType="int">

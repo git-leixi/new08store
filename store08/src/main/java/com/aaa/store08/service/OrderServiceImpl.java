@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +48,8 @@ public class OrderServiceImpl implements OrderService {
     //查询每个单据的详细信息
     @Override
     public List<sDetails> findDetails(Map map) {
-        return
-                orderMapper.findDetails(map);
+
+        return orderMapper.findDetails(map);
     }
 
     @Override

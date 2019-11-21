@@ -5,6 +5,7 @@ import com.aaa.store08.entity.Employee;
 import com.aaa.store08.entity.VipVO;
 import com.aaa.store08.entity.sDetails;
 import com.aaa.store08.entity.vIn;
+import com.aaa.store08.service.FoodService;
 import com.aaa.store08.service.OrderService;
 import com.aaa.store08.service.PerformService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,8 @@ public class PerformController {
     private OrderService orderService;
     @Autowired
     private PerformService performService;
+    @Autowired
+    private FoodService fs;
     private Integer oids;
 
     //查询详细  信息
@@ -48,14 +52,36 @@ public class PerformController {
 
     //查询详细  信息
     @RequestMapping("tfindDetails")
-    public String tfindDetails(Integer id, Model model){
+    public String tfindDetails(Integer id, Model model, HttpSession session){
         if(oids==null){
             oids = id;
         }else{
             oids = id;
         }
+        Integer aId=null;
         String vphone = orderService.selPhone(id);
         Map<Object,Object> map = new HashMap<Object,Object>();
+        map.put("oid",aId);
+        map.put("oid",id);
+        map.put("vphone",vphone);
+        List<sDetails> slist = orderService.findDetails(map);
+        model.addAttribute("slist",slist);
+        model.addAttribute("id",id);
+        return "page/orders/oPperform";
+    }
+    @RequestMapping("nfindDetails")
+    public String nfindDetails(Integer id, Model model, HttpSession session){
+        if(oids==null){
+            oids = id;
+        }else{
+            oids = id;
+        }
+        String username = String.valueOf(session.getAttribute("username"));
+        int aid = fs.selAidArea(username);
+        String vphone = orderService.selPhone(id);
+        Map<Object,Object> map = new HashMap<Object,Object>();
+        System.out.println("查看"+aid);
+        map.put("aId",aid);
         map.put("oid",id);
         map.put("vphone",vphone);
         List<sDetails> slist = orderService.findDetails(map);
