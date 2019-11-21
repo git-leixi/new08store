@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aaa.store08.mapper.LoginMapper">
 
-    <select id="findUP" resultType="com.aaa.store08.entity.Users">
+    <select id="findUP" parameterType="Map" resultType="com.aaa.store08.entity.Users">
        select * from users where uusername = #{username} and upassword=#{password}
     </select>
     <select id="findJob" resultType="com.aaa.store08.entity.UJob">

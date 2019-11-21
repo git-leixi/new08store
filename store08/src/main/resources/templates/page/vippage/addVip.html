@@ -41,19 +41,19 @@
             </div>
             <div class="layui-form-mid layui-word-aux">辅助文字</div>
         </div>
-        <div class="layui-btn-group">
+        <div class="layui-btn-group" style="margin-left: 30px">
             <button type="button"   class="layui-btn layui-btn-primary layui-btn-sm" style="left: 80px">请选择充值金额</button>
-            <button type="button" onclick="czje(500)" class="layui-btn layui-btn-primary layui-btn-sm">500</button>
-            <button type="button" onclick="czje(800)" class="layui-btn layui-btn-primary layui-btn-sm">800</button>
-            <button type="button" onclick="czje(1200)" class="layui-btn layui-btn-primary layui-btn-sm">1200</button>
-            <button type="button" onclick="czje(2000)" class="layui-btn layui-btn-primary layui-btn-sm">2000</button>
-            <button type="button" onclick="czje(3000)" class="layui-btn layui-btn-primary layui-btn-sm">3000</button>
+            <button type="button" onclick="czje(50)" class="layui-btn layui-btn-primary layui-btn-sm">50</button>
+            <button type="button" onclick="czje(100)" class="layui-btn layui-btn-primary layui-btn-sm">100</button>
+            <button type="button" onclick="czje(150)" class="layui-btn layui-btn-primary layui-btn-sm">150</button>
+            <button type="button" onclick="czje(200)" class="layui-btn layui-btn-primary layui-btn-sm">200</button>
+            <button type="button" onclick="czje(300)" class="layui-btn layui-btn-primary layui-btn-sm">300</button>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">会员类型</label>
             <div class="layui-input-block" style="width: 250px">
                 <input type="text" id="vGrade" readonly  style="width: 350px"  lay-verify="required" autocomplete="off" placeholder="会员等级" class="layui-input">
-                <input type="text" id="vIdc"  class="layui-input">
+                <input type="hidden" id="vIdc"  class="layui-input">
 
             </div>
         </div>

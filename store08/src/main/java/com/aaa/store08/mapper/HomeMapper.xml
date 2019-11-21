@@ -6,16 +6,16 @@
         select aId,aName from area
     </select>
     <select id="findTest" resultType="Map" parameterType="com.aaa.store08.entity.Home">
-        select a.aName, sum(oPrice) as oprice from orders o,area a
+        select a.aName, sum(ocPrice) as oprice from orders o,area a
         where o.oArea=a.aId and payment='已付款' and a.aName=#{aName} and date(o.oDate)=#{oDate}
     </select>
     <select id="findOrders" resultType="Map" parameterType="String">
-    select count(o.oId) AS oIdc,sum(o.oPrice) as oPrice
+    select count(o.oId) AS oIdc,sum(o.ocPrice) as oPrice
     from orders o
     where  o.payment=#{payment} and  date(o.oDate) =CURDATE()
     </select>
     <select id="findMonth" resultType="Map" >
-        select count(o.oId),sum(o.oPrice) as mOprice from orders o  where payment='已付款'
+        select count(o.oId),sum(o.ocPrice) as mOprice from orders o  where payment='已付款'
         and  date(o.oDate) &lt;=last_day(curdate())
         and date(o.oDate) &gt;=(select date_add(curdate(), interval - day(curdate()) + 1 day));
     </select>
@@ -31,7 +31,7 @@
         WHERE x.d &lt;= y.last
     </select>
     <select id="OpriceTest" resultType="com.aaa.store08.entity.Home" parameterType="String" >
-       select  sum(oPrice) as oprice from orders
+       select  sum(ocPrice) as oprice from orders
         where payment='已付款' and date(oDate)=#{oDate}
     </select>
     <select id="selOrders" resultType="Map">
