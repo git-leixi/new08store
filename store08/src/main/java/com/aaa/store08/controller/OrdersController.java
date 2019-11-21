@@ -17,6 +17,7 @@ import java.util.*;
 public class OrdersController {
     @Autowired
     private OrdersService os;
+    //查询订单数据
     @RequestMapping("findOrders")
     @ResponseBody
     public Object findOrders(PageVo pageVo) {
@@ -31,6 +32,7 @@ public class OrdersController {
         dg.setMsg("");
         return dg;
     }
+    //查看本月订单
     @RequestMapping("findOrdersMonth")
     @ResponseBody
     public Object findOrdersMonth(PageVo pageVo,String oDate) {
@@ -45,6 +47,7 @@ public class OrdersController {
         dg.setMsg("");
         return dg;
     }
+    //查看指定订单全部信息
     @RequestMapping("findOrdersDetails")
     public String findOrdersDetails(Integer oId, Model model) {
         System.out.println(oId);
@@ -64,6 +67,7 @@ public class OrdersController {
         List<Map> list =os.OdoIdDetails(oId);
 
         double oprice=0.0;
+        //循环合计订单数量和订单金额
         for (int i=0;i<list.size();i++){
             System.out.println("开始循环");
             Object om=list.get(i).get("odNum");

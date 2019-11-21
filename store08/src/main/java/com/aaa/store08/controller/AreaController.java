@@ -24,12 +24,15 @@ import java.util.Map;
 public class AreaController {
     @Autowired
     private AreaService as;
+    //跳转页面
     @RequestMapping("toArea")
     public String toArea(AreaVo areaVo,Model model) {
         List<AreaVo> area=as.findArea();
+        //页面传值
         model.addAttribute("area",area);
         return "page/area/Area";
     }
+    //查询area数据
     @RequestMapping("AreaSelect")
     @ResponseBody
     public Object SelFood(PageVo pageVo, String aName) {
@@ -46,15 +49,16 @@ public class AreaController {
         dg.setMsg("");
         return dg;
     }
+    //跳转页面
     @RequestMapping("toAreaAdd")
     public String toAreaAdd() {
         return "page/area/AreaAdd";
     }
     @RequestMapping("toCK")
     public String toCK() {
-
         return "page/area/CK";
     }
+    //查询窗口信息
     @RequestMapping("CKSelect")
     @ResponseBody
     public Object WindowSelect() {
@@ -80,15 +84,15 @@ public class AreaController {
         dg.setMsg("");
         return dg;
     }
+    //添加area数据
     @RequestMapping("AreaAdd")
     public String AreaAdd(String dName,String dimg, HttpServletRequest request) {
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-
+        //文件路径
         String fileName =basePath+"/uploadFiles/"+dimg;
         System.out.println(fileName);
         AreaVo areaVo=new AreaVo();
         String aName="莲香楼";
-        System.out.println("添加事件");
         areaVo.setaName(aName);
         areaVo.setdName(dName);
         areaVo.setDimg(fileName);
@@ -100,6 +104,7 @@ public class AreaController {
         as.DelDesk(dId);
         return "page/area/Area";
     }
+    //修改状态
     @RequestMapping("AreaUpdDsort")
     public String AreaUpdDsort(Integer dId,String dsort) {
         AreaVo areaVo=new AreaVo();
@@ -108,6 +113,7 @@ public class AreaController {
         as.UpdDsort(areaVo);
         return "page/area/Area";
     }
+    //修改桌子信息
     @RequestMapping("AreaUpd")
     public String AreaUpd(Integer dId,String dName) {
         System.out.println(dId);
@@ -117,19 +123,12 @@ public class AreaController {
         as.UpdDesk(areaVo);
         return "page/area/Area";
     }
-
-
-
     //文件上传
-
-
     @RequestMapping("upload")
-
     public String uploadImg(MultipartFile file) {
         if (null != file) {
             String myFileName = file.getOriginalFilename();// 文件原名称
             String pat="E:\\app-git\\08store\\store08\\src\\main\\resources\\templates\\common\\image\\img\\";//获取文件保存路径
-
             File fileDir=new File(pat);
             if (!fileDir.exists()) { //如果不存在 则创建
                 fileDir.mkdirs();
@@ -152,6 +151,7 @@ public class AreaController {
         }
         return null;
     }
+    //跳转页面
     @RequestMapping("toCKAdd")
     public String toCKAdd(Model model) {
          //查询菜品分类
@@ -159,6 +159,7 @@ public class AreaController {
         model.addAttribute("kind",kind);
         return "page/area/CKAdd";
     }
+    //添加area
     @RequestMapping("AddArea")
     @ResponseBody
     public Object AddArea(String aName,String aMain,String aImg,HttpServletRequest request) {
@@ -172,6 +173,7 @@ public class AreaController {
         int num = as.AddArea(map);
         return num;
     }
+    //添加tempt
     @RequestMapping("AddTempt")
     @ResponseBody
     public Object AddTempt(Integer kId) {

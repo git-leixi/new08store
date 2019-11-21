@@ -24,7 +24,7 @@ public class StatController {
     private AreaService as;
     @Autowired
     private WindService ts;
-
+   //跳转到CKStat页面
     @RequestMapping("toCKStat")
     public String toCKStat(Model model){
         String prefix = "page/stat/CKstat";
@@ -32,7 +32,7 @@ public class StatController {
         model.addAttribute("area",areaKing);
         return prefix;
     }
-
+   //跳转Stat页面
     @RequestMapping("toStat")
     public String toStat(Model model){
         String prefix = "page/stat/stat";
@@ -40,13 +40,14 @@ public class StatController {
         model.addAttribute("area",areaKing);
         return prefix;
     }
-
+    //查询出绑定窗口的所有信息
     @RequestMapping("findaIdOdName")
     @ResponseBody
     public Object aIdfindOdName(HttpSession httpSession){
         String aName="";
         String username = String.valueOf(httpSession.getAttribute("username"));
         int aId = ts.findUsersaId(username);
+        //查询出窗口的名称
         List<Map> anames = ss.SelectaName(aId);
         aName = (String) anames.get(0).get("aName");
         DataGrid dg = new DataGrid();
@@ -56,6 +57,7 @@ public class StatController {
         dg.setMsg("");
         return dg;
     }
+    //根据下拉框信息刷新数据
     @RequestMapping("findOdName")
     @ResponseBody
     public Object findOdName(Integer aId){
@@ -77,6 +79,7 @@ public class StatController {
         dg.setMsg("");
         return dg;
     }
+    //本月销售量查询
     @RequestMapping("findMonthCount")
     @ResponseBody
     public Map findMonthCount(){
@@ -85,15 +88,16 @@ public class StatController {
          map.put("num",num);
         return map;
     }
+    //本月销售量查询
     @RequestMapping("newMonthCount")
     @ResponseBody
     public Map newMonthCount(){
         int num = ss.findMonthCount();
         Map map=new HashMap();
         map.put("num",num);
-        System.out.println("循环"+map);
         return map;
     }
+    //菜品销量查询
     @RequestMapping("AreaRanking")
     @ResponseBody
     public Object AreaRanking(){
