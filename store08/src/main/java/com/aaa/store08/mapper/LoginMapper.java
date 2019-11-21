@@ -10,7 +10,7 @@ import java.util.*;
 @Mapper
 public interface LoginMapper {
      //根据输入的账户密码 去数据库进行判断是否存在
-     Users findUP(String username,String password);
+     Users findUP(Map map);
      //根据用户名查询该用户职位名称
      UJob findJob(String username);
 

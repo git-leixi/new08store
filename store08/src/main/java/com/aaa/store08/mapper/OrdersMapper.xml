@@ -7,7 +7,7 @@
        limit #{begin},#{count}
     </select>
     <select id="findOrdersCount" resultType="int">
-        select count(oId) orders o,orderdetails od where o.oId=od.odoId and otype = 0 and payment='已付款' group by o.oId
+        select count(o.oId) from orders o,orderdetails od where o.oId=od.odoId and otype = 0 and payment='已付款' group by o.oId
     </select>
     <select id="findOrdersMonth" resultType="Map" parameterType="Map">
         select *  from orders o,area a  where payment='已付款' and o.oArea=a.aId
