@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript" src="../layui/layui.js"></script>
+</head>
+<body>
+
+<script type="text/html" id="productInster">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-sm" id="add"><i class="layui-icon"></i></button>
+    </div>
+</script>
+<table  class="layui-hide"  id="demo" lay-filter="demo"></table>
+<script id="barDemo" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/javascript">
+    layui.use(['table','layer','util'], function(){
+        var layer = layui.layer;
+        var util = layui.util;
+        $ = layui.jquery;
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,cellMinWidth: 100
+            ,url: "../test/findall" //数据接口
+            ,page: true
+            ,limits: [2,3,6]
+            ,limit:2//要传向后台的每页显示条数
+            ,toolbar:"#productInster"
+            ,cols: [ //表头
+                [
+                    {field: 'productid', title: '商品编号',align:'center', sort: true}
+                    ,{field: 'productname', title: '商品名称 ',align:'center', sort: true}
+                    ,{field: 'Productprice', title: '商品价格', align:'center', sort: true}
+                    ,{field: 'Producttime', title: '生产日期',align:'center', sort: true,
+                    templet:function(d){return util.toDateString(d.Producttime, "yyyy-MM-dd HH:mm:ss")}}
+                    ,{field: 'Buytime', title: '购买日期', align:'center', sort: true,
+                    templet:function(d){return util.toDateString(d.Buytime, "yyyy-MM-dd HH:mm:ss")}}
+                    ,{field: 'catagoryname', title: '商品类型', align:'center', sort: true}
+                    ,{field : "action",title : "操作",align:'center', sort: true,toolbar: '#barDemo'}
+                ]
+            ]
+        })
+        table.on('tool(demo)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'del'){
+                layer.confirm("确定要删除吗？", {btn: ['确定', '取消'], title: "提示"}, function () {
+                    var id = data.productid;
+                    window.location.href="../test/commodityDel?id="+id;
+                });
+            } else if(layEvent === 'edit'){
+                var data = obj.data;
+                var id = data.productid;
+                layer.open({
+                    type:2,
+                    title:'编辑员工信息',
+                    maxmin: true,
+                    area: ['400px', '500px'],
+                    shadeClose: false, //点击遮罩关闭
+                    content: '../test/editCommodity?id='+id,
+                })
+            }
+        });
+        $("#add").on('click',function(){
+            layer.open({
+                type: 2,
+                title: '添加员工信息',
+                maxmin: true,
+                area: ['400px', '500px'],
+                shadeClose: false, //点击遮罩关闭
+                content: '../test/commodityadd',
+            });
+        });
+        });
+</script>
+</body>
+</html>

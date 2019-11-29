@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.commodity.mapper.ProductMapper">
+    <select id="findall" parameterType="Map" resultType="Map">
+       select p.productid, p.productname,p.Productprice,p.Producttime,p.Buytime,c.catagoryname from Product p left join  catagory c  on  p.Catagoryid=c.catagoryid
+       limit #{begin},#{end}
+    </select>
+    <!--查询总数据-->
+    <select id="countfind" resultType="Integer">
+        select count(*) from Product
+    </select>
+    <!--查询类型表-->
+    <select id="selCatagory" resultType="CatagoryVO">
+        select * from catagory
+    </select>
+    <!--添加商品-->
+    <insert id="insProduct" parameterType="Product">
+        insert into Product(productname,Productprice,Producttime,Buytime,Catagoryid)value(#{productname},#{Productprice},#{Producttime},#{Buytime},#{Catagoryid})
+    </insert>
+    <!--删除商品-->
+    <delete id="commmodityDel" parameterType="Integer">
+      delete from  Product where Productid=#{id}
+    </delete>
+    <!--查询要修改的商品-->
+    <select id="selCommodity" parameterType="Integer" resultType="Product">
+        select * from Product where Productid=#{id}
+    </select>
+    <update id="editProduct" parameterType="Product">
+        update Product set productname=#{productname},Productprice=#{Productprice},Producttime=#{Producttime},Buytime=#{Buytime},Catagoryid=#{Catagoryid} where Productid=#{Productid}
+    </update>
+</mapper>
